@@ -129,6 +129,13 @@
     int k=(ScreenWidth-kj*5)/4;
     int g=k*52/148;
     int gj=15;
+    if ([ToolClass isiPad]) {
+        kj =25;
+        k=(ScreenWidth-kj*5)/4;
+        g=k*52/148;
+        gj=15;
+    }
+    
     for (int i=0; i<btnArr.count; i++) {
         UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
         btn.sd_cornerRadius=@(15);
@@ -215,9 +222,9 @@
     .heightIs(20);
     
     [headView setupAutoHeightWithBottomView:view3 bottomMargin:0];
-//    headView.didFinishAutoLayoutBlock=^(CGRect rect){
-//        NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
-//    };
+    headView.didFinishAutoLayoutBlock=^(CGRect rect){
+        NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
+    };
 }
 
 #pragma mark --点击状态
@@ -241,6 +248,16 @@
     flowLawyou.minimumLineSpacing=20;//行间距
     flowLawyou.minimumInteritemSpacing=10;//列间距
     flowLawyou.sectionInset = UIEdgeInsetsMake(433+20, 10, 56, 10);
+    
+    if ([ToolClass isiPad]) {
+        flowLawyou.minimumInteritemSpacing=15;//列间距
+        flowLawyou.minimumLineSpacing=20;//行间距
+        flowLawyou.sectionInset = UIEdgeInsetsMake(608+20, 10, 56, 10);
+        flowLawyou.itemSize = CGSizeMake((ScreenWidth-20*4)/3, (ScreenWidth-20)/3.5);
+        
+    }
+    
+    
     
     _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,55, ScreenWidth, ScreenHeight-64-55) collectionViewLayout:flowLawyou];
     _collectionView.pagingEnabled = NO;

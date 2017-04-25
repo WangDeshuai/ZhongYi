@@ -1307,7 +1307,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = W6476936V6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Volumes/DISK0S3/ZhongYiPro/DistributionQuery/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = /Volumes/DISK0S3/ZhongYi/DistributionQuery/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DistributionQuery/PrefixHeader.pch\"";
 				INFOPLIST_FILE = DistributionQuery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1327,7 +1327,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = W6476936V6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Volumes/DISK0S3/ZhongYiPro/DistributionQuery/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = /Volumes/DISK0S3/ZhongYi/DistributionQuery/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DistributionQuery/PrefixHeader.pch\"";
 				INFOPLIST_FILE = DistributionQuery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

@@ -31,6 +31,14 @@
     flowLawyou.minimumInteritemSpacing=10;//列间距
     flowLawyou.sectionInset = UIEdgeInsetsMake(10, 10, 56, 10);
     
+    if ([ToolClass isiPad]) {
+        flowLawyou.minimumInteritemSpacing=15;//列间距
+        flowLawyou.minimumLineSpacing=20;//行间距
+        flowLawyou.sectionInset = UIEdgeInsetsMake(10, 10, 56, 10);
+        flowLawyou.itemSize = CGSizeMake((ScreenWidth-20*4)/3, (ScreenWidth-20)/3.5);
+        
+    }
+    
     _collectionView = [[UICollectionView alloc]initWithFrame:self.view.frame collectionViewLayout:flowLawyou];
     _collectionView.pagingEnabled = NO;
     _collectionView.delegate = self;
@@ -73,7 +81,7 @@
     //    cell.image1.image=[UIImage imageNamed:@"pic"];
     //    cell.lab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     
-    cell.backgroundColor=[UIColor redColor];
+    cell.backgroundColor=[UIColor whiteColor];
     return cell;
     
 }

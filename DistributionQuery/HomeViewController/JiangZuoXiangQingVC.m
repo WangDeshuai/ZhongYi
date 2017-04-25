@@ -96,7 +96,7 @@
     myPlayer.xjPlayerTitle = @"XJAVPlayer改良版";
     myPlayer.xjAutoOrient = YES;
     myPlayer.XjAVPlayerSDKDelegate = self;
-    myPlayer.xjLastTime = 50;
+    myPlayer.xjLastTime = 0;
     [self.view addSubview:myPlayer];
 
 }
