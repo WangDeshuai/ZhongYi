@@ -9,6 +9,7 @@
 #import "HomeVC.h"
 #import "MedicineVC.h"//药
 #import "LecturesVC.h"//讲座
+#import "YaoFangVC.h"//药方
 @interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 
@@ -195,6 +196,10 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else if (btn.tag==1){
         //药方
+        YaoFangVC * vc =[YaoFangVC new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
+
     }else if (btn.tag==2){
         //三辩会诊
     }else if (btn.tag==3){

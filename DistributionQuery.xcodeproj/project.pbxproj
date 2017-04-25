@@ -25,6 +25,9 @@
 		8F40D9F41EA998440073DE57 /* RegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9F31EA998440073DE57 /* RegisterVC.m */; };
 		8F40D9F71EA9B28A0073DE57 /* AbountMyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9F61EA9B28A0073DE57 /* AbountMyVC.m */; };
 		8F40D9FC1EA9F3660073DE57 /* ScanCodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9FB1EA9F3660073DE57 /* ScanCodeCell.m */; };
+		8F4335EB1EAF580F00FC5B14 /* MyShouCangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4335EA1EAF580F00FC5B14 /* MyShouCangVC.m */; };
+		8F4335EF1EAF585000FC5B14 /* MyShouCangCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4335EE1EAF585000FC5B14 /* MyShouCangCell.m */; };
+		8F4335F21EAF5FCF00FC5B14 /* YaoFangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4335F11EAF5FCF00FC5B14 /* YaoFangVC.m */; };
 		8FA855E11EAD91480056971A /* MedicineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855E01EAD91480056971A /* MedicineVC.m */; };
 		8FA855E61EAD91640056971A /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855E31EAD91640056971A /* ChineseString.m */; };
 		8FA855E71EAD91640056971A /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855E41EAD91640056971A /* pinyin.c */; };
@@ -178,6 +181,12 @@
 		8F40D9F61EA9B28A0073DE57 /* AbountMyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbountMyVC.m; sourceTree = "<group>"; };
 		8F40D9FA1EA9F3660073DE57 /* ScanCodeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanCodeCell.h; sourceTree = "<group>"; };
 		8F40D9FB1EA9F3660073DE57 /* ScanCodeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanCodeCell.m; sourceTree = "<group>"; };
+		8F4335E91EAF580F00FC5B14 /* MyShouCangVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShouCangVC.h; sourceTree = "<group>"; };
+		8F4335EA1EAF580F00FC5B14 /* MyShouCangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShouCangVC.m; sourceTree = "<group>"; };
+		8F4335ED1EAF585000FC5B14 /* MyShouCangCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShouCangCell.h; sourceTree = "<group>"; };
+		8F4335EE1EAF585000FC5B14 /* MyShouCangCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShouCangCell.m; sourceTree = "<group>"; };
+		8F4335F01EAF5FCE00FC5B14 /* YaoFangVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangVC.h; sourceTree = "<group>"; };
+		8F4335F11EAF5FCF00FC5B14 /* YaoFangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangVC.m; sourceTree = "<group>"; };
 		8FA855DF1EAD91480056971A /* MedicineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineVC.h; sourceTree = "<group>"; };
 		8FA855E01EAD91480056971A /* MedicineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineVC.m; sourceTree = "<group>"; };
 		8FA855E21EAD91640056971A /* ChineseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseString.h; sourceTree = "<group>"; };
@@ -550,6 +559,7 @@
 				8F40D9D81EA8C5FF0073DE57 /* MyVC.m */,
 				8F40D9EF1EA90D1F0073DE57 /* MyTableViewCell.h */,
 				8F40D9F01EA90D1F0073DE57 /* MyTableViewCell.m */,
+				8F4335EC1EAF582A00FC5B14 /* 我的收藏 */,
 			);
 			name = "我的";
 			sourceTree = "<group>";
@@ -561,6 +571,26 @@
 				8F40D9F61EA9B28A0073DE57 /* AbountMyVC.m */,
 			);
 			name = "关于我们";
+			sourceTree = "<group>";
+		};
+		8F4335EC1EAF582A00FC5B14 /* 我的收藏 */ = {
+			isa = PBXGroup;
+			children = (
+				8F4335E91EAF580F00FC5B14 /* MyShouCangVC.h */,
+				8F4335EA1EAF580F00FC5B14 /* MyShouCangVC.m */,
+				8F4335ED1EAF585000FC5B14 /* MyShouCangCell.h */,
+				8F4335EE1EAF585000FC5B14 /* MyShouCangCell.m */,
+			);
+			name = "我的收藏";
+			sourceTree = "<group>";
+		};
+		8F4335F31EAF5FDC00FC5B14 /* 药方 */ = {
+			isa = PBXGroup;
+			children = (
+				8F4335F01EAF5FCE00FC5B14 /* YaoFangVC.h */,
+				8F4335F11EAF5FCF00FC5B14 /* YaoFangVC.m */,
+			);
+			name = "药方";
 			sourceTree = "<group>";
 		};
 		8FA855E81EADD0DD0056971A /* XJAVPlayer */ = {
@@ -651,6 +681,7 @@
 			children = (
 				8F40D9C51EA8C5650073DE57 /* HomeVC.h */,
 				8F40D9C61EA8C5650073DE57 /* HomeVC.m */,
+				8F4335F31EAF5FDC00FC5B14 /* 药方 */,
 			);
 			name = "首页";
 			sourceTree = "<group>";
@@ -1079,11 +1110,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F4335EF1EAF585000FC5B14 /* MyShouCangCell.m in Sources */,
 				8F40D9EE1EA8C7060073DE57 /* LoginViewController.m in Sources */,
 				8FCD4F921DA8B4D300CB113C /* UIImage+GIF.m in Sources */,
 				8FCD4FA51DA8B4D300CB113C /* TAAbstractDotView.m in Sources */,
 				8FCD4F9D1DA8B4D300CB113C /* UIProgressView+AFNetworking.m in Sources */,
 				8FCD4F971DA8B4D300CB113C /* UIView+WebCacheOperation.m in Sources */,
+				8F4335F21EAF5FCF00FC5B14 /* YaoFangVC.m in Sources */,
 				8FCD4F841DA8B4D300CB113C /* AFURLConnectionOperation.m in Sources */,
 				8FCD4F9F1DA8B4D300CB113C /* UIWebView+AFNetworking.m in Sources */,
 				8FCD4F831DA8B4D300CB113C /* AFSecurityPolicy.m in Sources */,
@@ -1111,6 +1144,7 @@
 				8FA856131EADD0DD0056971A /* UIView+SCYCategory..m in Sources */,
 				8F40D9E61EA8C6230073DE57 /* ViewController.m in Sources */,
 				8FCD4FA61DA8B4D300CB113C /* TAAnimatedDotView.m in Sources */,
+				8F4335EB1EAF580F00FC5B14 /* MyShouCangVC.m in Sources */,
 				8F40D9F41EA998440073DE57 /* RegisterVC.m in Sources */,
 				8FCD4F8C1DA8B4D300CB113C /* SDWebImageDecoder.m in Sources */,
 				8FCD4F801DA8B4D300CB113C /* AFHTTPRequestOperationManager.m in Sources */,

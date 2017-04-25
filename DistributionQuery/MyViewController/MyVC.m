@@ -9,6 +9,7 @@
 #import "MyVC.h"
 #import "MyTableViewCell.h"
 #import "AbountMyVC.h"//关于我们
+#import "MyShouCangVC.h"//我的收藏
 @interface MyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
@@ -167,6 +168,9 @@
             //我生成的报告单
         }else if (indexPath.row==2){
             //我的收藏
+            MyShouCangVC * vc =[MyShouCangVC new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }else if (indexPath.row==3){
             //我的推广
         }
