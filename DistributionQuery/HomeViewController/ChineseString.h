@@ -18,7 +18,7 @@
 
 //-----  返回联系人
 +(NSMutableArray*)LetterSortArray:(NSArray*)stringArr;
-
++(NSMutableArray*)LetterSortArray2:(NSArray*)stringArr;
 
 ///----------------------
 //返回一组字母排序数组(中英混排)

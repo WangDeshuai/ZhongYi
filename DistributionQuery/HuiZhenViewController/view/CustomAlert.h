@@ -11,7 +11,7 @@
 @interface CustomAlert : UIView
 @property (nonatomic,copy)void(^clickBlock)(UIButton*);
 @property(nonatomic,strong)NSMutableArray * array;
--(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2;
+-(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 contentArray:(NSArray*)dataArray;
 
 -(void)show;
 -(void)dissmiss;

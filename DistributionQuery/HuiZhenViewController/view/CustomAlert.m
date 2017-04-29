@@ -13,15 +13,20 @@
 @property(nonatomic,strong) UILabel * titlable;
 @property(nonatomic,strong)UILabel * jiLuLabel;//记录label
 @property(nonatomic,assign)NSInteger tagg;
+@property(nonatomic,strong)NSArray * dataArray;
 @end
 
 
 @implementation CustomAlert
 
-- (id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2{
+- (id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 contentArray:(NSArray*)dataArray{
     self=[super init];
     if (self) {
         _tagg=1000;
+        _dataArray=dataArray;
+        //设置中心点
+        self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
+        self.backgroundColor=[UIColor whiteColor];
         //标题
         UILabel * titlable =[UILabel new];
         _titlable=titlable;
@@ -72,7 +77,7 @@
         .rightSpaceToView(self,0)
         .topSpaceToView(titlable,15)
         .heightIs(2);
-        
+        //一级分类
         [self CreatTabelView];
     }
     
@@ -101,7 +106,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return _dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -123,7 +128,7 @@
     .rightSpaceToView(cell,15)
     .centerYEqualToView(cell)
     .bottomSpaceToView(cell,15);
-    nameLable.text=@"脊椎病";
+    nameLable.text=_dataArray[indexPath.row];
      cell.accessoryType=UITableViewCellAccessoryNone;
     if (_tagg==indexPath.row) {
         nameLable.textColor=JXColor(237, 93, 43, 1);
@@ -163,9 +168,7 @@
 - (void)show{
     //获取window对象
     UIWindow *window = [UIApplication sharedApplication].delegate.window;
-    //设置中心点
-    self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
-    self.backgroundColor=[UIColor whiteColor];
+    
     UIButton * view = [UIButton buttonWithType:UIButtonTypeCustom];//
     view.frame=CGRectMake(0, 0, ScreenWidth, ScreenHeight);
     [view addTarget:self action:@selector(dissmiss) forControlEvents:UIControlEventTouchUpInside];

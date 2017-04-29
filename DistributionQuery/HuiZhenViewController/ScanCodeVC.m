@@ -9,6 +9,7 @@
 #import "ScanCodeVC.h"
 #import "ScanCodeCell.h"
 #import "CustomAlert.h"
+#import "CustomAlertTwo.h"
 @interface ScanCodeVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)NSArray * imageArray;
 @property(nonatomic,strong)UITableView * tableView;
@@ -27,7 +28,7 @@
 -(void)imageData{
     NSArray * imageArr1=@[@"sbhz_lx",@"sbhz_admin"];
     NSArray * imageArr2=@[@"sbhz_bm",@"sbhz_bl",@"sbhz_zs",@"sbhz_st",@"sbhz_mx"];
-    NSArray * imageArr3=@[@"sbhz_fl",@"sbhz_fq"];
+    NSArray * imageArr3=@[@"sbhz_fl",@"sbhz_fl",@"sbhz_fq",@"sbhz_fl"];
     NSArray * imageArr4=@[@"sbhz_question"];
      _imageArray=@[imageArr1,imageArr2,imageArr3,imageArr4];
 }
@@ -38,7 +39,7 @@
     
     UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"发布" forState:0];
-    button.frame=CGRectMake(15, 510+30+125, ScreenWidth-30, 40);
+    button.frame=CGRectMake(15, 665+50*3, ScreenWidth-30, 40);
     button.backgroundColor=JXColor(254, 81, 15, 1);
     button.layer.cornerRadius=5;
     button.clipsToBounds=YES;
@@ -78,12 +79,65 @@
 #pragma mark --表的点击
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustomAlert * alertView =[[CustomAlert alloc]initWithTitle:@"病名" canCleBtn:@"取消" achiveBtn:@"完成"];
+   
+    if (indexPath.section==0) {
+        if (indexPath.row==0) {
+            //选择类型
+            [self ShowAlerViewNSArray:@[@"肿瘤会诊",@"其它疑难杂症"]];
+        }
+    }else if(indexPath.section==1){
+        if (indexPath.row==0) {
+            //病名(2级)
+          //  [self ShowAlerViewTwoNSArray:@[]];
+        }else if (indexPath.row==1){
+            //病理
+        }else if (indexPath.row==2){
+            //主诉(3级)
+        }else if (indexPath.row==3){
+            //舌苔(2级)
+        }else if (indexPath.row==4){
+            //脉象
+        }
+    }else if(indexPath.section==2){
+        if (indexPath.row==0) {
+            //有无放疗
+        }else if (indexPath.row==1){
+            //有无化疗
+        }else if (indexPath.row==2){
+            //TNM分期
+        }else if (indexPath.row==3){
+            //手术
+             [self ShowAlerViewNSArray:@[@"有",@"无"]];
+        }
+    }
+    
+    
+   
+}
+
+#pragma mark --显示弹框1
+-(void)ShowAlerViewNSArray:(NSArray*)contentArr{
+    CustomAlert * alertView =[[CustomAlert alloc]initWithTitle:@"病名" canCleBtn:@"取消" achiveBtn:@"完成" contentArray:contentArr];
     alertView.clickBlock=^(UIButton*btn){
         
     };
     [alertView show];
 }
+#pragma mark --显示弹框2
+-(void)ShowAlerViewTwoNSArray:(NSArray*)contentArr Tag:(NSInteger)tag{
+    /*
+     tag==1 (病名) tag==2(病理) tag==3(舌苔)
+     contentArray 内容Array
+     */
+    
+    CustomAlertTwo * alertView =[[CustomAlertTwo alloc]initWithTitle:@"病名" canCleBtn:@"取消" achiveBtn:@"完成" contentArray:contentArr Tag:tag];
+    alertView.clickBlock=^(UIButton*btn){
+        
+    };
+    [alertView show];
+}
+
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -197,11 +251,15 @@
             cell.textfield.placeholder=@"脉象";
         }
     }else if (indexPath.section==2){
+        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         if (indexPath.row==0) {
-             cell.textfield.placeholder=@"有无放化疗";
-        }else{
-             cell.textfield.placeholder=@"TNM分期";
-             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            cell.textfield.placeholder=@"有无放疗";
+        }else if (indexPath.row==1){
+            cell.textfield.placeholder=@"有无化疗";
+        }else if (indexPath.row==2){
+            cell.textfield.placeholder=@"TNM分期";
+        }else if (indexPath.row==3){
+            cell.textfield.placeholder=@"手术";
         }
     }else if (indexPath.section==3){
          cell.accessoryType=UITableViewCellAccessoryNone;

@@ -8,11 +8,18 @@
 
 #import "MedicineVC.h"
 #import "ChineseString.h"
+#import "MedicineCell.h"
+#import "MedicineModel.h"
+#import "MedicineXiangQingVC.h"//详情页
 @interface MedicineVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
-@property(nonatomic,strong)NSMutableArray * rightIndexArr;
-@property(nonatomic,strong)NSMutableArray * contentArr;
-
+@property(nonatomic,strong)UITextField * textfield;//文本框
+@property(nonatomic,strong)NSMutableArray * rightIndexArr;//索引
+@property(nonatomic,strong)NSMutableArray * contentArr;//标题
+@property(nonatomic,strong)NSMutableArray * dexcontentArr;//副标题
+@property(nonatomic,strong)NSMutableArray * imageArr;//副标题
+@property(nonatomic,strong)NSMutableArray * contentIDArr;//副标题
+@property(nonatomic,strong)NSMutableArray * dataArray;
 @end
 
 @implementation MedicineVC
@@ -21,19 +28,53 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"药";
-    [self dataArr];
+    _dataArray=[NSMutableArray new];
+    [self dataArrSearZi:@""];
     [self CreatSearch];
     [self CreatTabelView];
 }
 
 
 
--(void)dataArr{
-    NSArray * contentArray=@[@"艾叶",@"安息草",@"艾纳香",@"白术",@"白芷",@"陈皮",@"仓鼠",@"星星",@"邢日",@"刑天",@"网吧",@"往来",@"实在",@"石家庄"];
-    //返回表右边索引的首字母
-    _rightIndexArr=[ChineseString IndexArray:contentArray];
-    //把内容按照首字母分好后，从新排列成一个个小数组，并且返回
-    _contentArr=[ChineseString LetterSortArray:contentArray];
+-(void)dataArrSearZi:(NSString*)zifu{
+    [LCProgressHUD showMessage:@"请稍后..."];
+    [Engine allYaoPinMessage:zifu success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        
+        if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            NSMutableArray * titleArr =[NSMutableArray new];
+//            NSMutableArray * dexArr =[NSMutableArray new];
+            NSMutableArray * imageArr =[NSMutableArray new];
+            NSMutableArray * iddArr =[NSMutableArray new];
+            for (int i =0; i<dataArr.count; i++) {
+                NSDictionary * dicc =dataArr[i];
+                MedicineModel * md =[[MedicineModel alloc]initWithYaoDic:dicc];
+                [_dataArray addObject:md];
+                [titleArr addObject:md.yaoTitleName];
+                //[dexArr addObject:md.yaoDexName];
+                [imageArr addObject:md.yaoImageName];
+                [iddArr addObject:md.yaoID];
+            }
+            
+            _rightIndexArr=[ChineseString IndexArray:titleArr];//索引
+            _contentArr=[ChineseString LetterSortArray:titleArr];//标题
+           // _dexcontentArr=[ChineseString LetterSortArray:dexArr];//副标题
+            _imageArr=[ChineseString LetterSortArray2:imageArr];//图片(注意去掉前缀)
+            _contentIDArr=[ChineseString LetterSortArray2:iddArr];//ID(注意去前缀)
+            [_tableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        [LCProgressHUD showMessage:@"请求失败"];
+    }];
+    
+    
+    
+    
+   
     
 }
 
@@ -42,7 +83,9 @@
     //搜索按钮
     UIButton * searchBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [searchBtn setTitle:@"搜索" forState:0];
+
     searchBtn.backgroundColor=BG_COLOR;
+    [searchBtn addTarget:self action:@selector(searchBtnClink) forControlEvents:UIControlEventTouchUpInside];
     [searchBtn setTitleColor:[UIColor blackColor] forState:0];
     searchBtn.alpha=.6;
     searchBtn.titleLabel.font=[UIFont systemFontOfSize:15];
@@ -54,6 +97,7 @@
     .widthIs(70);
     //搜索框
     UITextField * textfield =[UITextField new];
+    _textfield=textfield;
     textfield.placeholder=@"搜索药";
     textfield.backgroundColor=[UIColor whiteColor];
     textfield.font=[UIFont systemFontOfSize:15];
@@ -91,7 +135,10 @@
 
 }
 
-
+#pragma mark --搜索按钮
+-(void)searchBtnClink{
+    [self dataArrSearZi:_textfield.text];
+}
 
 
 
@@ -105,7 +152,7 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    _tableView.rowHeight=50;
+    _tableView.rowHeight=80;
     [self.view sd_addSubviews:@[_tableView]];
     
 }
@@ -151,17 +198,26 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    cell.textLabel.font=[UIFont systemFontOfSize:15];
-    cell.textLabel.alpha=.6;
-    cell.textLabel.text=_contentArr[indexPath.section][indexPath.row];//
+    MedicineCell * cell =[MedicineCell cellWithTableView:tableView IndexPath:indexPath];
+    NSString * title =_contentArr[indexPath.section][indexPath.row];
+    NSString * imageName2 =_imageArr[indexPath.section][indexPath.row];
+    cell.titleLabel.text=title;
+    
+    [cell.imageview setImageWithURL:[NSURL URLWithString:[imageName2 substringFromIndex:title.length]] placeholderImage:[UIImage imageNamed:@"yao_zw"]];
     return cell;
 }
 
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //药名(用去判断前缀长度)
+    NSString * name =_contentArr[indexPath.section][indexPath.row];
+    //idd(包涵前缀)
+    NSString * idd =_contentIDArr[indexPath.section][indexPath.row];
+    MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+    //去掉前缀
+    vc.yaoID=[idd substringFromIndex:name.length];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

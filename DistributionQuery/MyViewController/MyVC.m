@@ -10,6 +10,8 @@
 #import "MyTableViewCell.h"
 #import "AbountMyVC.h"//关于我们
 #import "MyShouCangVC.h"//我的收藏
+#import "BaoGaoDanVC.h"//我生成的报告单
+#import "MyTuiGuangVC.h"//我的推广
 @interface MyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
@@ -154,6 +156,7 @@
     [cell.imageview setImage:[UIImage imageNamed:_imageArray[indexPath.section][indexPath.row]] forState:0];
     return cell;
 }
+#pragma mark --表格点击
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -166,6 +169,10 @@
 
         }else if (indexPath.row==1){
             //我生成的报告单
+            BaoGaoDanVC * vc =[BaoGaoDanVC new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+
         }else if (indexPath.row==2){
             //我的收藏
             MyShouCangVC * vc =[MyShouCangVC new];
@@ -173,6 +180,10 @@
             [self.navigationController pushViewController:vc animated:YES];
         }else if (indexPath.row==3){
             //我的推广
+            MyTuiGuangVC * vc =[MyTuiGuangVC new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+
         }
     }else{
         if (indexPath.row==0) {
