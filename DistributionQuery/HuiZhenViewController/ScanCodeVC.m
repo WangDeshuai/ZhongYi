@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title=@"三辩会诊";
     [self imageData];
     [self CreatTabelView];
     [self publicButton];

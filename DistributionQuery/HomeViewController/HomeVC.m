@@ -10,6 +10,7 @@
 #import "MedicineVC.h"//药
 #import "LecturesVC.h"//讲座
 #import "YaoFangVC.h"//药方
+#import "ZhongYiYiAnVC.h"//中医医案
 @interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 
@@ -202,10 +203,16 @@
 
     }else if (btn.tag==2){
         //三辩会诊
+        ScanCodeVC * vc =[ScanCodeVC new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (btn.tag==3){
         //病名
     }else if (btn.tag==4){
         //中医医案
+        ZhongYiYiAnVC * vc =[ZhongYiYiAnVC new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (btn.tag==5){
         //讲座
         LecturesVC * vc =[LecturesVC new];

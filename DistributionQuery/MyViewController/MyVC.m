@@ -12,6 +12,7 @@
 #import "MyShouCangVC.h"//我的收藏
 #import "BaoGaoDanVC.h"//我生成的报告单
 #import "MyTuiGuangVC.h"//我的推广
+#import "YiJianFanKuiVC.h"//意见反馈
 @interface MyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
@@ -193,6 +194,9 @@
             [self.navigationController pushViewController:vc animated:YES];
         }else if (indexPath.row==1){
             //意见反馈
+            YiJianFanKuiVC * vc =[YiJianFanKuiVC new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }else{
             //检测更新
         }
