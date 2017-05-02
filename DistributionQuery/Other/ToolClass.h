@@ -11,10 +11,11 @@
 @interface ToolClass : NSObject
 
 
-#pragma mark --个人类型转换
-+(NSString*)myStype:(NSString*)str;
+//#pragma mark --个人类型转换
+//+(NSString*)myStype:(NSString*)str;
 
-
+#pragma mark --性别转换
++(NSString*)XingBieStr:(NSString*)xb;
 
 #pragma mark --判断是否登录（登录YES）
 +(BOOL)isLogin;

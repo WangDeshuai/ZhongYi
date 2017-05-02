@@ -7,10 +7,12 @@
 //
 
 #import "HomeVC.h"
+#import "HomeTableViewCell.h"
 #import "MedicineVC.h"//药
 #import "LecturesVC.h"//讲座
 #import "YaoFangVC.h"//药方
 #import "ZhongYiYiAnVC.h"//中医医案
+#import "BingMingVC.h"//病名
 @interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 
@@ -208,6 +210,9 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else if (btn.tag==3){
         //病名
+        BingMingVC * vc =[BingMingVC new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (btn.tag==4){
         //中医医案
         ZhongYiYiAnVC * vc =[ZhongYiYiAnVC new];
@@ -231,6 +236,7 @@
     _tableView.dataSource=self;
     _tableView.tableFooterView=[UIView new];
     _tableView.tableHeaderView=[self CcreatTabeViewHead];
+    _tableView.rowHeight=100;
     [self.view sd_addSubviews:@[_tableView]];
     
 }
@@ -240,13 +246,7 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    cell.textLabel.font=[UIFont systemFontOfSize:15];
-    cell.textLabel.alpha=.6;
-    cell.textLabel.text=@"123";
+    HomeTableViewCell * cell =[HomeTableViewCell cellWithTableView:tableView IndexPath:indexPath];
     return cell;
 }
 

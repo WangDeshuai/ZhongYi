@@ -11,18 +11,28 @@
 @implementation ToolClass
 
 
-#pragma mark --个人类型转换
-+(NSString*)myStype:(NSString*)str{
-    if ([str isEqualToString:@"1"]) {
-        return @"个人";
-    }else if ([str isEqualToString:@"2"]){
-        return @"企业";
-    }else {
-        return @"未认证";
+//#pragma mark --个人类型转换
+//+(NSString*)myStype:(NSString*)str{
+//    if ([str isEqualToString:@"1"]) {
+//        return @"个人";
+//    }else if ([str isEqualToString:@"2"]){
+//        return @"企业";
+//    }else {
+//        return @"未认证";
+//    }
+//    
+//}
+#pragma mark --性别转换
++(NSString*)XingBieStr:(NSString*)xb{
+    if ([xb isEqualToString:@"0"]) {
+        return @"男";
+    }else if ([xb isEqualToString:@"1"]){
+        return @"女";
+    }else{
+        return nil;
     }
     
 }
-
 
 #pragma mark --判断是否登录（登录YES）
 +(BOOL)isLogin{

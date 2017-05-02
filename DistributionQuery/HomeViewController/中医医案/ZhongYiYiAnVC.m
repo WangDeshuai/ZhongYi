@@ -7,7 +7,9 @@
 //
 
 #import "ZhongYiYiAnVC.h"
-
+#import "ZhongYiYiAnCell.h"
+#import "MoreZhongYiVC.h"
+#import "YiAnXiangQingVC.h"
 @interface ZhongYiYiAnVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UIButton * lastBtn;
@@ -52,7 +54,7 @@
     
     UILabel * nameLable =[UILabel new];
     nameLable.text=@"选择病名分类";
-    nameLable.textColor=JXColor(245, 3, 3, 1);
+    nameLable.textColor=MAIN_COLOR;
     nameLable.font=[UIFont systemFontOfSize:16];
     [view1 sd_addSubviews:@[nameLable]];
     nameLable.sd_layout
@@ -146,6 +148,7 @@
     _tableView.dataSource=self;
     _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
     _tableView.tableHeaderView=[self CreatTableViewHead];
+    _tableView.rowHeight=70;
     [self.view sd_addSubviews:@[_tableView]];
     
 }
@@ -155,15 +158,17 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    cell.textLabel.font=[UIFont systemFontOfSize:15];
-    cell.textLabel.alpha=.6;
-    cell.textLabel.text=@"123";
+    ZhongYiYiAnCell * cell =[ZhongYiYiAnCell cellWithTableView:tableView IndexPath:indexPath];
     return cell;
 }
+
+#pragma mark --表的点击
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    YiAnXiangQingVC * vc =[YiAnXiangQingVC new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -189,9 +194,44 @@
     .heightIs(20);
     [namelabel setSingleLineAutoResizeWithMaxWidth:200];
     
+    //更多
+    UIButton * moreBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    [moreBtn setImage:[UIImage imageNamed:@"jz_arrow_right"] forState:0];
+    [moreBtn setTitle:@"更多" forState:0];
+    [moreBtn addTarget:self action:@selector(moreBtnClink) forControlEvents:UIControlEventTouchUpInside];
+    moreBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    [moreBtn setTitleColor:JXColor(171, 171, 171, 1) forState:0];
+    [headview sd_addSubviews:@[moreBtn]];
+    moreBtn.sd_layout
+    .rightSpaceToView(headview,15)
+    .centerYEqualToView(headview)
+    .widthIs(60)
+    .heightIs(30);
     
+    // 设置button的图片的约束
+    moreBtn.imageView.sd_layout
+    .widthIs(8)
+    .rightSpaceToView(moreBtn, 5)
+    .centerYEqualToView(moreBtn)
+    .heightIs(13);
     
+    // 设置button的label的约束
+    moreBtn.titleLabel.sd_layout
+    .centerYEqualToView(moreBtn.imageView)
+    .rightSpaceToView(moreBtn.imageView,0)
+    .leftSpaceToView(moreBtn,10)
+    .heightIs(20);
+
     
+    UIView * linview2 =[UIView new];
+    linview2.backgroundColor=BG_COLOR;
+    [headview sd_addSubviews:@[linview2]];
+    linview2.sd_layout
+    .leftSpaceToView(headview,5)
+    .rightSpaceToView(headview,5)
+    .bottomSpaceToView(headview,1)
+    .heightIs(1);
+
     
     return headview;
 }
@@ -199,6 +239,13 @@
 {
     return 50;
 }
+#pragma mark--更多
+-(void)moreBtnClink{
+    MoreZhongYiVC * vc =[MoreZhongYiVC new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

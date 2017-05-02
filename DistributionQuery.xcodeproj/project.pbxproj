@@ -21,7 +21,6 @@
 		8F048E211EB5C4A4008CF5CF /* MyShouCangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F048E1F1EB5C4A4008CF5CF /* MyShouCangVC.m */; };
 		8F048E251EB5C4C1008CF5CF /* AbountMyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F048E241EB5C4C1008CF5CF /* AbountMyVC.m */; };
 		8F048E281EB5C52D008CF5CF /* YiJianFanKuiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F048E271EB5C52D008CF5CF /* YiJianFanKuiVC.m */; };
-		8F048E2B1EB5DD9A008CF5CF /* ZhongYiYiAnVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F048E2A1EB5DD9A008CF5CF /* ZhongYiYiAnVC.m */; };
 		8F40D9C71EA8C5650073DE57 /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9C61EA8C5650073DE57 /* HomeVC.m */; };
 		8F40D9CF1EA8C5A40073DE57 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9CA1EA8C5A40073DE57 /* BaseNavigationController.m */; };
 		8F40D9D01EA8C5A40073DE57 /* BaseTableBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9CC1EA8C5A40073DE57 /* BaseTableBarVC.m */; };
@@ -36,12 +35,6 @@
 		8F40D9F11EA90D1F0073DE57 /* MyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9F01EA90D1F0073DE57 /* MyTableViewCell.m */; };
 		8F40D9F41EA998440073DE57 /* RegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9F31EA998440073DE57 /* RegisterVC.m */; };
 		8F40D9FC1EA9F3660073DE57 /* ScanCodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9FB1EA9F3660073DE57 /* ScanCodeCell.m */; };
-		8F4335F21EAF5FCF00FC5B14 /* YaoFangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4335F11EAF5FCF00FC5B14 /* YaoFangVC.m */; };
-		8F9C50EF1EB1DEF8004C2143 /* MedicineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9C50EE1EB1DEF8004C2143 /* MedicineCell.m */; };
-		8F9C50F21EB1E46F004C2143 /* MedicineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9C50F11EB1E46F004C2143 /* MedicineModel.m */; };
-		8FA855E11EAD91480056971A /* MedicineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855E01EAD91480056971A /* MedicineVC.m */; };
-		8FA855E61EAD91640056971A /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855E31EAD91640056971A /* ChineseString.m */; };
-		8FA855E71EAD91640056971A /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855E41EAD91640056971A /* pinyin.c */; };
 		8FA856051EADD0DD0056971A /* big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA855EA1EADD0DD0056971A /* big@2x.png */; };
 		8FA856061EADD0DD0056971A /* button_forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA855EB1EADD0DD0056971A /* button_forward@2x.png */; };
 		8FA856071EADD0DD0056971A /* go_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FA855EC1EADD0DD0056971A /* go_back@2x.png */; };
@@ -57,14 +50,6 @@
 		8FA856111EADD0DD0056971A /* XJGestureButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA855FE1EADD0DD0056971A /* XJGestureButton.m */; };
 		8FA856121EADD0DD0056971A /* SCYLayerAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA856021EADD0DD0056971A /* SCYLayerAddition.m */; };
 		8FA856131EADD0DD0056971A /* UIView+SCYCategory..m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA856031EADD0DD0056971A /* UIView+SCYCategory..m */; };
-		8FA856181EADD1EF0056971A /* LecturesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA856171EADD1EF0056971A /* LecturesVC.m */; };
-		8FA8561C1EADD6470056971A /* ReuserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8561B1EADD6470056971A /* ReuserView.m */; };
-		8FA8561F1EADD6C70056971A /* LecturesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8561E1EADD6C70056971A /* LecturesCell.m */; };
-		8FA856251EADDF4D0056971A /* MoreVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA856241EADDF4D0056971A /* MoreVideoVC.m */; };
-		8FA856281EADFB1B0056971A /* JiangZuoXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA856271EADFB1B0056971A /* JiangZuoXiangQingVC.m */; };
-		8FBA9F311EB18DD200115E52 /* YaoFangTopXQVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F301EB18DD200115E52 /* YaoFangTopXQVC.m */; };
-		8FBA9F341EB18E2E00115E52 /* MoreClassVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F331EB18E2E00115E52 /* MoreClassVC.m */; };
-		8FBA9F371EB18E6E00115E52 /* YaoFangContentXQVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F361EB18E6E00115E52 /* YaoFangContentXQVC.m */; };
 		8FBA9F3B1EB1A13D00115E52 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F3A1EB1A13D00115E52 /* CustomAlert.m */; };
 		8FBA9F3E1EB1A18B00115E52 /* CustomAlertTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F3D1EB1A18B00115E52 /* CustomAlertTwo.m */; };
 		8FCD4F111DA8A13100CB113C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD4F101DA8A13100CB113C /* libsqlite3.tbd */; };
@@ -113,8 +98,6 @@
 		8FCD4FA91DA8B4D300CB113C /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD4F7A1DA8B4D300CB113C /* SDCollectionViewCell.m */; };
 		8FCD4FAA1DA8B4D300CB113C /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD4F7C1DA8B4D300CB113C /* SDCycleScrollView.m */; };
 		8FCD4FAB1DA8B4D300CB113C /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD4F7E1DA8B4D300CB113C /* UIView+SDExtension.m */; };
-		8FDFDAE91EB2CE4A00057897 /* MedicineXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDFDAE81EB2CE4A00057897 /* MedicineXiangQingVC.m */; };
-		8FDFDAEC1EB2D3F100057897 /* MedicineXiangQingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDFDAEB1EB2D3F100057897 /* MedicineXiangQingCell.m */; };
 		8FE95AE01EA84470009F04E7 /* LCProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8FE95ADB1EA84470009F04E7 /* LCProgressHUD.bundle */; };
 		8FE95AE11EA84470009F04E7 /* LCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE95ADD1EA84470009F04E7 /* LCProgressHUD.m */; };
 		8FE95AE21EA84470009F04E7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE95ADF1EA84470009F04E7 /* MBProgressHUD.m */; };
@@ -138,6 +121,32 @@
 		8FE95B211EA84490009F04E7 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE95B0D1EA84490009F04E7 /* UIScrollView+MJRefresh.m */; };
 		8FE95B221EA84490009F04E7 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE95B0F1EA84490009F04E7 /* UIView+MJExtension.m */; };
 		8FE95B241EA84CB9009F04E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE95B231EA84CB9009F04E7 /* Assets.xcassets */; };
+		8FF7D2031EB835B600914ABC /* MoreZhongYiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D1FA1EB835B600914ABC /* MoreZhongYiVC.m */; };
+		8FF7D2041EB835B600914ABC /* YiAnXiangQingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D1FC1EB835B600914ABC /* YiAnXiangQingCell.m */; };
+		8FF7D2051EB835B600914ABC /* YiAnXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D1FE1EB835B600914ABC /* YiAnXiangQingVC.m */; };
+		8FF7D2061EB835B600914ABC /* ZhongYiYiAnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2001EB835B600914ABC /* ZhongYiYiAnCell.m */; };
+		8FF7D2071EB835B600914ABC /* ZhongYiYiAnVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2021EB835B600914ABC /* ZhongYiYiAnVC.m */; };
+		8FF7D2111EB835D500914ABC /* MoreClassVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D20A1EB835D500914ABC /* MoreClassVC.m */; };
+		8FF7D2121EB835D500914ABC /* YaoFangContentXQVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D20C1EB835D500914ABC /* YaoFangContentXQVC.m */; };
+		8FF7D2131EB835D500914ABC /* YaoFangTopXQVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D20E1EB835D500914ABC /* YaoFangTopXQVC.m */; };
+		8FF7D2141EB835D500914ABC /* YaoFangVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2101EB835D500914ABC /* YaoFangVC.m */; };
+		8FF7D2201EB835F200914ABC /* JiangZuoXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2171EB835F200914ABC /* JiangZuoXiangQingVC.m */; };
+		8FF7D2211EB835F200914ABC /* LecturesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2191EB835F200914ABC /* LecturesCell.m */; };
+		8FF7D2221EB835F200914ABC /* LecturesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D21B1EB835F200914ABC /* LecturesVC.m */; };
+		8FF7D2231EB835F200914ABC /* MoreVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D21D1EB835F200914ABC /* MoreVideoVC.m */; };
+		8FF7D2241EB835F200914ABC /* ReuserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D21F1EB835F200914ABC /* ReuserView.m */; };
+		8FF7D2341EB8361600914ABC /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2271EB8361600914ABC /* ChineseString.m */; };
+		8FF7D2351EB8361600914ABC /* MedicineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2291EB8361600914ABC /* MedicineCell.m */; };
+		8FF7D2361EB8361600914ABC /* MedicineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D22B1EB8361600914ABC /* MedicineModel.m */; };
+		8FF7D2371EB8361600914ABC /* MedicineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D22D1EB8361600914ABC /* MedicineVC.m */; };
+		8FF7D2381EB8361600914ABC /* MedicineXiangQingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D22F1EB8361600914ABC /* MedicineXiangQingCell.m */; };
+		8FF7D2391EB8361600914ABC /* MedicineXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2311EB8361600914ABC /* MedicineXiangQingVC.m */; };
+		8FF7D23A1EB8361600914ABC /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2321EB8361600914ABC /* pinyin.c */; };
+		8FF7D23D1EB8365700914ABC /* BingMingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D23C1EB8365700914ABC /* BingMingVC.m */; };
+		8FF7D24B1EB839F300914ABC /* MyZhuYeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D24A1EB839F300914ABC /* MyZhuYeVC.m */; };
+		8FF7D24E1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D24D1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m */; };
+		8FF7D2511EB8741700914ABC /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2501EB8741700914ABC /* HomeTableViewCell.m */; };
+		8FF7D2541EB8909500914ABC /* YaoFangModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF7D2531EB8909500914ABC /* YaoFangModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,8 +199,6 @@
 		8F048E241EB5C4C1008CF5CF /* AbountMyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbountMyVC.m; sourceTree = "<group>"; };
 		8F048E261EB5C52D008CF5CF /* YiJianFanKuiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiJianFanKuiVC.h; sourceTree = "<group>"; };
 		8F048E271EB5C52D008CF5CF /* YiJianFanKuiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiJianFanKuiVC.m; sourceTree = "<group>"; };
-		8F048E291EB5DD9A008CF5CF /* ZhongYiYiAnVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhongYiYiAnVC.h; sourceTree = "<group>"; };
-		8F048E2A1EB5DD9A008CF5CF /* ZhongYiYiAnVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhongYiYiAnVC.m; sourceTree = "<group>"; };
 		8F40D9C51EA8C5650073DE57 /* HomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeVC.h; sourceTree = "<group>"; };
 		8F40D9C61EA8C5650073DE57 /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		8F40D9C91EA8C5A40073DE57 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -220,18 +227,6 @@
 		8F40D9F31EA998440073DE57 /* RegisterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterVC.m; sourceTree = "<group>"; };
 		8F40D9FA1EA9F3660073DE57 /* ScanCodeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanCodeCell.h; sourceTree = "<group>"; };
 		8F40D9FB1EA9F3660073DE57 /* ScanCodeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanCodeCell.m; sourceTree = "<group>"; };
-		8F4335F01EAF5FCE00FC5B14 /* YaoFangVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangVC.h; sourceTree = "<group>"; };
-		8F4335F11EAF5FCF00FC5B14 /* YaoFangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangVC.m; sourceTree = "<group>"; };
-		8F9C50ED1EB1DEF8004C2143 /* MedicineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineCell.h; sourceTree = "<group>"; };
-		8F9C50EE1EB1DEF8004C2143 /* MedicineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineCell.m; sourceTree = "<group>"; };
-		8F9C50F01EB1E46F004C2143 /* MedicineModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineModel.h; sourceTree = "<group>"; };
-		8F9C50F11EB1E46F004C2143 /* MedicineModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineModel.m; sourceTree = "<group>"; };
-		8FA855DF1EAD91480056971A /* MedicineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineVC.h; sourceTree = "<group>"; };
-		8FA855E01EAD91480056971A /* MedicineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineVC.m; sourceTree = "<group>"; };
-		8FA855E21EAD91640056971A /* ChineseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseString.h; sourceTree = "<group>"; };
-		8FA855E31EAD91640056971A /* ChineseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseString.m; sourceTree = "<group>"; };
-		8FA855E41EAD91640056971A /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
-		8FA855E51EAD91640056971A /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
 		8FA855EA1EADD0DD0056971A /* big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big@2x.png"; sourceTree = "<group>"; };
 		8FA855EB1EADD0DD0056971A /* button_forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_forward@2x.png"; sourceTree = "<group>"; };
 		8FA855EC1EADD0DD0056971A /* go_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "go_back@2x.png"; sourceTree = "<group>"; };
@@ -255,22 +250,6 @@
 		8FA856021EADD0DD0056971A /* SCYLayerAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCYLayerAddition.m; sourceTree = "<group>"; };
 		8FA856031EADD0DD0056971A /* UIView+SCYCategory..m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SCYCategory..m"; sourceTree = "<group>"; };
 		8FA856041EADD0DD0056971A /* UIView+SCYCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SCYCategory.h"; sourceTree = "<group>"; };
-		8FA856161EADD1EF0056971A /* LecturesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LecturesVC.h; sourceTree = "<group>"; };
-		8FA856171EADD1EF0056971A /* LecturesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LecturesVC.m; sourceTree = "<group>"; };
-		8FA8561A1EADD6470056971A /* ReuserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReuserView.h; sourceTree = "<group>"; };
-		8FA8561B1EADD6470056971A /* ReuserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReuserView.m; sourceTree = "<group>"; };
-		8FA8561D1EADD6C70056971A /* LecturesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LecturesCell.h; sourceTree = "<group>"; };
-		8FA8561E1EADD6C70056971A /* LecturesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LecturesCell.m; sourceTree = "<group>"; };
-		8FA856231EADDF4D0056971A /* MoreVideoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreVideoVC.h; sourceTree = "<group>"; };
-		8FA856241EADDF4D0056971A /* MoreVideoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreVideoVC.m; sourceTree = "<group>"; };
-		8FA856261EADFB1B0056971A /* JiangZuoXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiangZuoXiangQingVC.h; sourceTree = "<group>"; };
-		8FA856271EADFB1B0056971A /* JiangZuoXiangQingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JiangZuoXiangQingVC.m; sourceTree = "<group>"; };
-		8FBA9F2F1EB18DD200115E52 /* YaoFangTopXQVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangTopXQVC.h; sourceTree = "<group>"; };
-		8FBA9F301EB18DD200115E52 /* YaoFangTopXQVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangTopXQVC.m; sourceTree = "<group>"; };
-		8FBA9F321EB18E2E00115E52 /* MoreClassVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreClassVC.h; sourceTree = "<group>"; };
-		8FBA9F331EB18E2E00115E52 /* MoreClassVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreClassVC.m; sourceTree = "<group>"; };
-		8FBA9F351EB18E6E00115E52 /* YaoFangContentXQVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangContentXQVC.h; sourceTree = "<group>"; };
-		8FBA9F361EB18E6E00115E52 /* YaoFangContentXQVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangContentXQVC.m; sourceTree = "<group>"; };
 		8FBA9F391EB1A13D00115E52 /* CustomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlert.h; sourceTree = "<group>"; };
 		8FBA9F3A1EB1A13D00115E52 /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
 		8FBA9F3C1EB1A18B00115E52 /* CustomAlertTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertTwo.h; sourceTree = "<group>"; };
@@ -367,10 +346,6 @@
 		8FCD4F7C1DA8B4D300CB113C /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
 		8FCD4F7D1DA8B4D300CB113C /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
 		8FCD4F7E1DA8B4D300CB113C /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
-		8FDFDAE71EB2CE4A00057897 /* MedicineXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineXiangQingVC.h; sourceTree = "<group>"; };
-		8FDFDAE81EB2CE4A00057897 /* MedicineXiangQingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineXiangQingVC.m; sourceTree = "<group>"; };
-		8FDFDAEA1EB2D3F100057897 /* MedicineXiangQingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineXiangQingCell.h; sourceTree = "<group>"; };
-		8FDFDAEB1EB2D3F100057897 /* MedicineXiangQingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineXiangQingCell.m; sourceTree = "<group>"; };
 		8FE95ADB1EA84470009F04E7 /* LCProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LCProgressHUD.bundle; sourceTree = "<group>"; };
 		8FE95ADC1EA84470009F04E7 /* LCProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCProgressHUD.h; sourceTree = "<group>"; };
 		8FE95ADD1EA84470009F04E7 /* LCProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCProgressHUD.m; sourceTree = "<group>"; };
@@ -415,6 +390,58 @@
 		8FE95B0E1EA84490009F04E7 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		8FE95B0F1EA84490009F04E7 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		8FE95B231EA84CB9009F04E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8FF7D1F91EB835B600914ABC /* MoreZhongYiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreZhongYiVC.h; sourceTree = "<group>"; };
+		8FF7D1FA1EB835B600914ABC /* MoreZhongYiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreZhongYiVC.m; sourceTree = "<group>"; };
+		8FF7D1FB1EB835B600914ABC /* YiAnXiangQingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiAnXiangQingCell.h; sourceTree = "<group>"; };
+		8FF7D1FC1EB835B600914ABC /* YiAnXiangQingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiAnXiangQingCell.m; sourceTree = "<group>"; };
+		8FF7D1FD1EB835B600914ABC /* YiAnXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YiAnXiangQingVC.h; sourceTree = "<group>"; };
+		8FF7D1FE1EB835B600914ABC /* YiAnXiangQingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YiAnXiangQingVC.m; sourceTree = "<group>"; };
+		8FF7D1FF1EB835B600914ABC /* ZhongYiYiAnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhongYiYiAnCell.h; sourceTree = "<group>"; };
+		8FF7D2001EB835B600914ABC /* ZhongYiYiAnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhongYiYiAnCell.m; sourceTree = "<group>"; };
+		8FF7D2011EB835B600914ABC /* ZhongYiYiAnVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhongYiYiAnVC.h; sourceTree = "<group>"; };
+		8FF7D2021EB835B600914ABC /* ZhongYiYiAnVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhongYiYiAnVC.m; sourceTree = "<group>"; };
+		8FF7D2091EB835D500914ABC /* MoreClassVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreClassVC.h; sourceTree = "<group>"; };
+		8FF7D20A1EB835D500914ABC /* MoreClassVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreClassVC.m; sourceTree = "<group>"; };
+		8FF7D20B1EB835D500914ABC /* YaoFangContentXQVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangContentXQVC.h; sourceTree = "<group>"; };
+		8FF7D20C1EB835D500914ABC /* YaoFangContentXQVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangContentXQVC.m; sourceTree = "<group>"; };
+		8FF7D20D1EB835D500914ABC /* YaoFangTopXQVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangTopXQVC.h; sourceTree = "<group>"; };
+		8FF7D20E1EB835D500914ABC /* YaoFangTopXQVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangTopXQVC.m; sourceTree = "<group>"; };
+		8FF7D20F1EB835D500914ABC /* YaoFangVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangVC.h; sourceTree = "<group>"; };
+		8FF7D2101EB835D500914ABC /* YaoFangVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangVC.m; sourceTree = "<group>"; };
+		8FF7D2161EB835F200914ABC /* JiangZuoXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiangZuoXiangQingVC.h; sourceTree = "<group>"; };
+		8FF7D2171EB835F200914ABC /* JiangZuoXiangQingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JiangZuoXiangQingVC.m; sourceTree = "<group>"; };
+		8FF7D2181EB835F200914ABC /* LecturesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LecturesCell.h; sourceTree = "<group>"; };
+		8FF7D2191EB835F200914ABC /* LecturesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LecturesCell.m; sourceTree = "<group>"; };
+		8FF7D21A1EB835F200914ABC /* LecturesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LecturesVC.h; sourceTree = "<group>"; };
+		8FF7D21B1EB835F200914ABC /* LecturesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LecturesVC.m; sourceTree = "<group>"; };
+		8FF7D21C1EB835F200914ABC /* MoreVideoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreVideoVC.h; sourceTree = "<group>"; };
+		8FF7D21D1EB835F200914ABC /* MoreVideoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreVideoVC.m; sourceTree = "<group>"; };
+		8FF7D21E1EB835F200914ABC /* ReuserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReuserView.h; sourceTree = "<group>"; };
+		8FF7D21F1EB835F200914ABC /* ReuserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReuserView.m; sourceTree = "<group>"; };
+		8FF7D2261EB8361600914ABC /* ChineseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseString.h; sourceTree = "<group>"; };
+		8FF7D2271EB8361600914ABC /* ChineseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseString.m; sourceTree = "<group>"; };
+		8FF7D2281EB8361600914ABC /* MedicineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineCell.h; sourceTree = "<group>"; };
+		8FF7D2291EB8361600914ABC /* MedicineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineCell.m; sourceTree = "<group>"; };
+		8FF7D22A1EB8361600914ABC /* MedicineModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineModel.h; sourceTree = "<group>"; };
+		8FF7D22B1EB8361600914ABC /* MedicineModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineModel.m; sourceTree = "<group>"; };
+		8FF7D22C1EB8361600914ABC /* MedicineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineVC.h; sourceTree = "<group>"; };
+		8FF7D22D1EB8361600914ABC /* MedicineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineVC.m; sourceTree = "<group>"; };
+		8FF7D22E1EB8361600914ABC /* MedicineXiangQingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineXiangQingCell.h; sourceTree = "<group>"; };
+		8FF7D22F1EB8361600914ABC /* MedicineXiangQingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineXiangQingCell.m; sourceTree = "<group>"; };
+		8FF7D2301EB8361600914ABC /* MedicineXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicineXiangQingVC.h; sourceTree = "<group>"; };
+		8FF7D2311EB8361600914ABC /* MedicineXiangQingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicineXiangQingVC.m; sourceTree = "<group>"; };
+		8FF7D2321EB8361600914ABC /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
+		8FF7D2331EB8361600914ABC /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
+		8FF7D23B1EB8365700914ABC /* BingMingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BingMingVC.h; sourceTree = "<group>"; };
+		8FF7D23C1EB8365700914ABC /* BingMingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BingMingVC.m; sourceTree = "<group>"; };
+		8FF7D2491EB839F300914ABC /* MyZhuYeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyZhuYeVC.h; sourceTree = "<group>"; };
+		8FF7D24A1EB839F300914ABC /* MyZhuYeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyZhuYeVC.m; sourceTree = "<group>"; };
+		8FF7D24C1EB8409D00914ABC /* MyZhuYeXiuGaiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyZhuYeXiuGaiVC.h; sourceTree = "<group>"; };
+		8FF7D24D1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyZhuYeXiuGaiVC.m; sourceTree = "<group>"; };
+		8FF7D24F1EB8741700914ABC /* HomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTableViewCell.h; sourceTree = "<group>"; };
+		8FF7D2501EB8741700914ABC /* HomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTableViewCell.m; sourceTree = "<group>"; };
+		8FF7D2521EB8909500914ABC /* YaoFangModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangModel.h; sourceTree = "<group>"; };
+		8FF7D2531EB8909500914ABC /* YaoFangModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -584,8 +611,6 @@
 			isa = PBXGroup;
 			children = (
 				8FA856151EADD1430056971A /* 首页 */,
-				8FA856191EADD1F70056971A /* 讲座 */,
-				8FA856141EADD1310056971A /* 药 */,
 			);
 			path = HomeViewController;
 			sourceTree = "<group>";
@@ -656,29 +681,17 @@
 				8F40D9D81EA8C5FF0073DE57 /* MyVC.m */,
 				8F40D9EF1EA90D1F0073DE57 /* MyTableViewCell.h */,
 				8F40D9F01EA90D1F0073DE57 /* MyTableViewCell.m */,
-				8F048E261EB5C52D008CF5CF /* YiJianFanKuiVC.h */,
-				8F048E271EB5C52D008CF5CF /* YiJianFanKuiVC.m */,
+				8FF7D2491EB839F300914ABC /* MyZhuYeVC.h */,
+				8FF7D24A1EB839F300914ABC /* MyZhuYeVC.m */,
+				8FF7D24C1EB8409D00914ABC /* MyZhuYeXiuGaiVC.h */,
+				8FF7D24D1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m */,
+				8FF7D2481EB839B900914ABC /* 意见反馈 */,
 				8F048E221EB5C4C1008CF5CF /* 关于我们 */,
 				8F048E1B1EB5C4A4008CF5CF /* 我的收藏 */,
 				8F048E141EB5C479008CF5CF /* 我的报告单 */,
 				8F048E041EB5C457008CF5CF /* 我的推广 */,
 			);
 			name = "我的";
-			sourceTree = "<group>";
-		};
-		8F4335F31EAF5FDC00FC5B14 /* 药方 */ = {
-			isa = PBXGroup;
-			children = (
-				8F4335F01EAF5FCE00FC5B14 /* YaoFangVC.h */,
-				8F4335F11EAF5FCF00FC5B14 /* YaoFangVC.m */,
-				8FBA9F2F1EB18DD200115E52 /* YaoFangTopXQVC.h */,
-				8FBA9F301EB18DD200115E52 /* YaoFangTopXQVC.m */,
-				8FBA9F321EB18E2E00115E52 /* MoreClassVC.h */,
-				8FBA9F331EB18E2E00115E52 /* MoreClassVC.m */,
-				8FBA9F351EB18E6E00115E52 /* YaoFangContentXQVC.h */,
-				8FBA9F361EB18E6E00115E52 /* YaoFangContentXQVC.m */,
-			);
-			name = "药方";
 			sourceTree = "<group>";
 		};
 		8FA855E81EADD0DD0056971A /* XJAVPlayer */ = {
@@ -751,54 +764,21 @@
 			path = "适配";
 			sourceTree = "<group>";
 		};
-		8FA856141EADD1310056971A /* 药 */ = {
-			isa = PBXGroup;
-			children = (
-				8FA855DF1EAD91480056971A /* MedicineVC.h */,
-				8FA855E01EAD91480056971A /* MedicineVC.m */,
-				8FDFDAE71EB2CE4A00057897 /* MedicineXiangQingVC.h */,
-				8FDFDAE81EB2CE4A00057897 /* MedicineXiangQingVC.m */,
-				8FDFDAEA1EB2D3F100057897 /* MedicineXiangQingCell.h */,
-				8FDFDAEB1EB2D3F100057897 /* MedicineXiangQingCell.m */,
-				8F9C50ED1EB1DEF8004C2143 /* MedicineCell.h */,
-				8F9C50EE1EB1DEF8004C2143 /* MedicineCell.m */,
-				8FA855E21EAD91640056971A /* ChineseString.h */,
-				8FA855E31EAD91640056971A /* ChineseString.m */,
-				8FA855E41EAD91640056971A /* pinyin.c */,
-				8FA855E51EAD91640056971A /* pinyin.h */,
-				8F9C50F01EB1E46F004C2143 /* MedicineModel.h */,
-				8F9C50F11EB1E46F004C2143 /* MedicineModel.m */,
-			);
-			name = "药";
-			sourceTree = "<group>";
-		};
 		8FA856151EADD1430056971A /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
 				8F40D9C51EA8C5650073DE57 /* HomeVC.h */,
 				8F40D9C61EA8C5650073DE57 /* HomeVC.m */,
-				8F048E291EB5DD9A008CF5CF /* ZhongYiYiAnVC.h */,
-				8F048E2A1EB5DD9A008CF5CF /* ZhongYiYiAnVC.m */,
-				8F4335F31EAF5FDC00FC5B14 /* 药方 */,
+				8FF7D24F1EB8741700914ABC /* HomeTableViewCell.h */,
+				8FF7D2501EB8741700914ABC /* HomeTableViewCell.m */,
+				8FF7D23B1EB8365700914ABC /* BingMingVC.h */,
+				8FF7D23C1EB8365700914ABC /* BingMingVC.m */,
+				8FF7D2251EB8361600914ABC /* 药 */,
+				8FF7D2151EB835F200914ABC /* 讲座 */,
+				8FF7D2081EB835D500914ABC /* 药方 */,
+				8FF7D1F81EB835B600914ABC /* 中医医案 */,
 			);
 			name = "首页";
-			sourceTree = "<group>";
-		};
-		8FA856191EADD1F70056971A /* 讲座 */ = {
-			isa = PBXGroup;
-			children = (
-				8FA856161EADD1EF0056971A /* LecturesVC.h */,
-				8FA856171EADD1EF0056971A /* LecturesVC.m */,
-				8FA8561A1EADD6470056971A /* ReuserView.h */,
-				8FA8561B1EADD6470056971A /* ReuserView.m */,
-				8FA8561D1EADD6C70056971A /* LecturesCell.h */,
-				8FA8561E1EADD6C70056971A /* LecturesCell.m */,
-				8FA856231EADDF4D0056971A /* MoreVideoVC.h */,
-				8FA856241EADDF4D0056971A /* MoreVideoVC.m */,
-				8FA856261EADFB1B0056971A /* JiangZuoXiangQingVC.h */,
-				8FA856271EADFB1B0056971A /* JiangZuoXiangQingVC.m */,
-			);
-			name = "讲座";
 			sourceTree = "<group>";
 		};
 		8FBA9F381EB1A13D00115E52 /* view */ = {
@@ -1078,6 +1058,167 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		8FF7D1F81EB835B600914ABC /* 中医医案 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2011EB835B600914ABC /* ZhongYiYiAnVC.h */,
+				8FF7D2021EB835B600914ABC /* ZhongYiYiAnVC.m */,
+				8FF7D1FF1EB835B600914ABC /* ZhongYiYiAnCell.h */,
+				8FF7D2001EB835B600914ABC /* ZhongYiYiAnCell.m */,
+				8FF7D23F1EB836E300914ABC /* 更多 */,
+				8FF7D23E1EB836D800914ABC /* 医案详情 */,
+			);
+			path = "中医医案";
+			sourceTree = "<group>";
+		};
+		8FF7D2081EB835D500914ABC /* 药方 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2471EB8396100914ABC /* 详情页 */,
+				8FF7D2461EB8394B00914ABC /* 选择分类详情 */,
+				8FF7D2451EB8392300914ABC /* 药方 */,
+			);
+			path = "药方";
+			sourceTree = "<group>";
+		};
+		8FF7D2151EB835F200914ABC /* 讲座 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2431EB838DC00914ABC /* 讲座详情 */,
+				8FF7D2421EB838D300914ABC /* 讲座 */,
+				8FF7D2441EB838EB00914ABC /* 更多 */,
+			);
+			path = "讲座";
+			sourceTree = "<group>";
+		};
+		8FF7D2251EB8361600914ABC /* 药 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2401EB8388F00914ABC /* 药 */,
+				8FF7D2411EB8389F00914ABC /* 药详情页 */,
+				8FF7D2321EB8361600914ABC /* pinyin.c */,
+				8FF7D2331EB8361600914ABC /* pinyin.h */,
+				8FF7D2261EB8361600914ABC /* ChineseString.h */,
+				8FF7D2271EB8361600914ABC /* ChineseString.m */,
+			);
+			path = "药";
+			sourceTree = "<group>";
+		};
+		8FF7D23E1EB836D800914ABC /* 医案详情 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D1FD1EB835B600914ABC /* YiAnXiangQingVC.h */,
+				8FF7D1FE1EB835B600914ABC /* YiAnXiangQingVC.m */,
+				8FF7D1FB1EB835B600914ABC /* YiAnXiangQingCell.h */,
+				8FF7D1FC1EB835B600914ABC /* YiAnXiangQingCell.m */,
+			);
+			name = "医案详情";
+			sourceTree = "<group>";
+		};
+		8FF7D23F1EB836E300914ABC /* 更多 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D1F91EB835B600914ABC /* MoreZhongYiVC.h */,
+				8FF7D1FA1EB835B600914ABC /* MoreZhongYiVC.m */,
+			);
+			name = "更多";
+			sourceTree = "<group>";
+		};
+		8FF7D2401EB8388F00914ABC /* 药 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2281EB8361600914ABC /* MedicineCell.h */,
+				8FF7D2291EB8361600914ABC /* MedicineCell.m */,
+				8FF7D22C1EB8361600914ABC /* MedicineVC.h */,
+				8FF7D22D1EB8361600914ABC /* MedicineVC.m */,
+			);
+			name = "药";
+			sourceTree = "<group>";
+		};
+		8FF7D2411EB8389F00914ABC /* 药详情页 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D22A1EB8361600914ABC /* MedicineModel.h */,
+				8FF7D22B1EB8361600914ABC /* MedicineModel.m */,
+				8FF7D22E1EB8361600914ABC /* MedicineXiangQingCell.h */,
+				8FF7D22F1EB8361600914ABC /* MedicineXiangQingCell.m */,
+				8FF7D2301EB8361600914ABC /* MedicineXiangQingVC.h */,
+				8FF7D2311EB8361600914ABC /* MedicineXiangQingVC.m */,
+			);
+			name = "药详情页";
+			sourceTree = "<group>";
+		};
+		8FF7D2421EB838D300914ABC /* 讲座 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D21A1EB835F200914ABC /* LecturesVC.h */,
+				8FF7D21B1EB835F200914ABC /* LecturesVC.m */,
+				8FF7D21E1EB835F200914ABC /* ReuserView.h */,
+				8FF7D21F1EB835F200914ABC /* ReuserView.m */,
+				8FF7D2181EB835F200914ABC /* LecturesCell.h */,
+				8FF7D2191EB835F200914ABC /* LecturesCell.m */,
+			);
+			name = "讲座";
+			sourceTree = "<group>";
+		};
+		8FF7D2431EB838DC00914ABC /* 讲座详情 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2161EB835F200914ABC /* JiangZuoXiangQingVC.h */,
+				8FF7D2171EB835F200914ABC /* JiangZuoXiangQingVC.m */,
+			);
+			name = "讲座详情";
+			sourceTree = "<group>";
+		};
+		8FF7D2441EB838EB00914ABC /* 更多 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D21C1EB835F200914ABC /* MoreVideoVC.h */,
+				8FF7D21D1EB835F200914ABC /* MoreVideoVC.m */,
+			);
+			name = "更多";
+			sourceTree = "<group>";
+		};
+		8FF7D2451EB8392300914ABC /* 药方 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D20F1EB835D500914ABC /* YaoFangVC.h */,
+				8FF7D2101EB835D500914ABC /* YaoFangVC.m */,
+				8FF7D2521EB8909500914ABC /* YaoFangModel.h */,
+				8FF7D2531EB8909500914ABC /* YaoFangModel.m */,
+			);
+			name = "药方";
+			sourceTree = "<group>";
+		};
+		8FF7D2461EB8394B00914ABC /* 选择分类详情 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D20D1EB835D500914ABC /* YaoFangTopXQVC.h */,
+				8FF7D20E1EB835D500914ABC /* YaoFangTopXQVC.m */,
+				8FF7D2091EB835D500914ABC /* MoreClassVC.h */,
+				8FF7D20A1EB835D500914ABC /* MoreClassVC.m */,
+			);
+			name = "选择分类详情";
+			sourceTree = "<group>";
+		};
+		8FF7D2471EB8396100914ABC /* 详情页 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D20B1EB835D500914ABC /* YaoFangContentXQVC.h */,
+				8FF7D20C1EB835D500914ABC /* YaoFangContentXQVC.m */,
+			);
+			name = "详情页";
+			sourceTree = "<group>";
+		};
+		8FF7D2481EB839B900914ABC /* 意见反馈 */ = {
+			isa = PBXGroup;
+			children = (
+				8F048E261EB5C52D008CF5CF /* YiJianFanKuiVC.h */,
+				8F048E271EB5C52D008CF5CF /* YiJianFanKuiVC.m */,
+			);
+			name = "意见反馈";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1225,62 +1366,68 @@
 				8FCD4F9D1DA8B4D300CB113C /* UIProgressView+AFNetworking.m in Sources */,
 				8F048E281EB5C52D008CF5CF /* YiJianFanKuiVC.m in Sources */,
 				8FCD4F971DA8B4D300CB113C /* UIView+WebCacheOperation.m in Sources */,
-				8F4335F21EAF5FCF00FC5B14 /* YaoFangVC.m in Sources */,
+				8FF7D2381EB8361600914ABC /* MedicineXiangQingCell.m in Sources */,
 				8FCD4F841DA8B4D300CB113C /* AFURLConnectionOperation.m in Sources */,
 				8FCD4F9F1DA8B4D300CB113C /* UIWebView+AFNetworking.m in Sources */,
+				8FF7D24B1EB839F300914ABC /* MyZhuYeVC.m in Sources */,
 				8FCD4F831DA8B4D300CB113C /* AFSecurityPolicy.m in Sources */,
 				8FA8560C1EADD0DD0056971A /* XjAVPlayerSDK.m in Sources */,
+				8FF7D23D1EB8365700914ABC /* BingMingVC.m in Sources */,
+				8FF7D2071EB835B600914ABC /* ZhongYiYiAnVC.m in Sources */,
 				8FCD4F8A1DA8B4D300CB113C /* SDImageCache.m in Sources */,
 				8FCD4F811DA8B4D300CB113C /* AFHTTPSessionManager.m in Sources */,
-				8FBA9F371EB18E6E00115E52 /* YaoFangContentXQVC.m in Sources */,
+				8FF7D23A1EB8361600914ABC /* pinyin.c in Sources */,
 				8FCD4F8B1DA8B4D300CB113C /* SDWebImageCompat.m in Sources */,
 				8F40D9E51EA8C6230073DE57 /* ToolClass.m in Sources */,
 				8FCD4FA81DA8B4D300CB113C /* TAPageControl.m in Sources */,
+				8FF7D2041EB835B600914ABC /* YiAnXiangQingCell.m in Sources */,
 				8FCD4F951DA8B4D300CB113C /* UIImageView+HighlightedWebCache.m in Sources */,
-				8FA855E11EAD91480056971A /* MedicineVC.m in Sources */,
 				8FE95B181EA84490009F04E7 /* MJRefreshBackGifFooter.m in Sources */,
+				8FF7D2221EB835F200914ABC /* LecturesVC.m in Sources */,
+				8FF7D2061EB835B600914ABC /* ZhongYiYiAnCell.m in Sources */,
+				8FF7D24E1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m in Sources */,
 				8FCD4F901DA8B4D300CB113C /* SDWebImagePrefetcher.m in Sources */,
 				8FCD4F8E1DA8B4D300CB113C /* SDWebImageDownloaderOperation.m in Sources */,
 				8FCD4F8D1DA8B4D300CB113C /* SDWebImageDownloader.m in Sources */,
+				8FF7D2511EB8741700914ABC /* HomeTableViewCell.m in Sources */,
 				8F048E211EB5C4A4008CF5CF /* MyShouCangVC.m in Sources */,
-				8FA856181EADD1EF0056971A /* LecturesVC.m in Sources */,
 				8FE95B151EA84490009F04E7 /* MJRefreshAutoGifFooter.m in Sources */,
 				8F048E111EB5C457008CF5CF /* MyTuiGuangCell.m in Sources */,
+				8FF7D2341EB8361600914ABC /* ChineseString.m in Sources */,
 				8FCD4F991DA8B4D300CB113C /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				8FA8560F1EADD0DD0056971A /* XJTopMenu.m in Sources */,
 				8F048E121EB5C457008CF5CF /* MyTuiGuangVC.m in Sources */,
 				8FCD4F891DA8B4D300CB113C /* NSData+ImageContentType.m in Sources */,
 				8FE95B1F1EA84490009F04E7 /* MJRefreshConst.m in Sources */,
 				8FE95B101EA84490009F04E7 /* MJRefreshAutoFooter.m in Sources */,
-				8FA855E71EAD91640056971A /* pinyin.c in Sources */,
-				8FA856281EADFB1B0056971A /* JiangZuoXiangQingVC.m in Sources */,
-				8F9C50EF1EB1DEF8004C2143 /* MedicineCell.m in Sources */,
 				8FA856131EADD0DD0056971A /* UIView+SCYCategory..m in Sources */,
 				8F40D9E61EA8C6230073DE57 /* ViewController.m in Sources */,
 				8FCD4FA61DA8B4D300CB113C /* TAAnimatedDotView.m in Sources */,
 				8F40D9F41EA998440073DE57 /* RegisterVC.m in Sources */,
+				8FF7D2141EB835D500914ABC /* YaoFangVC.m in Sources */,
 				8FCD4F8C1DA8B4D300CB113C /* SDWebImageDecoder.m in Sources */,
 				8FCD4F801DA8B4D300CB113C /* AFHTTPRequestOperationManager.m in Sources */,
 				8FCD4F961DA8B4D300CB113C /* UIImageView+WebCache.m in Sources */,
 				8F048E101EB5C457008CF5CF /* MyDuiHuanViewController.m in Sources */,
 				8FE95B1B1EA84490009F04E7 /* MJRefreshGifHeader.m in Sources */,
-				8FA8561C1EADD6470056971A /* ReuserView.m in Sources */,
 				8FCD4F8F1DA8B4D300CB113C /* SDWebImageManager.m in Sources */,
+				8FF7D2541EB8909500914ABC /* YaoFangModel.m in Sources */,
 				8FCD4F7F1DA8B4D300CB113C /* AFHTTPRequestOperation.m in Sources */,
 				8FCD4F871DA8B4D300CB113C /* AFURLSessionManager.m in Sources */,
 				8FCD4F881DA8B4D300CB113C /* MKAnnotationView+WebCache.m in Sources */,
 				8FBA9F3E1EB1A18B00115E52 /* CustomAlertTwo.m in Sources */,
 				8FA8560E1EADD0DD0056971A /* XJBottomMenu.m in Sources */,
 				8FE95B221EA84490009F04E7 /* UIView+MJExtension.m in Sources */,
+				8FF7D2351EB8361600914ABC /* MedicineCell.m in Sources */,
 				8FE95B111EA84490009F04E7 /* MJRefreshBackFooter.m in Sources */,
+				8FF7D2031EB835B600914ABC /* MoreZhongYiVC.m in Sources */,
 				8F048E191EB5C479008CF5CF /* BaoGaoDanCell.m in Sources */,
 				8F048E0F1EB5C457008CF5CF /* MyDuiHuanCell.m in Sources */,
 				8FCD4F9C1DA8B4D300CB113C /* UIImageView+AFNetworking.m in Sources */,
 				8FCD4F821DA8B4D300CB113C /* AFNetworkReachabilityManager.m in Sources */,
-				8FA855E61EAD91640056971A /* ChineseString.m in Sources */,
+				8FF7D2241EB835F200914ABC /* ReuserView.m in Sources */,
 				8F40D9E31EA8C6230073DE57 /* AppDelegate.m in Sources */,
 				8F048E131EB5C457008CF5CF /* TuiGuangPeopleVC.m in Sources */,
-				8FBA9F341EB18E2E00115E52 /* MoreClassVC.m in Sources */,
 				8FE95B121EA84490009F04E7 /* MJRefreshComponent.m in Sources */,
 				8FE95B1D1EA84490009F04E7 /* MJRefreshStateHeader.m in Sources */,
 				8FA8560D1EADD0DD0056971A /* XJAVPlyer.m in Sources */,
@@ -1288,41 +1435,44 @@
 				8FCD4F851DA8B4D300CB113C /* AFURLRequestSerialization.m in Sources */,
 				8FCD4F931DA8B4D300CB113C /* UIImage+MultiFormat.m in Sources */,
 				8FE95AE21EA84470009F04E7 /* MBProgressHUD.m in Sources */,
-				8F048E2B1EB5DD9A008CF5CF /* ZhongYiYiAnVC.m in Sources */,
+				8FF7D2391EB8361600914ABC /* MedicineXiangQingVC.m in Sources */,
 				8FCD4FAA1DA8B4D300CB113C /* SDCycleScrollView.m in Sources */,
 				8FCD4F9A1DA8B4D300CB113C /* UIAlertView+AFNetworking.m in Sources */,
 				8F40D9D51EA8C5E30073DE57 /* ScanCodeVC.m in Sources */,
 				8FA856111EADD0DD0056971A /* XJGestureButton.m in Sources */,
-				8FDFDAEC1EB2D3F100057897 /* MedicineXiangQingCell.m in Sources */,
+				8FF7D2051EB835B600914ABC /* YiAnXiangQingVC.m in Sources */,
 				8F048E201EB5C4A4008CF5CF /* MyShouCangCell.m in Sources */,
 				8F40D9D11EA8C5A40073DE57 /* BaseViewController.m in Sources */,
 				8FE95B1C1EA84490009F04E7 /* MJRefreshNormalHeader.m in Sources */,
 				8FE95B171EA84490009F04E7 /* MJRefreshAutoStateFooter.m in Sources */,
 				8FE95B131EA84490009F04E7 /* MJRefreshFooter.m in Sources */,
 				8FCD4F9B1DA8B4D300CB113C /* UIButton+AFNetworking.m in Sources */,
+				8FF7D2111EB835D500914ABC /* MoreClassVC.m in Sources */,
 				8FCD4FA31DA8B4D300CB113C /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				8F40D9C71EA8C5650073DE57 /* HomeVC.m in Sources */,
 				8F40D9F11EA90D1F0073DE57 /* MyTableViewCell.m in Sources */,
-				8FBA9F311EB18DD200115E52 /* YaoFangTopXQVC.m in Sources */,
 				8FE95B161EA84490009F04E7 /* MJRefreshAutoNormalFooter.m in Sources */,
 				8FE95B191EA84490009F04E7 /* MJRefreshBackNormalFooter.m in Sources */,
-				8FDFDAE91EB2CE4A00057897 /* MedicineXiangQingVC.m in Sources */,
 				8F40D9FC1EA9F3660073DE57 /* ScanCodeCell.m in Sources */,
 				8FA856101EADD0DD0056971A /* UIDevice+XJDevice.m in Sources */,
-				8F9C50F21EB1E46F004C2143 /* MedicineModel.m in Sources */,
 				8FA856121EADD0DD0056971A /* SCYLayerAddition.m in Sources */,
 				8FCD4FAB1DA8B4D300CB113C /* UIView+SDExtension.m in Sources */,
 				8FCD4F9E1DA8B4D300CB113C /* UIRefreshControl+AFNetworking.m in Sources */,
+				8FF7D2201EB835F200914ABC /* JiangZuoXiangQingVC.m in Sources */,
 				8FCD4F941DA8B4D300CB113C /* UIImage+WebP.m in Sources */,
 				8FCD4F911DA8B4D300CB113C /* UIButton+WebCache.m in Sources */,
 				8F40D9CF1EA8C5A40073DE57 /* BaseNavigationController.m in Sources */,
+				8FF7D2371EB8361600914ABC /* MedicineVC.m in Sources */,
 				8F40D9D91EA8C5FF0073DE57 /* MyVC.m in Sources */,
+				8FF7D2121EB835D500914ABC /* YaoFangContentXQVC.m in Sources */,
 				8FE95B1A1EA84490009F04E7 /* MJRefreshBackStateFooter.m in Sources */,
-				8FA856251EADDF4D0056971A /* MoreVideoVC.m in Sources */,
+				8FF7D2231EB835F200914ABC /* MoreVideoVC.m in Sources */,
 				8FBA9F3B1EB1A13D00115E52 /* CustomAlert.m in Sources */,
+				8FF7D2361EB8361600914ABC /* MedicineModel.m in Sources */,
 				8F40D9E41EA8C6230073DE57 /* Engine.m in Sources */,
-				8FA8561F1EADD6C70056971A /* LecturesCell.m in Sources */,
+				8FF7D2131EB835D500914ABC /* YaoFangTopXQVC.m in Sources */,
 				8F048E1A1EB5C479008CF5CF /* BaoGaoDanVC.m in Sources */,
+				8FF7D2211EB835F200914ABC /* LecturesCell.m in Sources */,
 				8F40D9D01EA8C5A40073DE57 /* BaseTableBarVC.m in Sources */,
 				8FCD4FA91DA8B4D300CB113C /* SDCollectionViewCell.m in Sources */,
 				8FCD4FA71DA8B4D300CB113C /* TADotView.m in Sources */,

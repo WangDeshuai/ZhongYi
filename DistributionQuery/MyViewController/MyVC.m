@@ -13,6 +13,7 @@
 #import "BaoGaoDanVC.h"//我生成的报告单
 #import "MyTuiGuangVC.h"//我的推广
 #import "YiJianFanKuiVC.h"//意见反馈
+#import "MyZhuYeVC.h"//我的主页
 @interface MyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
@@ -164,7 +165,10 @@
     if (indexPath.section==0) {
         if (indexPath.row==0) {
             //我的主页
-            LoginViewController * vc =[LoginViewController new];
+//            LoginViewController * vc =[LoginViewController new];
+//            vc.hidesBottomBarWhenPushed=YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+            MyZhuYeVC * vc =[MyZhuYeVC new];
             vc.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:vc animated:YES];
 

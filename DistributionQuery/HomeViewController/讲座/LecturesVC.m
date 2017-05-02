@@ -199,7 +199,7 @@
     [moreBtn setTitle:@"更多" forState:0];
     [moreBtn addTarget:self action:@selector(moreBtnClink) forControlEvents:UIControlEventTouchUpInside];
     moreBtn.titleLabel.font=[UIFont systemFontOfSize:15];
-    [moreBtn setTitleColor:[UIColor blackColor] forState:0];
+    [moreBtn setTitleColor:JXColor(171, 171, 171, 1) forState:0];
     [view3 sd_addSubviews:@[moreBtn]];
     moreBtn.sd_layout
     .rightSpaceToView(view3,15)
@@ -222,6 +222,9 @@
     .heightIs(20);
     
     [headView setupAutoHeightWithBottomView:view3 bottomMargin:0];
+ 
+    
+       
     headView.didFinishAutoLayoutBlock=^(CGRect rect){
         NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
     };

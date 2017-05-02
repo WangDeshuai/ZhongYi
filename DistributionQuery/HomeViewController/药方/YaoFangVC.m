@@ -10,11 +10,14 @@
 #import "YaoFangTopXQVC.h"//分类详情
 #import "MoreClassVC.h"//更多分类
 #import "YaoFangContentXQVC.h"//药方详情
-
+#import "YaoFangModel.h"
 @interface YaoFangVC ()<UITableViewDelegate,UITableViewDataSource>
-@property(nonatomic,strong)NSArray * dataArray;
+@property(nonatomic,strong)NSMutableArray * dataArray;
 @property(nonatomic,strong)UITableView * tableView;
+@property(nonatomic,strong)NSMutableArray * topClassID;//上面分类ID
 @property(nonatomic,strong)NSArray * topArray;
+@property(nonatomic,assign)int AAA;
+@property (nonatomic,strong) MJRefreshComponent *myRefreshView;
 @end
 
 @implementation YaoFangVC
@@ -28,9 +31,40 @@
     [self CreatTabelView];
     
 }
+
+-(void)CreatDataInterNetPage:(int)page{
+    [Engine yaoFangJiaZaiAllPage:[NSString stringWithFormat:@"%d",page] SearchStr:@"" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            NSMutableArray * array2 =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                YaoFangModel * model =[[YaoFangModel alloc]initWithYaoListViewDic:dicc];
+                [array2 addObject:model];
+            }
+           
+            if (self.myRefreshView ==_tableView.header) {
+                _dataArray=array2;
+                _tableView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _tableView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_tableView reloadData];
+            [_myRefreshView  endRefreshing];
+            
+            
+            
+        }
+    } error:^(NSError *error) {
+         [_myRefreshView  endRefreshing];
+    }];
+}
+
+
 #pragma mark --创建数据源
 -(void)CreatDataArray{
-    _dataArray=@[@"神经病",@"精神病",@"桂之缘(肺癌)",@"桂枝汤(胃癌)"];
+    _dataArray=[NSMutableArray new];
+    _topClassID=[NSMutableArray new];
 }
 #pragma mark --创建搜索按钮
 -(void)searchView{
@@ -102,34 +136,59 @@
     .centerYEqualToView(tuBiaoImage)
     .heightIs(20)
     .widthIs(150);
-    //若干个按钮
-    NSArray * titleBtn=@[@"食管癌",@"乳腺癌",@"胃癌癌",@"肠癌",@"咽炎癌",@"子宫癌",@"卵巢癌",@"血瘤癌",@"脂肪癌",@"宫颈癌",@"淋巴癌",@"更多"];
-    _topArray=titleBtn;
-    int kj= 15;
-    int k =(ScreenWidth-(15*5))/4;
-    int gj =15;
-    int g =25;
-    for (int i =0; i<titleBtn.count; i++) {
-        UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
-//        button.backgroundColor=[UIColor magentaColor];
-        button.titleLabel.font=[UIFont systemFontOfSize:15];
-        [button setTitle:titleBtn[i] forState:0];
-        [button setTitleColor:[UIColor blackColor] forState:0];
-        [bgHeadView sd_addSubviews:@[button]];
-        button.tag=i;
-        button.sd_layout
-        .leftSpaceToView(bgHeadView,kj+(kj+k)*(i%4))
-        .topSpaceToView(nameLabel,gj+(gj+g)*(i/4))
-        .widthIs(k)
-        .heightIs(g);
-        [button addTarget:self action:@selector(buttonClinck:) forControlEvents:UIControlEventTouchUpInside];
-        [bgHeadView setupAutoHeightWithBottomView:button bottomMargin:10];
+    
+    [LCProgressHUD showMessage:@"请稍后..."];
+    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+             [LCProgressHUD hide];
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            NSMutableArray * array =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                YaoFangModel * md =[[YaoFangModel alloc]initWithYaoClassViewDic:dicc];
+                [array addObject:md.yaoFangClass];
+                [_topClassID addObject:md.yaoClassID];
+            }
+            [array addObject:@"更多"];
+            //若干个按钮
+            _topArray=array;
+            int kj= 15;
+            int k =(ScreenWidth-(15*5))/4;
+            int gj =15;
+            int g =25;
+            for (int i =0; i<array.count; i++) {
+                UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
+                button.titleLabel.font=[UIFont systemFontOfSize:15];
+                [button setTitle:array[i] forState:0];
+                [button setTitleColor:[UIColor blackColor] forState:0];
+                [bgHeadView sd_addSubviews:@[button]];
+                if (i==array.count-1) {
+                    [button setTitleColor:MAIN_COLOR forState:0];
+                }
+                button.tag=i;
+                button.sd_layout
+                .leftSpaceToView(bgHeadView,kj+(kj+k)*(i%4))
+                .topSpaceToView(nameLabel,gj+(gj+g)*(i/4))
+                .widthIs(k)
+                .heightIs(g);
+                [button addTarget:self action:@selector(buttonClinck:) forControlEvents:UIControlEventTouchUpInside];
+                [bgHeadView setupAutoHeightWithBottomView:button bottomMargin:10];
+                
+            }
+            bgHeadView.didFinishAutoLayoutBlock=^(CGRect rect){
+                NSLog(@">>>%f",rect.size.height);
+                
+            };
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
         
-    }
-    bgHeadView.didFinishAutoLayoutBlock=^(CGRect rect){
-        NSLog(@">>>%f",rect.size.height);
-        
-    };
+    }];
+    
+    
+    
+    
     
     
     
@@ -138,12 +197,13 @@
 }
 #pragma mark --topClink
 -(void)buttonClinck:(UIButton*)btn{
-   
+//    YaoFangModel * md=_topArray[btn.tag];
     if (btn.tag==_topArray.count-1) {
         MoreClassVC * vc =[MoreClassVC new];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         YaoFangTopXQVC * vc =[YaoFangTopXQVC new];
+        NSLog(@"idd>>>%@",_topClassID[btn.tag]);
         [self.navigationController pushViewController:vc animated:YES];
     }
     
@@ -161,6 +221,24 @@
     _tableView.rowHeight=50;
     _tableView.tableHeaderView=[self CreatTableViewHead];
     [self.view sd_addSubviews:@[_tableView]];
+    
+    __weak typeof (self) weakSelf =self;
+    _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.tableView.header;
+        _AAA=1;
+        [self CreatDataInterNetPage:_AAA];
+    }];
+    
+    [_tableView.header beginRefreshing];
+    //..上拉刷新
+    _tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.tableView.footer;
+        _AAA=_AAA+1;
+        [self CreatDataInterNetPage:_AAA];
+    }];
+    
+    _tableView.footer.hidden = YES;
+    
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -184,7 +262,8 @@
     .centerYEqualToView(cell)
     .rightSpaceToView(cell,15)
     .heightIs(25);
-    namelable.text=_dataArray[indexPath.row];
+    YaoFangModel * md=_dataArray[indexPath.row];
+    namelable.text=md.name;
     
     return cell;
 }
