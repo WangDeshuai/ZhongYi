@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface YaoFangContentXQVC : BaseViewController
-
+@property(nonatomic,copy)NSString * yaoID;
 @end

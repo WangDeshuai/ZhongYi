@@ -7,11 +7,13 @@
 //
 
 #import "BingMingVC.h"
-
+#import "YaoFangModel.h"
 @interface BingMingVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UIButton * lastBtn;
 @property(nonatomic,strong) UITextField * textfield;
+@property(nonatomic,strong)NSMutableArray * classID;
+@property(nonatomic,strong)NSMutableArray * dataArray1;
 @end
 
 @implementation BingMingVC
@@ -20,6 +22,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"病名";
+    _classID=[NSMutableArray new];
+    _dataArray1=[NSMutableArray new];
     [self CreatSearch];
     [self CreatTabelView];
 }
@@ -85,12 +89,12 @@
 }
 -(UIView*)CreatTableViewHead{
     UIView * headview =[UIView new];
-    headview.backgroundColor=BG_COLOR;
+    headview.backgroundColor=[UIColor whiteColor];
     headview.sd_layout
     .leftSpaceToView(_tableView,0)
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
-    .heightIs(372);
+    .heightIs(ScreenHeight);
     
     //创建选择病名
     UIView * view1=[UIView new];
@@ -121,12 +125,6 @@
     .centerYEqualToView(view1)
     .heightIs(25);
     [nameLable setSingleLineAutoResizeWithMaxWidth:200];
-    
-    
-    
-    
-    
-    
     //创建若干个按钮view2
     UIView * view2=[UIView new];
     view2.backgroundColor=[UIColor whiteColor];
@@ -136,57 +134,82 @@
     .rightSpaceToView(headview,0)
     .topSpaceToView(view1,1)
     .heightIs(300);
+
     
     
     
-    NSArray * btnArr=@[@"肺癌",@"胃癌",@"肝癌",@"肾癌",@"胶质量",@"鼻咽癌",@"口腔癌",@"下咽癌",@"乳腺癌",@"食管癌",@"贵门癌",@"大肠癌",@"但脑癌",@"胰腺癌",@"膀胱癌",@"阴茎癌",@"卵巢癌",@"宫颈癌",@"扁桃体癌",@"甲状腺癌",@"前列腺癌",@"黑色素癌",@"恶性淋巴瘤",@"子宫内膜瘤",@"胸膜间皮癌"];
-    
-    int kj =10;
-    int k=(ScreenWidth-kj*5)/4;
-    int g=k*52/148;
-    int gj=15;
-    if ([ToolClass isiPad]) {
-        kj =25;
-        k=(ScreenWidth-kj*5)/4;
-        g=k*52/148;
-        gj=15;
-    }
-    
-    for (int i=0; i<btnArr.count; i++) {
-        UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
-        btn.sd_cornerRadius=@(15);
-        btn.tag=i;
-        [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
-        btn.titleLabel.font=[UIFont systemFontOfSize:15];
-        
-        [btn setTitle:btnArr[i] forState:0];
-        [btn setTitleColor:[UIColor lightGrayColor] forState:0];
-        [btn setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
-        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [btn setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
-        
-        if (i==0) {
-            btn.selected=YES;
-            _lastBtn=btn;
+    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+           // NSMutableArray * array =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                YaoFangModel * md =[[YaoFangModel alloc]initWithYaoClassViewDic:dicc];
+                [_dataArray1 addObject:md.yaoFangClass];
+                [_classID addObject:md.yaoClassID];
+            }
+
+//            NSArray * btnArr=@[@"肺癌",@"胃癌",@"肝癌",@"肾癌",@"胶质量",@"鼻咽癌",@"口腔癌",@"下咽癌",@"乳腺癌",@"食管癌",@"贵门癌",@"大肠癌",@"但脑癌",@"胰腺癌",@"膀胱癌",@"阴茎癌",@"卵巢癌",@"宫颈癌",@"扁桃体癌",@"甲状腺癌",@"前列腺癌",@"黑色素癌",@"恶性淋巴瘤",@"子宫内膜瘤",@"胸膜间皮癌"];
+            
+            int kj =10;
+            int k=(ScreenWidth-kj*5)/4;
+            int g=k*52/148;
+            int gj=15;
+            if ([ToolClass isiPad]) {
+                kj =25;
+                k=(ScreenWidth-kj*5)/4;
+                g=k*52/148;
+                gj=15;
+            }
+            
+            for (int i=0; i<_dataArray1.count; i++) {
+                UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
+                btn.sd_cornerRadius=@(15);
+                btn.tag=i;
+                [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
+                btn.titleLabel.font=[UIFont systemFontOfSize:15];
+                
+                [btn setTitle:_dataArray1[i] forState:0];
+                [btn setTitleColor:[UIColor lightGrayColor] forState:0];
+                [btn setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+                [btn setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
+                
+                if (i==0) {
+                    btn.selected=YES;
+                    _lastBtn=btn;
+                }
+                
+                
+                [view2 sd_addSubviews:@[btn]];
+                btn.sd_layout
+                .leftSpaceToView(view2,kj+(k+kj)*(i%4))
+                .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                .widthIs(k)
+                .heightIs(g);
+                [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
+                
+            }
+            
+            [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
+            headview.didFinishAutoLayoutBlock=^(CGRect rect){
+                NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
+            };
+            
+
+            
+            
         }
+    } error:^(NSError *error) {
         
-        
-        [view2 sd_addSubviews:@[btn]];
-        btn.sd_layout
-        .leftSpaceToView(view2,kj+(k+kj)*(i%4))
-        .topSpaceToView(view2,gj+(g+gj)*(i/4))
-        .widthIs(k)
-        .heightIs(g);
-        [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
-        
-    }
+    }];
     
-    [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
-    headview.didFinishAutoLayoutBlock=^(CGRect rect){
-        NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
-    };
     
-    return headview;
+    
+    
+    
+    
+       return headview;
 }
 
 #pragma mark --btnClink
@@ -194,6 +217,7 @@
     _lastBtn.selected=NO;
     button.selected=YES;
     _lastBtn=button;
+    NSLog(@">>>%@>>>%@",_classID[button.tag],_dataArray1[button.tag]);
 }
 
 #pragma mark --创建表格

@@ -13,6 +13,7 @@
 #import "YaoFangModel.h"
 @interface YaoFangVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,strong) UITextField * textfield;
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSMutableArray * topClassID;//上面分类ID
 @property(nonatomic,strong)NSArray * topArray;
@@ -32,8 +33,8 @@
     
 }
 
--(void)CreatDataInterNetPage:(int)page{
-    [Engine yaoFangJiaZaiAllPage:[NSString stringWithFormat:@"%d",page] SearchStr:@"" success:^(NSDictionary *dic) {
+-(void)CreatDataInterNetPage:(int)page {
+    [Engine yaoFangJiaZaiAllPage:[NSString stringWithFormat:@"%d",page] SearchStr:_textfield.text success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -74,6 +75,7 @@
     searchBtn.backgroundColor=BG_COLOR;
     [searchBtn setTitleColor:[UIColor blackColor] forState:0];
     searchBtn.alpha=.6;
+    [searchBtn addTarget:self action:@selector(searchBtnClink2) forControlEvents:UIControlEventTouchUpInside];
     searchBtn.titleLabel.font=[UIFont systemFontOfSize:15];
     [self.view sd_addSubviews:@[searchBtn]];
     searchBtn.sd_layout
@@ -84,6 +86,7 @@
     //搜索框
     UITextField * textfield =[UITextField new];
     textfield.placeholder=@"搜索药";
+    _textfield=textfield;
     textfield.backgroundColor=[UIColor whiteColor];
     textfield.font=[UIFont systemFontOfSize:15];
     textfield.leftView =[ToolClass imageViewNameStr:@"yao_search"];
@@ -107,6 +110,12 @@
     
     
 }
+-(void)searchBtnClink2{
+    [_dataArray removeAllObjects];
+    [self CreatDataInterNetPage:0];
+}
+
+
 #pragma mark --表头
 -(UIView*)CreatTableViewHead{
     UIView * bgHeadView =[UIView new];
@@ -203,7 +212,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         YaoFangTopXQVC * vc =[YaoFangTopXQVC new];
-        NSLog(@"idd>>>%@",_topClassID[btn.tag]);
+        vc.classID=_topClassID[btn.tag];
+        vc.titlename=_topArray[btn.tag];
         [self.navigationController pushViewController:vc animated:YES];
     }
     
@@ -307,9 +317,12 @@
     
     return headview;
 }
+#pragma mark --表格点击
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    YaoFangModel * md=_dataArray[indexPath.row];
     YaoFangContentXQVC * vc =[YaoFangContentXQVC new];
+    vc.yaoID=md.yaoID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

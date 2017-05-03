@@ -52,6 +52,9 @@
 		8FA856131EADD0DD0056971A /* UIView+SCYCategory..m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA856031EADD0DD0056971A /* UIView+SCYCategory..m */; };
 		8FBA9F3B1EB1A13D00115E52 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F3A1EB1A13D00115E52 /* CustomAlert.m */; };
 		8FBA9F3E1EB1A18B00115E52 /* CustomAlertTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F3D1EB1A18B00115E52 /* CustomAlertTwo.m */; };
+		8FC5B1B91EB96DE500EEDB3D /* YaoFangContentXQCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5B1B81EB96DE500EEDB3D /* YaoFangContentXQCell.m */; };
+		8FC5B1BD1EB9B6A200EEDB3D /* BingMingXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5B1BC1EB9B6A200EEDB3D /* BingMingXiangQingVC.m */; };
+		8FC5B1C01EB9C28500EEDB3D /* BingMingXiangQingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5B1BF1EB9C28500EEDB3D /* BingMingXiangQingCell.m */; };
 		8FCD4F111DA8A13100CB113C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD4F101DA8A13100CB113C /* libsqlite3.tbd */; };
 		8FCD4F131DA8A13A00CB113C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD4F121DA8A13A00CB113C /* libz.tbd */; };
 		8FCD4F151DA8A14800CB113C /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD4F141DA8A14800CB113C /* libstdc++.tbd */; };
@@ -254,6 +257,12 @@
 		8FBA9F3A1EB1A13D00115E52 /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
 		8FBA9F3C1EB1A18B00115E52 /* CustomAlertTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertTwo.h; sourceTree = "<group>"; };
 		8FBA9F3D1EB1A18B00115E52 /* CustomAlertTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlertTwo.m; sourceTree = "<group>"; };
+		8FC5B1B71EB96DE500EEDB3D /* YaoFangContentXQCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangContentXQCell.h; sourceTree = "<group>"; };
+		8FC5B1B81EB96DE500EEDB3D /* YaoFangContentXQCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangContentXQCell.m; sourceTree = "<group>"; };
+		8FC5B1BB1EB9B6A200EEDB3D /* BingMingXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BingMingXiangQingVC.h; sourceTree = "<group>"; };
+		8FC5B1BC1EB9B6A200EEDB3D /* BingMingXiangQingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BingMingXiangQingVC.m; sourceTree = "<group>"; };
+		8FC5B1BE1EB9C28500EEDB3D /* BingMingXiangQingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BingMingXiangQingCell.h; sourceTree = "<group>"; };
+		8FC5B1BF1EB9C28500EEDB3D /* BingMingXiangQingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BingMingXiangQingCell.m; sourceTree = "<group>"; };
 		8FCD4F101DA8A13100CB113C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		8FCD4F121DA8A13A00CB113C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8FCD4F141DA8A14800CB113C /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -771,8 +780,7 @@
 				8F40D9C61EA8C5650073DE57 /* HomeVC.m */,
 				8FF7D24F1EB8741700914ABC /* HomeTableViewCell.h */,
 				8FF7D2501EB8741700914ABC /* HomeTableViewCell.m */,
-				8FF7D23B1EB8365700914ABC /* BingMingVC.h */,
-				8FF7D23C1EB8365700914ABC /* BingMingVC.m */,
+				8FC5B1BA1EB98F9F00EEDB3D /* 病名 */,
 				8FF7D2251EB8361600914ABC /* 药 */,
 				8FF7D2151EB835F200914ABC /* 讲座 */,
 				8FF7D2081EB835D500914ABC /* 药方 */,
@@ -790,6 +798,19 @@
 				8FBA9F3D1EB1A18B00115E52 /* CustomAlertTwo.m */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		8FC5B1BA1EB98F9F00EEDB3D /* 病名 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D23B1EB8365700914ABC /* BingMingVC.h */,
+				8FF7D23C1EB8365700914ABC /* BingMingVC.m */,
+				8FC5B1BB1EB9B6A200EEDB3D /* BingMingXiangQingVC.h */,
+				8FC5B1BC1EB9B6A200EEDB3D /* BingMingXiangQingVC.m */,
+				8FC5B1BE1EB9C28500EEDB3D /* BingMingXiangQingCell.h */,
+				8FC5B1BF1EB9C28500EEDB3D /* BingMingXiangQingCell.m */,
+			);
+			name = "病名";
 			sourceTree = "<group>";
 		};
 		8FCD4F0F1DA8A13100CB113C /* Frameworks */ = {
@@ -1206,6 +1227,8 @@
 			children = (
 				8FF7D20B1EB835D500914ABC /* YaoFangContentXQVC.h */,
 				8FF7D20C1EB835D500914ABC /* YaoFangContentXQVC.m */,
+				8FC5B1B71EB96DE500EEDB3D /* YaoFangContentXQCell.h */,
+				8FC5B1B81EB96DE500EEDB3D /* YaoFangContentXQCell.m */,
 			);
 			name = "详情页";
 			sourceTree = "<group>";
@@ -1381,6 +1404,7 @@
 				8F40D9E51EA8C6230073DE57 /* ToolClass.m in Sources */,
 				8FCD4FA81DA8B4D300CB113C /* TAPageControl.m in Sources */,
 				8FF7D2041EB835B600914ABC /* YiAnXiangQingCell.m in Sources */,
+				8FC5B1C01EB9C28500EEDB3D /* BingMingXiangQingCell.m in Sources */,
 				8FCD4F951DA8B4D300CB113C /* UIImageView+HighlightedWebCache.m in Sources */,
 				8FE95B181EA84490009F04E7 /* MJRefreshBackGifFooter.m in Sources */,
 				8FF7D2221EB835F200914ABC /* LecturesVC.m in Sources */,
@@ -1414,6 +1438,7 @@
 				8FF7D2541EB8909500914ABC /* YaoFangModel.m in Sources */,
 				8FCD4F7F1DA8B4D300CB113C /* AFHTTPRequestOperation.m in Sources */,
 				8FCD4F871DA8B4D300CB113C /* AFURLSessionManager.m in Sources */,
+				8FC5B1BD1EB9B6A200EEDB3D /* BingMingXiangQingVC.m in Sources */,
 				8FCD4F881DA8B4D300CB113C /* MKAnnotationView+WebCache.m in Sources */,
 				8FBA9F3E1EB1A18B00115E52 /* CustomAlertTwo.m in Sources */,
 				8FA8560E1EADD0DD0056971A /* XJBottomMenu.m in Sources */,
@@ -1457,6 +1482,7 @@
 				8FA856101EADD0DD0056971A /* UIDevice+XJDevice.m in Sources */,
 				8FA856121EADD0DD0056971A /* SCYLayerAddition.m in Sources */,
 				8FCD4FAB1DA8B4D300CB113C /* UIView+SDExtension.m in Sources */,
+				8FC5B1B91EB96DE500EEDB3D /* YaoFangContentXQCell.m in Sources */,
 				8FCD4F9E1DA8B4D300CB113C /* UIRefreshControl+AFNetworking.m in Sources */,
 				8FF7D2201EB835F200914ABC /* JiangZuoXiangQingVC.m in Sources */,
 				8FCD4F941DA8B4D300CB113C /* UIImage+WebP.m in Sources */,

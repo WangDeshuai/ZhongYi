@@ -9,5 +9,6 @@
 #import "BaseViewController.h"
 
 @interface YaoFangTopXQVC : BaseViewController
-
+@property(nonatomic,copy)NSString * classID;
+@property(nonatomic,copy)NSString * titlename;
 @end
