@@ -8,9 +8,11 @@
 
 #import "BingMingXiangQingVC.h"
 #import "BingMingXiangQingCell.h"
+#import "BingMingModel.h"
 @interface BingMingXiangQingVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
+@property(nonatomic,strong)NSMutableArray * dataArray;
 @end
 
 @implementation BingMingXiangQingVC
@@ -18,11 +20,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title=_titleName;
+    _dataArray=[NSMutableArray new];
     [self CreatData];
     [self CreatTabelView];
 }
 #pragma mark --数据源
 -(void)CreatData{
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine BingZhongXiangQingClassID:_bingID success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            
+            if ([dic objectForKey:@"data"]==[NSNull null] ) {
+                [LCProgressHUD showFailure:@"数据为空"];
+                [self.navigationController popViewControllerAnimated:YES];
+                return ;
+            }
+            [LCProgressHUD hide];
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            BingMingModel * md =[[BingMingModel alloc]initWithBingMingXiangQingDic:dataDic];
+            [_dataArray addObject:md.xqBingName];
+            [_dataArray addObject:md.xqzyBingName];
+            [_dataArray addObject:md.xqDingYi];
+            [_dataArray addObject:md.xqBingYin];
+            [_dataArray addObject:md.xqLinChuang];
+            [_dataArray addObject:md.xqZhenDuan];
+            [_dataArray addObject:md.xqJianBie];
+            [_dataArray addObject:md.xqChangGui];
+            [_tableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+         [LCProgressHUD showMessage:@"查询失败"];
+    }];
+    
     _titleArray=@[@"病名",@"中医病名",@"定义",@"病因病机",@"临床表现",@"诊断",@"鉴别诊断",@"常规治疗"];
 }
 
@@ -43,20 +76,20 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _titleArray.count;;
+    return _dataArray.count;;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BingMingXiangQingCell * cell =[BingMingXiangQingCell cellWithTableView:tableView IndexPath:indexPath];
     cell.titleLabel.text=_titleArray[indexPath.row];
+    cell.text=_dataArray[indexPath.row];
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    return  80;
-//    return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[BingMingXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]];
+    NSString * str =_dataArray[indexPath.row];
+    return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[BingMingXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]]+10;
 }
 
 - (void)didReceiveMemoryWarning {

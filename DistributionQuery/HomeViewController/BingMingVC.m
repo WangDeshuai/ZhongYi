@@ -8,6 +8,7 @@
 
 #import "BingMingVC.h"
 #import "YaoFangModel.h"
+#import "BingMingXiangQingVC.h"
 @interface BingMingVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UIButton * lastBtn;
@@ -217,7 +218,10 @@
     _lastBtn.selected=NO;
     button.selected=YES;
     _lastBtn=button;
-    NSLog(@">>>%@>>>%@",_classID[button.tag],_dataArray1[button.tag]);
+    BingMingXiangQingVC * vc =[[BingMingXiangQingVC alloc]init];
+    vc.titleName=_dataArray1[button.tag];
+    vc.bingID=_classID[button.tag];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark --创建表格

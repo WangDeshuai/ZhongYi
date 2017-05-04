@@ -10,9 +10,17 @@
 #import "ZhongYiYiAnCell.h"
 #import "MoreZhongYiVC.h"
 #import "YiAnXiangQingVC.h"
+#import "YaoFangModel.h"
+#import "ZhongYiModel.h"
 @interface ZhongYiYiAnVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UIButton * lastBtn;
+@property(nonatomic,strong)NSMutableArray * dataArray1;
+@property(nonatomic,strong)NSMutableArray * classID;
+@property(nonatomic,assign)int AAA;
+@property (nonatomic,strong) MJRefreshComponent *myRefreshView;
+@property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,assign)int  yaoIdd;
 @end
 
 @implementation ZhongYiYiAnVC
@@ -20,9 +28,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _dataArray1=[NSMutableArray new];
+    _classID=[NSMutableArray new];
+     _dataArray=[NSMutableArray new];
+    _yaoIdd=1;
     self.title=@"中医医案";
     [self CreatTabelView];
 }
+
+#pragma mark --创建数据源
+-(void)CreatDataArrayMessageID:(int)idd Page:(int)page{
+    [Engine ZhongYiYiAnMessageID:[NSString stringWithFormat:@"%d",idd] Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr=[dic objectForKey:@"data"];
+            NSMutableArray * array2 =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                ZhongYiModel * md =[[ZhongYiModel alloc]initWithZhongYiDic:dicc];
+                [array2 addObject:md];
+            }
+            
+            if (self.myRefreshView ==_tableView.header) {
+                _dataArray=array2;
+                _tableView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _tableView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_tableView reloadData];
+            [_myRefreshView  endRefreshing];
+            
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+         [_myRefreshView  endRefreshing];
+    }];
+}
+
+
 
 -(UIView*)CreatTableViewHead{
     UIView * headview =[UIView new];
@@ -31,7 +74,7 @@
     .leftSpaceToView(_tableView,0)
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
-    .heightIs(372);
+    .heightIs(114);
     
     //创建选择病名
     UIView * view1=[UIView new];
@@ -80,52 +123,73 @@
     
     
     
-    NSArray * btnArr=@[@"肺癌",@"胃癌",@"肝癌",@"肾癌",@"胶质量",@"鼻咽癌",@"口腔癌",@"下咽癌",@"乳腺癌",@"食管癌",@"贵门癌",@"大肠癌",@"但脑癌",@"胰腺癌",@"膀胱癌",@"阴茎癌",@"卵巢癌",@"宫颈癌",@"扁桃体癌",@"甲状腺癌",@"前列腺癌",@"黑色素癌",@"恶性淋巴瘤",@"子宫内膜瘤",@"胸膜间皮癌"];
-    
-    int kj =10;
-    int k=(ScreenWidth-kj*5)/4;
-    int g=k*52/148;
-    int gj=15;
-    if ([ToolClass isiPad]) {
-        kj =25;
-        k=(ScreenWidth-kj*5)/4;
-        g=k*52/148;
-        gj=15;
-    }
-    
-    for (int i=0; i<btnArr.count; i++) {
-        UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
-        btn.sd_cornerRadius=@(15);
-        btn.tag=i;
-        [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
-        btn.titleLabel.font=[UIFont systemFontOfSize:15];
-        
-        [btn setTitle:btnArr[i] forState:0];
-        [btn setTitleColor:[UIColor lightGrayColor] forState:0];
-        [btn setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
-        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [btn setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
-        
-        if (i==0) {
-            btn.selected=YES;
-            _lastBtn=btn;
+    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            // NSMutableArray * array =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                YaoFangModel * md =[[YaoFangModel alloc]initWithYaoClassViewDic:dicc];
+                [_dataArray1 addObject:md.yaoFangClass];
+                [_classID addObject:md.yaoClassID];
+            }
+            
+            int kj =10;
+            int k=(ScreenWidth-kj*5)/4;
+            int g=k*52/148;
+            int gj=15;
+            if ([ToolClass isiPad]) {
+                kj =25;
+                k=(ScreenWidth-kj*5)/4;
+                g=k*52/148;
+                gj=15;
+            }
+            
+            for (int i=0; i<_dataArray1.count; i++) {
+                UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
+                btn.sd_cornerRadius=@(15);
+                btn.tag=i;
+                [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
+                btn.titleLabel.font=[UIFont systemFontOfSize:15];
+                
+                [btn setTitle:_dataArray1[i] forState:0];
+                [btn setTitleColor:[UIColor lightGrayColor] forState:0];
+                [btn setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+                [btn setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
+                
+                if (i==0) {
+                    btn.selected=YES;
+                    _lastBtn=btn;
+                }
+                
+                
+                [view2 sd_addSubviews:@[btn]];
+                btn.sd_layout
+                .leftSpaceToView(view2,kj+(k+kj)*(i%4))
+                .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                .widthIs(k)
+                .heightIs(g);
+                [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
+                
+            }
+            
+            [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
+            headview.didFinishAutoLayoutBlock=^(CGRect rect){
+                NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
+            };
+            
+            
+            
+            
         }
+    } error:^(NSError *error) {
         
-        
-        [view2 sd_addSubviews:@[btn]];
-        btn.sd_layout
-        .leftSpaceToView(view2,kj+(k+kj)*(i%4))
-        .topSpaceToView(view2,gj+(g+gj)*(i/4))
-        .widthIs(k)
-        .heightIs(g);
-        [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
-        
-    }
+    }];
     
-    [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
-    headview.didFinishAutoLayoutBlock=^(CGRect rect){
-        NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
-    };
+    
+    
+
     
     return headview;
 }
@@ -135,6 +199,9 @@
     _lastBtn.selected=NO;
     button.selected=YES;
     _lastBtn=button;
+    NSLog(@"idd>>%@",_classID[button.tag]);
+    _yaoIdd=[_classID[button.tag] intValue];
+    [self CreatDataArrayMessageID:_yaoIdd Page:_AAA];
 }
 
 #pragma mark --创建表格
@@ -151,14 +218,32 @@
     _tableView.rowHeight=70;
     [self.view sd_addSubviews:@[_tableView]];
     
+    __weak typeof (self) weakSelf =self;
+    _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.tableView.header;
+        _AAA=1;
+        [self CreatDataArrayMessageID:_yaoIdd Page:_AAA];
+    }];
+    
+    [_tableView.header beginRefreshing];
+    //..上拉刷新
+    _tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.tableView.footer;
+        _AAA=_AAA+1;
+         [self CreatDataArrayMessageID:_yaoIdd Page:_AAA];
+    }];
+    
+    _tableView.footer.hidden = YES;
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return _dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZhongYiYiAnCell * cell =[ZhongYiYiAnCell cellWithTableView:tableView IndexPath:indexPath];
+    cell.model=_dataArray[indexPath.row];
     return cell;
 }
 

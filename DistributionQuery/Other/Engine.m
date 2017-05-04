@@ -145,6 +145,51 @@
     }];
     
 }
+#pragma mark --7根据病种分类加载病的详情信息（病详情）
++(void)BingZhongXiangQingClassID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/view",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
+   
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"7根据病种分类加载病的详情信息（病详情）%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"7根据病种分类加载病的详情信息（病详情）%@",error);
+        [LCProgressHUD showMessage:@"7.网络超时"];
+        aError(error);
+        
+    }];
+}
+#pragma mark --9根据病种分类加载中医医案信息(中医医案)
++(void)ZhongYiYiAnMessageID:(NSString *)idd Page:(NSString*)page PageSize:(NSString*)size success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/consilia/queryByCategoryId",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",size]] forKey:@"pageSize"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"9根据病种分类加载中医医案信息(中医医案)%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"9根据病种分类加载中医医案信息(中医医案)）%@",error);
+        [LCProgressHUD showMessage:@"9.网络超时"];
+        aError(error);
+        
+    }];
+}
 //#pragma mark --首页医案管理
 //+(void)shouYeYiAnLisetViewPage:(NSString*)page success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
 //    NSString * urlStr =[NSString stringWithFormat:@"%@/api/consilia/list",SERVICE];

@@ -9,5 +9,6 @@
 #import "BaseViewController.h"
 
 @interface BingMingXiangQingVC : BaseViewController
-
+@property(nonatomic,copy)NSString * bingID;
+@property(nonatomic,copy)NSString * titleName;
 @end

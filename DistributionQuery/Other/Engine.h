@@ -28,7 +28,12 @@ typedef void (^ErrorBlock)(NSError*error);
 #pragma mark --6病种分类详情页
 +(void)bingZhongFenLeiXiangXiID:(NSString*)bzid success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
+#pragma mark --7根据病种分类加载病的详情信息（病详情）
++(void)BingZhongXiangQingClassID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
+
+#pragma mark --9根据病种分类加载中医医案信息(中医医案)
++(void)ZhongYiYiAnMessageID:(NSString *)idd Page:(NSString*)page PageSize:(NSString*)size success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 //#pragma mark --3首页医案管理
 //+(void)shouYeYiAnLisetViewPage:(NSString*)page success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 

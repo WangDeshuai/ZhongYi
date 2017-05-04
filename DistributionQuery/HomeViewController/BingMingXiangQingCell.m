@@ -53,22 +53,22 @@
     _image1.sd_layout
     .leftSpaceToView(self.contentView,15)
     .topSpaceToView(self.contentView,10)
-    .heightIs(10)
-    .widthIs(1);
+    .heightIs(15)
+    .widthIs(2);
     
     _titleLabel.sd_layout
-    .leftSpaceToView(_image1,15)
+    .leftSpaceToView(_image1,10)
     .centerYEqualToView(_image1)
     .heightIs(20);
     [_titleLabel setSingleLineAutoResizeWithMaxWidth:120];
     
     _contentLabel.sd_layout
     .leftEqualToView(_titleLabel)
-    .topSpaceToView(_titleLabel,15)
+    .topSpaceToView(_titleLabel,10)
     .rightSpaceToView(self.contentView,15)
     .autoHeightRatio(0);
     
-    [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:10];
+    [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:15];
     
     
 }

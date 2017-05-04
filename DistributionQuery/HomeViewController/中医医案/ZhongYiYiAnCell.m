@@ -77,7 +77,14 @@
     .heightIs(20);
     
 }
-
+-(void)setModel:(ZhongYiModel *)model
+{
+    _model=model;
+    _titleLable.text=model.titlename;
+    _contentlabel.text=model.contentName;
+    _timelabel.text=model.timeStr;
+    
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
