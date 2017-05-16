@@ -13,4 +13,5 @@
 @property(nonatomic,strong)UIImageView * imageview;
 @property(nonatomic,strong)UITextField * textfield;
 @property(nonatomic,strong)UITextView * textview;
+@property(nonatomic,strong)UIButton * insertBtn;
 @end

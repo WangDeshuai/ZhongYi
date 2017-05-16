@@ -37,10 +37,10 @@
     [self CreatTabelView];
 }
 -(void)CreatData{
-    NSArray * ar1 =@[@"我的主页",@"我生成的报告单",@"我的收藏",@"我的推广"];
+    NSArray * ar1 =@[@"我的主页",@"我生成的报告单",@"我的收藏",@"我的推广",@"我要升级"];
     NSArray * ar2 =@[@"关于我们",@"意见反馈",@"检测更新"];
      _titleArray=@[ar1,ar2];
-    NSArray * imageArr1=@[@"my_home",@"my_bgd",@"my_sc",@"my_tg"];
+    NSArray * imageArr1=@[@"my_home",@"my_bgd",@"my_sc",@"my_tg",@"my_sj"];
     NSArray * imageArr2=@[@"my_us",@"my_fk",@"my_gx"];
     _imageArray=@[imageArr1,imageArr2];
     

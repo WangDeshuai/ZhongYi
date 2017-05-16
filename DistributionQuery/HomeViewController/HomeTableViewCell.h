@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ZhongYiModel.h"
 @interface HomeTableViewCell : UITableViewCell
 +(instancetype)cellWithTableView:(UITableView*)tableView IndexPath:(NSIndexPath *)indexPath;
+@property(nonatomic,strong)ZhongYiModel * model;
 @end

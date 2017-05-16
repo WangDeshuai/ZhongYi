@@ -13,15 +13,21 @@
 @property(nonatomic,strong)UIView * titlable;
 @property(nonatomic,strong)UILabel * jiLuLabel;//记录label
 @property(nonatomic,assign)NSInteger tagg;//第一级菜单
-@property(nonatomic,strong)NSArray * dataArray;
+//@property(nonatomic,strong)NSArray * dataArray;
+@property(nonatomic,strong)NSMutableArray * dataArr;
+@property(nonatomic,strong)NSMutableArray * dataArr2;
+@property(nonatomic,strong)ScanCodeModel * md;
+@property(nonatomic,strong)ScanCodeModel * mdd;//判断1级病名
+@property(nonatomic,strong)ScanCodeModel * md2;//tagg=2的时候 分别记录舌苔 舌质的
 @end
 
 @implementation CustomAlertTwo
-- (id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 contentArray:(NSArray*)dataArray Tag:(NSInteger)tag{
+- (id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2  Tag:(NSInteger)tag{
     self=[super init];
     if (self) {
-        _tagg=1000;
-        _dataArray=dataArray;
+        _tagg=tag;
+        _dataArr=[NSMutableArray new];
+        _dataArr2=[NSMutableArray new];
         //设置中心点
         self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
         self.backgroundColor=[UIColor whiteColor];
@@ -68,6 +74,7 @@
         //线条
         UIView * linView =[UIView new];
         linView.backgroundColor=MAIN_COLOR;
+          _titlable=linView;
         [self sd_addSubviews:@[linView]];
         
         linView.sd_layout
@@ -76,40 +83,47 @@
         .topSpaceToView(titlable,15)
         .heightIs(2);
         
-        NSArray * titleAr=@[@"舌苔",@"舌质"];
-        for (int i =0; i<titleAr.count; i++) {
-            UILabel * namelabel =[UILabel new];
-            namelabel.text=titleAr[i];
-            namelabel.textAlignment=1;
-            namelabel.font=[UIFont systemFontOfSize:16];
-            namelabel.alpha=.6;
-            [self sd_addSubviews:@[namelabel]];
-            namelabel.sd_layout
-            .leftSpaceToView(self,ScreenWidth/2*i)
-            .topSpaceToView(linView,15)
-            .heightIs(20)
-            .widthIs(ScreenWidth/2);
+        
+       
+        if (tag==1) {
+            //病名
+            [self huoQuBingMingMessageDataID:@""];
+        }else if(tag==2){
+            //舌苔 舌质
+            NSArray * titleAr=@[@"舌苔",@"舌质"];
+            for (int i =0; i<titleAr.count; i++) {
+                UILabel * namelabel =[UILabel new];
+                namelabel.text=titleAr[i];
+                namelabel.textAlignment=1;
+                namelabel.font=[UIFont systemFontOfSize:16];
+                namelabel.alpha=.6;
+                [self sd_addSubviews:@[namelabel]];
+                namelabel.sd_layout
+                .leftSpaceToView(self,ScreenWidth/2*i)
+                .topSpaceToView(linView,15)
+                .heightIs(20)
+                .widthIs(ScreenWidth/2);
+                
+            }
             
+            //线条
+            UIView * linView2 =[UIView new];
+            _titlable=linView2;
+            linView2.backgroundColor=MAIN_COLOR;
+            [self sd_addSubviews:@[linView2]];
+            
+            linView2.sd_layout
+            .leftSpaceToView(self,0)
+            .rightSpaceToView(self,0)
+            .topSpaceToView(linView,50)
+            .heightIs(2);
+            [self sheTaiData];//舌苔
+            [self sheZhiData];//舌质
         }
-        
-        //线条
-        UIView * linView2 =[UIView new];
-         _titlable=linView2;
-        linView2.backgroundColor=MAIN_COLOR;
-        [self sd_addSubviews:@[linView2]];
-        
-        linView2.sd_layout
-        .leftSpaceToView(self,0)
-        .rightSpaceToView(self,0)
-        .topSpaceToView(linView,50)
-        .heightIs(2);
-        
-        
-        //二级分类
-        [self CreatLeftTabelView];
-        [self CreatTabelView];
     }
-    
+    //二级分类
+    [self CreatLeftTabelView];
+    [self CreatTabelView];
     return self;
 }
 
@@ -133,8 +147,82 @@
     
 }
 
+//tag==1 (病名接口)
+-(void)huoQuBingMingMessageDataID:(NSString*)idd{
+    [Engine jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            for (NSDictionary * dicc in dataArr) {
+                ScanCodeModel * model =[[ScanCodeModel alloc]initWithBingMingDic:dicc];
+                [_dataArr addObject:model];
+            }
+            [_leftTableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+         [LCProgressHUD showMessage:@"失败"];
+    } ];
+}
+//二级病名
+-(void)huoQuBingMingMessageTwoDataID:(NSString*)idd{
+    [_dataArr2 removeAllObjects];
+    
+    [Engine jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            for (NSDictionary * dicc in dataArr) {
+                ScanCodeModel * model =[[ScanCodeModel alloc]initWithBingMingDic:dicc];
+                [_dataArr2 addObject:model];
+            }
+            [_rightTableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        [LCProgressHUD showMessage:@"失败"];
+    } ];
+}
 
 
+//tagg==2舌苔 舌质
+-(void)sheTaiData{
+    [Engine jiaZaiAllSheMessagesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            for (NSDictionary * dicc in dataArr) {
+                ScanCodeModel * md =[[ScanCodeModel alloc]initWithSheTaiDic:dicc];
+                [_dataArr addObject:md];
+            }
+            [_leftTableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+//舌质
+-(void)sheZhiData{
+    [Engine jiaZaiAllSheZhiMessagesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            for (NSDictionary * dicc in dataArr) {
+                ScanCodeModel * md =[[ScanCodeModel alloc]initWithSheZhiDic:dicc];
+                 [_dataArr2 addObject:md];
+            }
+            [_rightTableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
 
 #pragma mark --创建表格
 -(void)CreatTabelView{
@@ -158,9 +246,18 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView==_leftTableView) {
-        return 10;
+        if (_tagg==1) {
+            return _dataArr.count;
+        }else{
+           return _dataArr.count;
+        }
+      
     }else{
-        return 20;
+        if (_tagg==1) {
+            return _dataArr2.count;
+        }else{
+            return _dataArr2.count;
+        }
     }
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -185,13 +282,15 @@
         .rightSpaceToView(cell,15)
         .centerYEqualToView(cell)
         .heightIs(20);
-        cell.accessoryType=UITableViewCellAccessoryNone;
-        nameLable.text=@"123456";
-        if (_tagg==indexPath.row) {
-            nameLable.textColor=MAIN_COLOR;
-            cell.accessoryType=UITableViewCellAccessoryCheckmark;
-            _jiLuLabel=nameLable;
+        if (_tagg==1) {
+            ScanCodeModel * md =_dataArr[indexPath.row];
+            nameLable.text=md.bingMingName;
+        }else if(_tagg==2){
+            ScanCodeModel * md =_dataArr[indexPath.row];
+            nameLable.text=md.sheTaiName;
         }
+       
+
         return cell;
     }else{
         NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
@@ -206,6 +305,7 @@
             nameLable2.font=[UIFont systemFontOfSize:15];
             [cell sd_addSubviews:@[nameLable2]];
         }
+        // 
         UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
         nameLable.sd_layout
         .leftSpaceToView(cell,15)
@@ -213,11 +313,13 @@
         .centerYEqualToView(cell)
         .heightIs(20);
         cell.accessoryType=UITableViewCellAccessoryNone;
-        nameLable.text=@"7890";
-        if (_tagg==indexPath.row) {
-            nameLable.textColor=MAIN_COLOR;
-            cell.accessoryType=UITableViewCellAccessoryCheckmark;
-            _jiLuLabel=nameLable;
+       //
+        if (_tagg==1) {
+            ScanCodeModel * md =_dataArr2[indexPath.row];
+            nameLable.text=md.bingMingName;
+        }else if(_tagg==2){
+             ScanCodeModel * md =_dataArr2[indexPath.row];
+             nameLable.text=md.sheZhiName;
         }
         return cell;
         
@@ -237,13 +339,24 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView==_leftTableView) {
-        _jiLuLabel.textColor=[UIColor blackColor];
-        _tagg=indexPath.row;
-        [_leftTableView reloadData];
+        if (_tagg==1) {
+            ScanCodeModel * md =_dataArr[indexPath.row];
+            _mdd=md;
+            [self huoQuBingMingMessageTwoDataID:md.bingMingID];
+        }else if (_tagg==2){
+             ScanCodeModel * md =_dataArr[indexPath.row];
+            _md2=md;
+        }
+       
     }else{
-        _jiLuLabel.textColor=[UIColor blackColor];
-        _tagg=indexPath.row;
-        [_rightTableView reloadData];
+        if (_tagg==1) {
+            ScanCodeModel * md =_dataArr2[indexPath.row];
+            _md=md;
+        }else if (_tagg==2){
+            ScanCodeModel * md =_dataArr2[indexPath.row];
+            _md=md;
+        }
+        
     }
     
    
@@ -254,13 +367,24 @@
 
 
 
-
+-(ScanCodeModel*)sss:(ScanCodeModel*)md1 aaa:(ScanCodeModel*)mdd{
+    if (md1) {
+        return md1;
+    }else{
+        return mdd;
+    }
+}
 
 
 
 //完成点击事件
 -(void)achiveBtnClink:(UIButton*)btn{
-    self.clickBlock(btn);
+    if (_tagg==1) {
+         self.clickBlock(btn,[self sss:_md aaa:_mdd],_md2);
+    }else if (_tagg==2){
+         self.clickBlock(btn,_md,_md2);
+    }
+   
 }
 
 - (void)show{

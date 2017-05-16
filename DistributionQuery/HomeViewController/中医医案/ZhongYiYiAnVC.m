@@ -250,7 +250,9 @@
 #pragma mark --表的点击
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    ZhongYiModel * md =_dataArray[indexPath.row];
     YiAnXiangQingVC * vc =[YiAnXiangQingVC new];
+    vc.messageID=md.zhongYiID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

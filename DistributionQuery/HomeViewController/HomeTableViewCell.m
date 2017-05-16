@@ -77,6 +77,13 @@
     .heightIs(20);
     
 }
+-(void)setModel:(ZhongYiModel *)model
+{
+    _model=model;
+    _titleLable.text=model.titlename;
+    _contentlabel.text=model.contentName;
+    _timelabel.text=[ToolClass ConvertStrToTime:[model.timeStr longLongValue]];//;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

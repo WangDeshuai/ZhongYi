@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LecturesModel.h"
 @interface LecturesCell : UICollectionViewCell
-
+@property(nonatomic,strong)LecturesModel * model;
 @end

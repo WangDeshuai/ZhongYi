@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BaoGaiDanModel.h"
 @interface BaoGaoDanCell : UITableViewCell
 +(instancetype)cellWithTableView:(UITableView*)tableView IndexPath:(NSIndexPath *)indexPath;
+@property(nonatomic,strong)BaoGaiDanModel * model;
 @end

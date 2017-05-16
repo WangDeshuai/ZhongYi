@@ -11,7 +11,7 @@
 @interface YiAnXiangQingVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * leftArray;
-@property(nonatomic,strong)NSArray * dataArray;
+@property(nonatomic,strong)NSMutableArray * dataArray;
 @end
 
 @implementation YiAnXiangQingVC
@@ -24,8 +24,12 @@
     [self CreatTabelView];
 }
 -(void)CreatArr{
-    _leftArray=@[@"患者情况:",@"出诊时间:",@"病案详情:"];
-    _dataArray=@[@"王璇、女、28岁、河北保定",@"2017-05-03",@"异常出汗4月，异于常人，情绪容易激动，脾气暴躁，话多、患者长期痰湿内生，中焦气机阻泄，气急败坏，胀痛大便不通等病情"];
+    _leftArray=@[@"患者情况:",@"初诊时间:",@"病案详情:"];
+    _dataArray=[NSMutableArray new];
+//    _dataArray=@[@"王璇、女、28岁、河北保定",@"2017-05-03",@"异常出汗4月，异于常人，情绪容易激动，脾气暴躁，话多、患者长期痰湿内生，中焦气机阻泄，气急败坏，胀痛大便不通等病情"];
+    
+    
+    
 }
 
 -(UIView*)CreatHeadView{
@@ -56,6 +60,33 @@
     .rightSpaceToView(headview,10)
     .topSpaceToView(nameLable,15)
     .heightIs(316*(ScreenWidth-20)/640);
+    
+    
+    
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine YiAnXiangQingMessageID:_messageID success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            [_dataArray addObject:[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"patientCondition"]]]];
+            NSString * time=[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"createTime"]]];
+            [_dataArray addObject:[ToolClass ConvertStrToTime:[time longLongValue]]];
+            [_dataArray addObject:[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"content"]]]];
+            [_tableView reloadData];
+            //图片
+            NSString * strImage =[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"filePath"]]];
+            [imageview setImageWithURL:[NSURL URLWithString:strImage] placeholderImage:[UIImage imageNamed:@"home_index"]];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        [LCProgressHUD showMessage:@"加载失败"];
+    }];
+
+    
+    
+    
     return headview;
 }
 
@@ -64,7 +95,7 @@
 #pragma mark --创建表格
 -(void)CreatTabelView{
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 10, ScreenWidth, ScreenHeight-64) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64) style:UITableViewStylePlain];
     }
     _tableView.tableFooterView=[UIView new];
     _tableView.backgroundColor=[UIColor whiteColor];
@@ -77,7 +108,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _leftArray.count;
+    return _dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -92,7 +123,7 @@
     CGFloat gg =[tableView cellHeightForIndexPath:indexPath model:_dataArray[indexPath.row] keyPath:@"text" cellClass:[YiAnXiangQingCell class] contentViewWidth:[ToolClass cellContentViewWith]];
     
     if (indexPath.row==2) {
-        return gg+15;
+        return gg+55;
     }
     
     return gg;

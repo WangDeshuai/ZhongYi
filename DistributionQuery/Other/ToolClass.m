@@ -473,14 +473,25 @@ BOOL DeleteSingleFile(NSString *filePath){
     //long long time=[timeStr longLongValue];
     NSDate *d = [[NSDate alloc]initWithTimeIntervalSince1970:timeStr/1000.0];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];//HH:mm:ss
     NSString*timeString=[formatter stringFromDate:d];
     return timeString;
 }
 
 
     
-
++(NSString*)quChuLaiStr:(NSString*)str{
+    NSMutableDictionary * dicc =[NSMutableDictionary new];
+    [dicc setObject:@"1" forKey:@"肿瘤会诊"];
+    [dicc setObject:@"2" forKey:@"其它疑难杂症"];
+    [dicc setObject:@"M" forKey:@"男"];
+    [dicc setObject:@"F" forKey:@"女"];
+    [dicc setObject:@"Y" forKey:@"有"];
+    [dicc setObject:@"N" forKey:@"无"];
+    
+    return [dicc objectForKey:str];
+    
+}
     
 
 @end

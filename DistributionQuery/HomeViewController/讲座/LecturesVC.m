@@ -10,9 +10,18 @@
 #import "LecturesCell.h"
 #import "MoreVideoVC.h"//更多
 #import "JiangZuoXiangQingVC.h"//讲座详情页
+#import "YaoFangModel.h"
+#import "LecturesModel.h"
 @interface LecturesVC ()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property(nonatomic,strong)UICollectionView *collectionView;
 @property(nonatomic,strong)UIButton * lastBtn;
+@property(nonatomic,strong)NSMutableArray * dataArray1;
+@property(nonatomic,strong)NSMutableArray * classID;
+@property(nonatomic,copy)NSString * bingMingID;
+@property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,assign)int AAA;
+@property (nonatomic,strong) MJRefreshComponent *myRefreshView;
+
 @end
 
 @implementation LecturesVC
@@ -21,10 +30,44 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"讲座";
+    _dataArray1=[NSMutableArray new];
+    _classID=[NSMutableArray new];
+    _dataArray=[NSMutableArray new];
+    _bingMingID=@"1";
     [self searchView];
     [self CreatCollectionView];
     [self CreatBtn];
 }
+
+-(void)CreatDataPage:(int)page BingID:(NSString*)bingID {
+    [Engine jiangZuoBingZhongID:bingID Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        NSMutableArray * array2 =[NSMutableArray new];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            for (NSDictionary * dicc in dataArr) {
+                LecturesModel * md =[[LecturesModel alloc]initWithJiangZuoDic:dicc];
+                [array2 addObject:md];
+            }
+            
+            if (self.myRefreshView ==_collectionView.header) {
+                _dataArray=array2;
+                _collectionView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _collectionView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_collectionView reloadData];
+            [_myRefreshView  endRefreshing];
+            
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+
 
 #pragma mark --创建搜索按钮
 -(void)searchView{
@@ -122,50 +165,74 @@
     
     
     
-    
-    NSArray * btnArr=@[@"肺癌",@"胃癌",@"肝癌",@"肾癌",@"胶质量",@"鼻咽癌",@"口腔癌",@"下咽癌",@"乳腺癌",@"食管癌",@"贵门癌",@"大肠癌",@"但脑癌",@"胰腺癌",@"膀胱癌",@"阴茎癌",@"卵巢癌",@"宫颈癌",@"扁桃体癌",@"甲状腺癌",@"前列腺癌",@"黑色素癌",@"恶性淋巴瘤",@"子宫内膜瘤",@"胸膜间皮癌"];
-   
-    int kj =10;
-    int k=(ScreenWidth-kj*5)/4;
-    int g=k*52/148;
-    int gj=15;
-    if ([ToolClass isiPad]) {
-        kj =25;
-        k=(ScreenWidth-kj*5)/4;
-        g=k*52/148;
-        gj=15;
-    }
-    
-    for (int i=0; i<btnArr.count; i++) {
-        UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
-        btn.sd_cornerRadius=@(15);
-        btn.tag=i;
-        [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
-        btn.titleLabel.font=[UIFont systemFontOfSize:15];
-        
-        [btn setTitle:btnArr[i] forState:0];
-        [btn setTitleColor:[UIColor lightGrayColor] forState:0];
-        [btn setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
-        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [btn setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
-       
-        if (i==0) {
-            btn.selected=YES;
-            _lastBtn=btn;
+    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            // NSMutableArray * array =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                YaoFangModel * md =[[YaoFangModel alloc]initWithYaoClassViewDic:dicc];
+                [_dataArray1 addObject:md.yaoFangClass];
+                [_classID addObject:md.yaoClassID];
+            }
+            
+            //            NSArray * btnArr=@[@"肺癌",@"胃癌",@"肝癌",@"肾癌",@"胶质量",@"鼻咽癌",@"口腔癌",@"下咽癌",@"乳腺癌",@"食管癌",@"贵门癌",@"大肠癌",@"但脑癌",@"胰腺癌",@"膀胱癌",@"阴茎癌",@"卵巢癌",@"宫颈癌",@"扁桃体癌",@"甲状腺癌",@"前列腺癌",@"黑色素癌",@"恶性淋巴瘤",@"子宫内膜瘤",@"胸膜间皮癌"];
+            
+            int kj =10;
+            int k=(ScreenWidth-kj*5)/4;
+            int g=k*52/148;
+            int gj=15;
+            if ([ToolClass isiPad]) {
+                kj =25;
+                k=(ScreenWidth-kj*5)/4;
+                g=k*52/148;
+                gj=15;
+            }
+            
+            for (int i=0; i<_dataArray1.count; i++) {
+                UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
+                btn.sd_cornerRadius=@(15);
+                btn.tag=i;
+                [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
+                btn.titleLabel.font=[UIFont systemFontOfSize:15];
+                
+                [btn setTitle:_dataArray1[i] forState:0];
+                [btn setTitleColor:[UIColor lightGrayColor] forState:0];
+                [btn setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+                [btn setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
+                
+                if (i==0) {
+                    btn.selected=YES;
+                    _lastBtn=btn;
+                }
+                
+                
+                [view2 sd_addSubviews:@[btn]];
+                btn.sd_layout
+                .leftSpaceToView(view2,kj+(k+kj)*(i%4))
+                .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                .widthIs(k)
+                .heightIs(g);
+                [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
+                
+            }
+            
+//            [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
+//            headview.didFinishAutoLayoutBlock=^(CGRect rect){
+//                NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
+//            };
+            
+            
+            
+            
         }
+    } error:^(NSError *error) {
         
-        
-        [view2 sd_addSubviews:@[btn]];
-        btn.sd_layout
-        .leftSpaceToView(view2,kj+(k+kj)*(i%4))
-        .topSpaceToView(view2,gj+(g+gj)*(i/4))
-        .widthIs(k)
-        .heightIs(g);
-        [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
-        
-    }
-
-    //讲座
+    }];
+    
+    
+   //讲座
     UIView * view3=[UIView new];
     view3.backgroundColor=[UIColor whiteColor];
     [headView sd_addSubviews:@[view3]];
@@ -235,6 +302,9 @@
     _lastBtn.selected=NO;
     button.selected=YES;
     _lastBtn=button;
+    NSLog(@"病种ID=%@",_classID[button.tag]);
+    _bingMingID=_classID[button.tag];
+     [self CreatDataPage:_AAA BingID:_bingMingID];
     
 }
 #pragma mark --更多视频
@@ -250,7 +320,7 @@
     flowLawyou.itemSize = CGSizeMake((ScreenWidth-30)/2, (ScreenWidth-30)/2.5);
     flowLawyou.minimumLineSpacing=20;//行间距
     flowLawyou.minimumInteritemSpacing=10;//列间距
-    flowLawyou.sectionInset = UIEdgeInsetsMake(433+20, 10, 56, 10);
+    flowLawyou.sectionInset = UIEdgeInsetsMake(283+20, 10, 56, 10);
     
     if ([ToolClass isiPad]) {
         flowLawyou.minimumInteritemSpacing=15;//列间距
@@ -270,6 +340,27 @@
     _collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_collectionView];
     [_collectionView registerClass:[LecturesCell class] forCellWithReuseIdentifier:@"cell"];
+    
+    __weak typeof (self) weakSelf =self;
+    _collectionView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.collectionView.header;
+        _AAA=1;
+        [self CreatDataPage:_AAA BingID:_bingMingID];
+        
+    }];
+    
+    [_collectionView.header beginRefreshing];
+    //..上拉刷新
+    _collectionView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.collectionView.footer;
+        _AAA=_AAA+1;
+         [self CreatDataPage:_AAA BingID:_bingMingID];
+    }];
+    
+    _collectionView.footer.hidden = YES;
+    
+    
+    
 //    [self.collectionView registerClass:[ReuserView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headView"];
 
    
@@ -300,11 +391,12 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return 10;
+    return _dataArray.count;
     
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LecturesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.model=_dataArray[indexPath.row];
     //  cell.backgroundColor = [UIColor whiteColor];
     //    cell.image1.image=[UIImage imageNamed:@"pic"];
     //    cell.lab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
@@ -314,7 +406,9 @@
     
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    LecturesModel * md =_dataArray[indexPath.row];
     JiangZuoXiangQingVC * vc =[JiangZuoXiangQingVC new];
+    vc.messageid=md.jiangZuoID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {

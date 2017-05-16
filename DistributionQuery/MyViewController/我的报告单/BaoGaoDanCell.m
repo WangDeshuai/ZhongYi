@@ -88,6 +88,17 @@
     
     
 }
+-(void)setModel:(BaoGaiDanModel *)model
+{
+    _model=model;
+    _titlelabel.text=model.bgname;
+    _dexlable.text=model.bgbingMing;
+    _sexlabel.text=model.bgsex;
+    _timelable.text=[ToolClass ConvertStrToTime:[model.bgtime longLongValue]];
+    
+    
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

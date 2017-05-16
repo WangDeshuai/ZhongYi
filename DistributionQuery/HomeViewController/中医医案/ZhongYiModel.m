@@ -13,9 +13,12 @@
 -(id)initWithZhongYiDic:(NSDictionary*)dic{
     self=[super init];
     if (self) {
-        _titlename=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"patientCondition"]]];
+        
+        NSDictionary * categoryDic =[dic objectForKey:@"category"];
+      
+        _titlename=[ToolClass isString:[NSString stringWithFormat:@"%@",[categoryDic objectForKey:@"name"]]];
         _contentName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]]];
-
+        
         _zhongYiID=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]];
         _timeStr=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"createTime"]]];
 

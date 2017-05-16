@@ -82,7 +82,7 @@
     _model=model;
     _titleLable.text=model.titlename;
     _contentlabel.text=model.contentName;
-    _timelabel.text=model.timeStr;
+    _timelabel.text=[ToolClass ConvertStrToTime:[model.timeStr longLongValue]];
     
 }
 - (void)awakeFromNib {

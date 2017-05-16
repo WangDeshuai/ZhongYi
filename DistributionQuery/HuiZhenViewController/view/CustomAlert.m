@@ -11,9 +11,12 @@
 @interface CustomAlert ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong) UILabel * titlable;
+@property(nonatomic,copy) NSString * biaoShiStr;//标识符，用来判断病理 脉象的
 @property(nonatomic,strong)UILabel * jiLuLabel;//记录label
+@property(nonatomic,strong)ScanCodeModel * md;//记录点击某一行的
 @property(nonatomic,assign)NSInteger tagg;
-@property(nonatomic,strong)NSArray * dataArray;
+@property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,copy)NSString * namelabel;//记录点击某一个的
 @end
 
 
@@ -23,7 +26,12 @@
     self=[super init];
     if (self) {
         _tagg=1000;
+        _biaoShiStr=title;
         _dataArray=dataArray;
+        
+        
+        
+        _namelabel=@"";
         //设置中心点
         self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
         self.backgroundColor=[UIColor whiteColor];
@@ -128,7 +136,19 @@
     .rightSpaceToView(cell,15)
     .centerYEqualToView(cell)
     .bottomSpaceToView(cell,15);
-    nameLable.text=_dataArray[indexPath.row];
+    
+    if ([_biaoShiStr isEqualToString:@"病理"] ) {
+        ScanCodeModel * md =_dataArray[indexPath.row];
+        nameLable.text=md.bingLiName;
+        
+      }else if ([_biaoShiStr isEqualToString:@"脉象"]){
+          ScanCodeModel * md =_dataArray[indexPath.row];
+          nameLable.text=md.maiXiangName;
+      }else{
+           nameLable.text=_dataArray[indexPath.row];
+      }
+    
+   
      cell.accessoryType=UITableViewCellAccessoryNone;
     if (_tagg==indexPath.row) {
         nameLable.textColor=JXColor(237, 93, 43, 1);
@@ -149,6 +169,16 @@
     _jiLuLabel.textColor=[UIColor blackColor];
     _tagg=indexPath.row;
     [_tableView reloadData];
+    
+    if ([_biaoShiStr isEqualToString:@"病理"] ){
+       _md =_dataArray[indexPath.row];
+    }else if ([_biaoShiStr isEqualToString:@"脉象"]){
+        _md =_dataArray[indexPath.row];
+    }else{
+        _namelabel=_dataArray[indexPath.row];
+    }
+    
+    
 }
 
 
@@ -162,7 +192,17 @@
 
 //完成点击事件
 -(void)achiveBtnClink:(UIButton*)btn{
-    self.clickBlock(btn);
+    if ([_biaoShiStr isEqualToString:@"病理"] ){
+        self.clickBlock(_md,@"");
+    }else if ([_biaoShiStr isEqualToString:@"脉象"]){
+        self.clickBlock(_md,@"");
+    }else{
+        self.clickBlock(_md,_namelabel);
+    }
+    
+    
+    //self.clickBlock(btn,_namelabel);
+    //NSLog(@"输出%@",_namelabel);
 }
 
 - (void)show{

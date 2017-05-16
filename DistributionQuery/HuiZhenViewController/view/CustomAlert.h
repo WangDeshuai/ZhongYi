@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ScanCodeModel.h"
 @interface CustomAlert : UIView
-@property (nonatomic,copy)void(^clickBlock)(UIButton*);
+@property (nonatomic,copy)void(^clickBlock)(ScanCodeModel*md,NSString* name);
 @property(nonatomic,strong)NSMutableArray * array;
 -(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 contentArray:(NSArray*)dataArray;
 

@@ -13,9 +13,13 @@
 #import "YaoFangVC.h"//药方
 #import "ZhongYiYiAnVC.h"//中医医案
 #import "BingMingVC.h"//病名
+#import "ZhongYiModel.h"
+#import "YiAnXiangQingVC.h"
 @interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
-
+@property(nonatomic,assign)int AAA;
+@property (nonatomic,strong) MJRefreshComponent *myRefreshView;
+@property(nonatomic,strong)NSMutableArray * dataArray;
 @end
 
 @implementation HomeVC
@@ -32,10 +36,43 @@
     // Do any additional setup after loading the view.
     self.backHomeBtn.hidden=YES;
     self.title=@"";
+    _dataArray=[NSMutableArray new];
     self.automaticallyAdjustsScrollViewInsets=NO;
     [self CreatTabelView];
     
 }
+
+
+#pragma mark --创建数据源
+-(void)CreatDataPage:(int)page{
+    [Engine FirstJiaZaiYiAnMessagePage:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr=[dic objectForKey:@"data"];
+            NSMutableArray * array2 =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                ZhongYiModel * md =[[ZhongYiModel alloc]initWithZhongYiDic:dicc];
+                [array2 addObject:md];
+            }
+            
+            if (self.myRefreshView ==_tableView.header) {
+                _dataArray=array2;
+                _tableView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _tableView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_tableView reloadData];
+            [_myRefreshView  endRefreshing];
+            
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+         [_myRefreshView  endRefreshing];
+    }];
+}
+
+
 
 #pragma mark --创建表头
 -(UIView*)CcreatTabeViewHead{
@@ -239,18 +276,44 @@
     _tableView.rowHeight=100;
     [self.view sd_addSubviews:@[_tableView]];
     
+    __weak typeof (self) weakSelf =self;
+    _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.tableView.header;
+        _AAA=1;
+        [self CreatDataPage:_AAA];
+    }];
+    
+    [_tableView.header beginRefreshing];
+    //..上拉刷新
+    _tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.tableView.footer;
+        _AAA=_AAA+1;
+        [self CreatDataPage:_AAA];;
+    }];
+    
+    _tableView.footer.hidden = YES;
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 30;
+    return _dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HomeTableViewCell * cell =[HomeTableViewCell cellWithTableView:tableView IndexPath:indexPath];
+    cell.model=_dataArray[indexPath.row];
     return cell;
 }
 
-
+#pragma mark --表的点击
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ZhongYiModel * md =_dataArray[indexPath.row];
+    YiAnXiangQingVC * vc =[YiAnXiangQingVC new];
+    vc.hidesBottomBarWhenPushed=YES;
+    vc.messageID=md.zhongYiID;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
    

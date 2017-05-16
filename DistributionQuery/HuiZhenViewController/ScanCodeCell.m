@@ -62,6 +62,18 @@
     .bottomSpaceToView(self.contentView,5)
     .rightSpaceToView(self.contentView,15);
     
+    
+    //插入一行
+    _insertBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+//    _insertBtn.backgroundColor=[UIColor redColor];
+    _insertBtn.hidden=YES;
+    [self.contentView sd_addSubviews:@[_insertBtn]];
+    _insertBtn.sd_layout
+    .rightSpaceToView(self.contentView,15)
+    .centerYEqualToView(self.contentView)
+    .widthIs(20)
+    .heightIs(20);
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

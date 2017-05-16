@@ -92,12 +92,45 @@
 
     
     myPlayer= [[XjAVPlayerSDK alloc] initWithFrame:CGRectMake(0, titlabel.frame.origin.y+titlabel.frame.size.height+20, self.view.frame.size.width, self.view.frame.size.width/2)];
-    myPlayer.xjPlayerUrl = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
-    myPlayer.xjPlayerTitle = @"XJAVPlayer改良版";
+   
     myPlayer.xjAutoOrient = YES;
     myPlayer.XjAVPlayerSDKDelegate = self;
     myPlayer.xjLastTime = 0;
     [self.view addSubview:myPlayer];
+    
+    
+    
+    UILabel * contentlabel =[UILabel new];
+    contentlabel.font=[UIFont systemFontOfSize:16];
+    contentlabel.alpha=.7;
+    [self.view sd_addSubviews:@[contentlabel]];
+    contentlabel.sd_layout
+    .leftSpaceToView(self.view,15)
+    .rightSpaceToView(self.view,15)
+    .topSpaceToView(self.view,myPlayer.frame.origin.y+myPlayer.frame.size.height+20)
+    .autoHeightRatio(0);
+    
+    
+    
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine jiangZuoXiangQingMeessageID:_messageid success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            titlabel.text=[ToolClass isString:[dataDic objectForKey:@"title"]];
+            myPlayer.xjPlayerUrl = [ToolClass isString:[dataDic objectForKey:@"videoPath"]];//@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+            myPlayer.xjPlayerTitle = [ToolClass isString:[dataDic objectForKey:@"title"]];
+            contentlabel.text=[ToolClass isString:[dataDic objectForKey:@"content"]];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+    
+    
 
 }
 

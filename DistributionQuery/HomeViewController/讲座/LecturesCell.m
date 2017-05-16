@@ -60,5 +60,13 @@
     }
     return self;
 }
-
+-(void)setModel:(LecturesModel *)model
+{
+    _model=model;
+    
+    //_imageview.image=[UIImage imageNamed:@"jz_pic"];
+    [_imageview setImageWithURL:[NSURL URLWithString:model.imageurl] placeholderImage:[UIImage imageNamed:@"jz_pic"]];
+    _titleLable.text=model.title;
+    _timeLabel.text=[ToolClass ConvertStrToTime:[model.time longLongValue]];
+}
 @end

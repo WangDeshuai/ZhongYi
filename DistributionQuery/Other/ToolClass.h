@@ -80,4 +80,5 @@
 +(NSString *)ConvertStrToTime:(long  long)timeStr;
 #pragma mark --搜索框
 +(UIButton*)imageViewNameStr:(NSString*)imageName;
++(NSString*)quChuLaiStr:(NSString*)str;
 @end
