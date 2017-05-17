@@ -8,9 +8,11 @@
 
 #import "BingMingXiangQingCell.h"
 
-@interface BingMingXiangQingCell ()
+@interface BingMingXiangQingCell ()<UITableViewDelegate,UITableViewDataSource>
+
 @property(nonatomic,strong)UILabel * contentLabel;
 @property(nonatomic,strong)UIImageView * image1;
+@property(nonatomic,strong)NSArray * nameArr;
 @end
 
 
@@ -38,6 +40,7 @@
     return self;
 }
 -(void)CreatStar{
+    _nameArr=@[@"【君药】",@"【臣药】",@"【佐药】",@"【使药】"];
     _titleLabel=[UILabel new];
     _contentLabel=[UILabel new];
     _image1=[UIImageView new];
@@ -68,6 +71,7 @@
     .rightSpaceToView(self.contentView,15)
     .autoHeightRatio(0);
     
+    [self CreatTabelView];
     [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:15];
     
     
@@ -83,6 +87,63 @@
     _contentLabel.isAttributedContent = YES;
     
 }
+
+
+#pragma mark --创建表格
+-(void)CreatTabelView{
+    if (!_tableView) {
+       // _tableView=[[UITableView alloc]initWithFrame:CGRectMake(15, 30, ScreenWidth-30, 100) style:UITableViewStylePlain];
+        _tableView=[UITableView new];
+    }
+    _tableView.tableFooterView=[UIView new];
+    _tableView.backgroundColor=BG_COLOR;
+    _tableView.delegate=self;
+    _tableView.dataSource=self;
+    _tableView.hidden=YES;
+    _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
+    
+    [self.contentView sd_addSubviews:@[_tableView]];
+    _tableView.sd_layout
+    .leftSpaceToView(self.contentView,0)
+    .rightSpaceToView(self.contentView,0)
+    .topSpaceToView(self.contentView,30)
+    .bottomSpaceToView(self.contentView,0);
+    
+    
+}
+
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _nameArr.count;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (!cell) {
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        UILabel * leftlab =[UILabel new];
+        leftlab.tag=1;
+        [cell sd_addSubviews:@[leftlab]];
+    }
+    NSLog(@"youma%lu",_junArr.count);
+    UILabel * leftlab =[cell viewWithTag:1];
+    leftlab.sd_layout
+    .leftSpaceToView(cell,15)
+    .widthIs(70)
+    .centerYEqualToView(cell)
+    .heightIs(20);
+    [leftlab setSingleLineAutoResizeWithMaxWidth:100];
+    leftlab.textAlignment=1;
+    leftlab.font=[UIFont systemFontOfSize:13];
+    leftlab.alpha=.6;
+    leftlab.text=_nameArr[indexPath.row];
+    return cell;
+}
+
+
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

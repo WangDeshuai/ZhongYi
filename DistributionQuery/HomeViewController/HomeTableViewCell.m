@@ -48,7 +48,7 @@
     _titleLable.textColor=MAIN_COLOR;
     _contentlabel.font=[UIFont systemFontOfSize:15];
     _contentlabel.alpha=.6;
-    _contentlabel.numberOfLines=0;
+    _contentlabel.numberOfLines=2;
     _timelabel.font=[UIFont systemFontOfSize:14];
     _timelabel.textAlignment=2;
     _timelabel.alpha=.5;
@@ -73,8 +73,8 @@
     _contentlabel.sd_layout
     .leftEqualToView(_titleLable)
     .rightSpaceToView(self.contentView,15)
-    .topSpaceToView(_titleLable,10)
-    .heightIs(20);
+    .topSpaceToView(_titleLable,5)
+    .heightIs(40);
     
 }
 -(void)setModel:(ZhongYiModel *)model

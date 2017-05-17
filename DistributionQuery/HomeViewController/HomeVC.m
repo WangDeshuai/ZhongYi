@@ -137,7 +137,7 @@
     .topSpaceToView(cycleScrollView2,0)
     .bottomSpaceToView(headView,5);
     NSArray * imageNameArr =@[@"home_bt1",@"home_bt2",@"home_bt3",@"home_bt4",@"home_bt5",@"home_bt6"];
-    NSArray * nameLabelArr =@[@"药",@"药方",@"三辩会诊",@"病名",@"中医医案",@"讲座"];
+    NSArray * nameLabelArr =@[@"药",@"药方",@"三辩会诊",@"病",@"中医医案",@"讲座"];
     int k =70;
     int g =70;
     int j =(ScreenWidth-80-k*3)/2;
@@ -273,7 +273,7 @@
     _tableView.dataSource=self;
     _tableView.tableFooterView=[UIView new];
     _tableView.tableHeaderView=[self CcreatTabeViewHead];
-    _tableView.rowHeight=100;
+    _tableView.rowHeight=80;
     [self.view sd_addSubviews:@[_tableView]];
     
     __weak typeof (self) weakSelf =self;

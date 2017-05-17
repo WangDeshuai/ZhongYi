@@ -56,10 +56,10 @@
     imageview.image=[UIImage imageNamed:@"home_index"];//640 316
     [headview sd_addSubviews:@[imageview]];
     imageview.sd_layout
-    .leftSpaceToView(headview,10)
-    .rightSpaceToView(headview,10)
+    .leftSpaceToView(headview,0)
+    .rightSpaceToView(headview,0)
     .topSpaceToView(nameLable,15)
-    .heightIs(316*(ScreenWidth-20)/640);
+    .heightIs(370/2);
     
     
     
@@ -113,17 +113,17 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YiAnXiangQingCell * cell =[YiAnXiangQingCell cellWithTableView:tableView IndexPath:indexPath];
-    cell.text=_dataArray[indexPath.row];
+    cell.text=[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
     cell.leftLabel.text=_leftArray[indexPath.row];
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    CGFloat gg =[tableView cellHeightForIndexPath:indexPath model:_dataArray[indexPath.row] keyPath:@"text" cellClass:[YiAnXiangQingCell class] contentViewWidth:[ToolClass cellContentViewWith]];
+    NSString * str =[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
+    CGFloat gg =[tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[YiAnXiangQingCell class] contentViewWidth:[ToolClass cellContentViewWith]];
     
     if (indexPath.row==2) {
-        return gg+55;
+        return gg;
     }
     
     return gg;

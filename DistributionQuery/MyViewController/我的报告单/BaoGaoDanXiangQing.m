@@ -9,12 +9,13 @@
 #import "BaoGaoDanXiangQing.h"
 #import "BaoGaiDanModel.h"
 #import "HuiZhenKaiFangVC.h"
-@interface BaoGaoDanXiangQing ()<UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate>
+#import "MedicineXiangQingVC.h"
+@interface BaoGaoDanXiangQing ()
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UILabel * contentlabel;
 @property(nonatomic,assign)int fount;
 @property(nonatomic,strong)UIScrollView * myScrollView;
-@property(nonatomic,strong)UIWebView * webview;
+@property(nonatomic,strong)NSMutableArray * classIDArray;
 @end
 
 @implementation BaoGaoDanXiangQing
@@ -25,54 +26,25 @@
     self.title=@"报告单详情";
     _fount=12;
    
-    [self CreatTabelView];
-    
-//    _myScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
-//    _myScrollView.userInteractionEnabled=YES;
-//    _myScrollView.backgroundColor=[UIColor whiteColor];
-//    [self.view addSubview:_myScrollView];
-//    
-//    
-//    
-//    UIWebView * webview =[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
-//    _webview=webview;
-//    webview.backgroundColor=[UIColor redColor];
-//    webview.delegate=self;
-//    [webview setOpaque:NO];
-//     [_myScrollView addSubview:webview];
-//    
-    
-     //[self CreatContent];
-    
-    
-//    [Engine baoGaiDanXiangQingMessageID:_messageID success:^(NSDictionary *dic) {
-//        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-//        if ([code isEqualToString:@"200"]) {
-//            [LCProgressHUD hide];
-//          
-//            NSDictionary * dicc =[dic objectForKey:@"data"];
-//            BaoGaiDanModel * md =[[BaoGaiDanModel alloc]initWithBaoGaoDanXiangQingDic:dicc];
-//            //会诊开方
-//            [webview loadHTMLString:[NSString stringWithFormat:@"会诊开方：%@",md.xqhuikaifang] baseURL:nil];
-//        }
-//        else{
-//            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
-//        }
-//    } error:^(NSError *error) {
-//        
-//    }];
+    _classIDArray=[NSMutableArray new];
+    _myScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
+    _myScrollView.userInteractionEnabled=YES;
+    _myScrollView.contentSize=CGSizeMake(0, 1000);
+    _myScrollView.backgroundColor=[UIColor redColor];
+    [self.view addSubview:_myScrollView];
+    [self CreatContent];
     
 }
 
 
--(UIView*)CreatContent{
-    UIView * bgView=[UIView new];
+-(void)CreatContent{
+    UIView * bgView=_myScrollView;//[UIView new];
     bgView.backgroundColor=[UIColor whiteColor];
-    bgView.sd_layout
-    .leftSpaceToView(_tableView,0)
-    .rightSpaceToView(_tableView,0)
-    .topSpaceToView(_tableView,0)
-    .heightIs(ScreenHeight+100);
+//    bgView.sd_layout
+//    .leftSpaceToView(self.view,0)
+//    .rightSpaceToView(self.view,0)
+//    .topSpaceToView(self.view,0)
+//    .heightIs(ScreenHeight+500);
     //标题
     UILabel * titlelabel =[UILabel new];
     titlelabel.text=@"张士舜三辩肿瘤治疗会诊中心报告单";
@@ -158,22 +130,7 @@
     .rightEqualToView(zhuSulab)
     .topSpaceToView(zhuSulab,10)
     .autoHeightRatio(0);
-    //会诊开方
-    UILabel * huiZhenKai =[UILabel new];
-    huiZhenKai.font=[UIFont systemFontOfSize:_fount];
-    huiZhenKai.text=@"会诊开方:";
-    huiZhenKai.alpha=.8;
-    [bgView sd_addSubviews:@[huiZhenKai]];
-    huiZhenKai.sd_layout
-    .leftEqualToView(zhuSulab)
-    .rightEqualToView(zhuSulab)
-    .topSpaceToView(huizhenLab,10)
-    .autoHeightRatio(0);
-  
-   
-  
-    
-    
+ 
     //功效
     UILabel * gongXiao =[UILabel new];
     gongXiao.font=[UIFont systemFontOfSize:_fount];
@@ -183,8 +140,27 @@
     gongXiao.sd_layout
     .leftEqualToView(zhuSulab)
     .rightEqualToView(zhuSulab)
-    .topSpaceToView(huiZhenKai,10)
+    .topSpaceToView(huizhenLab,10)
     .autoHeightRatio(0);
+
+
+    
+    //会诊开方
+    UILabel * huiZhenKai =[UILabel new];
+    huiZhenKai.font=[UIFont systemFontOfSize:_fount];
+    huiZhenKai.text=@"会诊开方:";
+    huiZhenKai.alpha=.8;
+    [bgView sd_addSubviews:@[huiZhenKai]];
+    huiZhenKai.sd_layout
+    .leftEqualToView(zhuSulab)
+    .rightEqualToView(zhuSulab)
+    .topSpaceToView(gongXiao,10)
+    .autoHeightRatio(0);
+  
+   
+  
+    
+    
     
     
     //医师签字
@@ -195,7 +171,7 @@
     [bgView sd_addSubviews:@[qianZi]];
     qianZi.sd_layout
     .rightSpaceToView(bgView,100)
-    .topSpaceToView(gongXiao,50)
+    .topSpaceToView(huiZhenKai,50)
     .heightIs(15);
     [qianZi setSingleLineAutoResizeWithMaxWidth:120];
     
@@ -230,6 +206,9 @@
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
             NSDictionary * dicc =[dic objectForKey:@"data"];
+            //@"张士舜三辩肿瘤治疗会诊中心报告单"
+            titlelabel.text=[ToolClass isString:[NSString stringWithFormat:@"张士舜三辩%@治疗会诊中心报告单",[dicc objectForKey:@"type"]]];
+            
             BaoGaiDanModel * md =[[BaoGaiDanModel alloc]initWithBaoGaoDanXiangQingDic:dicc];
             [array2 addObject:md.xqname];
             [array2 addObject:md.xqsex];
@@ -253,6 +232,61 @@
                 
             }
             
+            NSArray * listArr =[dicc objectForKey:@"list"];
+            int k =150;
+            int g =20;
+            int kj=10;
+            int gj=5;
+            [_classIDArray removeAllObjects];
+            for (int i =0; i<listArr.count; i++) {
+                NSDictionary * yaoDic =listArr[i];
+                
+                
+                [_classIDArray addObject:[ToolClass isString:[NSString stringWithFormat:@"%@",[yaoDic objectForKey:@"id"]]]];
+                UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
+                [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
+                btn.tag=i;
+                btn.backgroundColor=[UIColor whiteColor];
+                [bgView sd_addSubviews:@[btn]];
+                btn.sd_layout
+                .leftSpaceToView(bgView,20+(k+kj)*(i%2))
+                .widthIs(k)
+                .topSpaceToView(huiZhenKai,10+(g+gj)*(i/2))
+                .heightIs(g);
+                //[btn setSingleLineAutoResizeWithMaxWidth:200];
+                qianZi.sd_layout
+                .topSpaceToView(btn,50);
+                UILabel * yaoName =[UILabel new];
+                yaoName.text=[yaoDic objectForKey:@"drug_name"];
+                yaoName.font=[UIFont systemFontOfSize:13];
+                yaoName.textColor=JXColor(0, 132, 255, 1);
+//                yaoName.backgroundColor=[UIColor yellowColor];
+                yaoName.textAlignment=0;
+                [btn sd_addSubviews:@[yaoName]];
+                yaoName.sd_layout
+                .leftSpaceToView(btn,0)
+                .topSpaceToView(btn,0)
+                .bottomSpaceToView(btn,0)
+                .widthIs(50);
+                [yaoName setSingleLineAutoResizeWithMaxWidth:100];
+            
+                UILabel * zhongLab =[UILabel new];
+                zhongLab.font=[UIFont systemFontOfSize:13];
+                zhongLab.text=[yaoDic objectForKey:@"value"];
+                zhongLab.textAlignment=0;
+//                zhongLab.backgroundColor=[UIColor magentaColor];
+                [btn sd_addSubviews:@[zhongLab]];
+                zhongLab.sd_layout
+                .leftSpaceToView(yaoName,-5)
+                .topSpaceToView(btn,0)
+                
+                .bottomSpaceToView(btn,0);
+                [zhongLab setSingleLineAutoResizeWithMaxWidth:120];
+//
+                [btn setupAutoWidthWithRightView:zhongLab rightMargin:5];
+            }
+            
+            
             
             
             
@@ -273,68 +307,20 @@
         
     }];
     
-    huiZhenKai.userInteractionEnabled=YES;
-    UITapGestureRecognizer * tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapp)];
-    [huiZhenKai addGestureRecognizer:tap];
+    dibu.didFinishAutoLayoutBlock=^(CGRect rect){
+        _myScrollView.contentSize=CGSizeMake(ScreenWidth, rect.size.height+rect.origin.y+20);
+    };
     
     
-    
-    
-    return bgView;
+  
 }
-
-
--(void)tapp{
-    NSLog(@"点击了");
-    HuiZhenKaiFangVC * vc =[HuiZhenKaiFangVC new];
-    vc.messageID=_messageID;
+-(void)btnClink:(UIButton*)btn{
+    
+    MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+    vc.yaoID=_classIDArray[btn.tag];
     [self.navigationController pushViewController:vc animated:YES];
-}
--(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    
-    for (int i =0; i<20; i++) {
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].style.width = '100%%'", i];
-        [webView stringByEvaluatingJavaScriptFromString:meta];
-    }
-    CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] floatValue];
-    
-    webView.frame = CGRectMake(0, 0, ScreenWidth, height);
-    UIScrollView *tempView = (UIScrollView *)[webView.subviews objectAtIndex:0];
-    tempView.scrollEnabled = NO;
-    //改变滚动试图的滑动
-    self.myScrollView.contentSize = CGSizeMake(ScreenWidth, height+20);
-}
-
-
-#pragma mark --创建表格
--(void)CreatTabelView{
-    if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64) style:UITableViewStylePlain];
-    }
-    _tableView.tableFooterView=[UIView new];
-    _tableView.backgroundColor=BG_COLOR;
-    _tableView.delegate=self;
-    _tableView.dataSource=self;
-    _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    _tableView.tableHeaderView=[self CreatContent];
-    [self.view sd_addSubviews:@[_tableView]];
     
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 0;
-}
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    return cell;
-}
-
-
 
 
 - (void)didReceiveMemoryWarning {

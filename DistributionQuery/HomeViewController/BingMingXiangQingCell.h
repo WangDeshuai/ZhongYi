@@ -12,4 +12,6 @@
 +(instancetype)cellWithTableView:(UITableView*)tableView IndexPath:(NSIndexPath *)indexPath;
 @property(nonatomic,strong)UILabel * titleLabel;
 @property(nonatomic,copy)NSString * text;
+@property(nonatomic,strong)UITableView * tableView;
+@property(nonatomic,strong)NSMutableArray * junArr;
 @end

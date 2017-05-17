@@ -164,23 +164,22 @@
      NSLog(@"手术>>>%@>>>id=%@",_shouShu,[ToolClass quChuLaiStr:_shouShu]);
     //主要问题描述
     NSLog(@"问题描述>>>%@",_wenTiMiaoShu);
-     [self dissMissContent];
-//    [LCProgressHUD showLoading:@"请稍后..."];
-//    [Engine saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[array componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:[self ShaiXuanYouWuFnagHuQiShuStr:_youWuFangLiao] HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:[self ShaiXuanYouWuFnagHuQiShuStr:_youWuHuaLiao] ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
-//        
-//        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-//        [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
-//        if ([code isEqualToString:@"200"]) {
-//            //清空信息
-//            [LCProgressHUD hide];
-//            [self dissMissContent];
-//        }else{
-//        }
-//        
-//        
-//    } error:^(NSError *error) {
-//        
-//    }];
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[array componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:[self ShaiXuanYouWuFnagHuQiShuStr:_youWuFangLiao] HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:[self ShaiXuanYouWuFnagHuQiShuStr:_youWuHuaLiao] ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+        
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        if ([code isEqualToString:@"200"]) {
+            //清空信息
+            [LCProgressHUD hide];
+            [self dissMissContent];
+        }else{
+        }
+        
+        
+    } error:^(NSError *error) {
+        
+    }];
 }
 
 
@@ -845,14 +844,19 @@
     _sheZhiID=nil;
     
     _maiXiang=@"";
-    _maiXiangID=nil;
+    _maiXiangID=@"";
     
     _youWuHuaLiao=@"";
-    
     _youWuFangLiao=@"";
+   
     _shouShu=@"";
+    
     _tnmStr=@"";
+    _tnmStrID=@"";
+    
     _zhuSuStr=@"";
+    _zhuSuStrID=@"";
+    
     _wenTiMiaoShu=@"";
     [_tableView reloadData];
 }

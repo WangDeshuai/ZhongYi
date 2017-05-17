@@ -13,6 +13,7 @@
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
 @property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,strong)NSMutableArray * junYao;
 @end
 
 @implementation BingMingXiangQingVC
@@ -28,6 +29,7 @@
 #pragma mark --数据源
 -(void)CreatData{
     [LCProgressHUD showLoading:@"请稍后..."];
+    NSLog(@">>>%@",_bingID);
     [Engine BingZhongXiangQingClassID:_bingID success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
@@ -39,9 +41,12 @@
             }
             [LCProgressHUD hide];
             NSDictionary * dataDic =[dic objectForKey:@"data"];
+            _junYao=[dataDic objectForKey:@"juns"];
             BingMingModel * md =[[BingMingModel alloc]initWithBingMingXiangQingDic:dataDic];
             [_dataArray addObject:md.xqBingName];
             [_dataArray addObject:md.xqzyBingName];
+            [_dataArray addObject:md.junYao];//君药
+           
             [_dataArray addObject:md.xqDingYi];
             [_dataArray addObject:md.xqBingYin];
             [_dataArray addObject:md.xqLinChuang];
@@ -49,6 +54,7 @@
             [_dataArray addObject:md.xqJianBie];
             [_dataArray addObject:md.xqChangGui];
             [_tableView reloadData];
+            
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
@@ -56,7 +62,7 @@
          [LCProgressHUD showMessage:@"查询失败"];
     }];
     
-    _titleArray=@[@"病名",@"中医病名",@"定义",@"病因病机",@"临床表现",@"诊断",@"鉴别诊断",@"常规治疗"];
+    _titleArray=@[@"病名",@"中医病名",@"君臣佐使",@"定义",@"病因病机",@"临床表现",@"诊断",@"鉴别诊断",@"常规治疗"];
 }
 
 
@@ -83,13 +89,25 @@
     BingMingXiangQingCell * cell =[BingMingXiangQingCell cellWithTableView:tableView IndexPath:indexPath];
     cell.titleLabel.text=_titleArray[indexPath.row];
     cell.text=_dataArray[indexPath.row];
+    if (indexPath.row==2) {
+        cell.tableView.hidden=NO;
+        cell.junArr=_junYao;
+    }
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * str =_dataArray[indexPath.row];
-    return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[BingMingXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]]+10;
+    
+    
+    if (indexPath.row==2) {
+        
+        return 200;
+    }else{
+      return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[BingMingXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]]+10;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

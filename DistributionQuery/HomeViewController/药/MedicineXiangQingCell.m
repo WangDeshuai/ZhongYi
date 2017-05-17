@@ -54,7 +54,7 @@
     .autoHeightRatio(0);
     
     _namelabel.sd_layout
-    .leftSpaceToView(self.contentView,15)
+    .leftSpaceToView(self.contentView,7)
     .topSpaceToView(self.contentView,15)
     .heightIs(20);
     [_namelabel setSingleLineAutoResizeWithMaxWidth:200];

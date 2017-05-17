@@ -17,6 +17,16 @@
         _xqBingName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"diseaseName"]]];
         //中医病名
         _xqzyBingName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"diseaseName"]]];
+       
+        //君
+        NSArray * jun =[dic objectForKey:@"juns"];
+        _junYao=@"sss";
+        _chenYao=@"ccc";
+        _zuoYao=@"zzz";
+        _shiYao=@"sss";
+        
+        
+        
         //定义
         _xqDingYi=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"define"]]];
         //病因病机

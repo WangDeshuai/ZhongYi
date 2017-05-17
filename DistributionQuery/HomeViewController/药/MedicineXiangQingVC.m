@@ -27,10 +27,12 @@
 }
 
 -(void)dataArrayJieXi{
+    [LCProgressHUD showMessage:@"请稍后..."];
     [Engine yaoPinXiangQingMessageYaoID:_yaoID success:^(NSDictionary *dic)
     {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
+            
             NSDictionary * dataDic =[dic objectForKey:@"data"];
             MedicineModel * model =[[MedicineModel alloc]initWithYaoXiangQingDic:dataDic];
             [_dataArray addObject:model.xqYaoName];
@@ -46,7 +48,11 @@
             [_dataArray addObject:model.xqYongFa];
             [_dataArray addObject:model.xqPeiWuXiaoYong];
             [_dataArray addObject:model.xqxianDaiYaoLi];
+             self.title=model.xqYaoName;
+            [LCProgressHUD hide];
             [_tableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
     } error:^(NSError *error) {
         
@@ -103,16 +109,18 @@
     MedicineXiangQingCell * cell =[MedicineXiangQingCell cellWithTableView:tableView IndexPath:indexPath];
     cell.namelabel.text=_titleArr[indexPath.row];
     
-    cell.text=[NSString stringWithFormat:@"                    %@",_dataArray[indexPath.row]];
-    if (indexPath.row>=10) {
-        if (indexPath.row==12) {
-            cell.text=[NSString stringWithFormat:@"                               %@",_dataArray[indexPath.row]];
-        }else{
-            cell.text=[NSString stringWithFormat:@"                          %@",_dataArray[indexPath.row]];
-
-        }
-        
+   
+   
+    if (indexPath.row<9) {
+        cell.text=[NSString stringWithFormat:@"               %@",_dataArray[indexPath.row]];
+    }else if (indexPath.row<10){
+         cell.text=[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
+    }else if (indexPath.row<12){
+        cell.text=[NSString stringWithFormat:@"                      %@",_dataArray[indexPath.row]];
+    }else{
+        cell.text=[NSString stringWithFormat:@"                             %@",_dataArray[indexPath.row]];
     }
+    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,18 +130,16 @@
     //如果排列不整齐，就换成高度自适应
     NSString * str;
     
-    if (indexPath.row>=10) {
-        if (indexPath.row==12) {
-            str=[NSString stringWithFormat:@"                               %@",_dataArray[indexPath.row]];
-        }else{
-            str=[NSString stringWithFormat:@"                          %@",_dataArray[indexPath.row]]; 
-        }
-       
+    if (indexPath.row<9) {
+        str=[NSString stringWithFormat:@"               %@",_dataArray[indexPath.row]];
+    }else if (indexPath.row<10){
+        str=[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
+    }else if (indexPath.row<12){
+        str=[NSString stringWithFormat:@"                      %@",_dataArray[indexPath.row]];
     }else{
-        str=[NSString stringWithFormat:@"                    %@",_dataArray[indexPath.row]];
+        str=[NSString stringWithFormat:@"                             %@",_dataArray[indexPath.row]];
     }
     
-   // NSString * str =_dataArray[indexPath.row];
     return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[MedicineXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]];
 }
 

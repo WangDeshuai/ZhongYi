@@ -55,7 +55,7 @@
     _contentLabel.sd_layout
     .rightSpaceToView(self.contentView,15)
     .topSpaceToView(self.contentView,15)
-    .leftSpaceToView(_leftLabel,10)
+    .leftSpaceToView(self.contentView,15)
     .autoHeightRatio(0);
     
     [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:15];
@@ -64,7 +64,13 @@
 -(void)setText:(NSString *)text
 {
     _text=text;
-    _contentLabel.text=text;
+//    _contentLabel.text=text;
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:5];
+    UIColor *color = [UIColor blackColor];
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSParagraphStyleAttributeName: paragraphStyle}];
+    _contentLabel.attributedText = string;
+    _contentLabel.isAttributedContent = YES;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

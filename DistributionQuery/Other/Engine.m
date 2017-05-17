@@ -148,12 +148,12 @@
 #pragma mark --7根据病种分类加载病的详情信息（病详情）
 +(void)BingZhongXiangQingClassID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
-    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/view",SERVICE];
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/view?categoryId=%@",SERVICE,idd];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-    NSMutableDictionary * dic =[NSMutableDictionary new];
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
+//    NSMutableDictionary * dic =[NSMutableDictionary new];
+//    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
    
-    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"7根据病种分类加载病的详情信息（病详情）%@",str);
