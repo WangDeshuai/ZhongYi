@@ -54,23 +54,33 @@ typedef void (^ErrorBlock)(NSError*error);
 +(void)jiaZaiAllSheMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 #pragma mark --17.加载所有的舌质信息
 +(void)jiaZaiAllSheZhiMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-#pragma mark --18.加载所有的脉象信息
+//18接口安卓
+#pragma mark --19.加载所有的脉象信息
 +(void)jiaZaiAllMaiXiangMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-#pragma mark --19.加载所有的病理信息
+#pragma mark --20.加载所有的病理信息
 +(void)jiaZaiBingLiMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-#pragma mark --20.加载所有的病种分类信息
+#pragma mark --21.加载所有的病种分类信息
 +(void)jiaZaiBingMingAllMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
-#pragma mark --21.加载所有的主诉信息
+#pragma mark --22.加载所有的主诉信息
 +(void)jiaZaiZhuSuMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-#pragma mark --23.分页加载所有我的报告单信息
+#pragma mark --24.分页加载所有我的报告单信息
 +(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-#pragma mark --24.加载我的报告单详情信息
+#pragma mark --25.加载我的报告单详情信息
 +(void)baoGaiDanXiangQingMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
-#pragma mark --26.新增我的报告单信息
+#pragma mark --27.新增我的报告单信息
 +(void)saveBaoGaoDanID:(NSString*)idd Type:(NSString*)leiXing XingMing:(NSString*)name Sex:(NSString*)sex Age:(NSString*)age BingMingID:(NSString*)bingMing ZhuSuID:(NSString*)zhusu BingLiID:(NSString*)bingli MaiXiangID:(NSString*)maixiang SheZhiID:(NSString*)shezhi SheTaiID:(NSString*)shetai YouWuFangYN:(NSString*)yn FangZhouQi:(NSString*)zhouqi HuaYN:(NSString*)ynn HuaZhouQi:(NSString*)zhouq ShouShuID:(NSString*)shoushu TNMfen:(NSString*)tnm Pro:(NSString*)pro success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
+#pragma mark --29.保存我的意见反馈信息(带有图片)
+//+(void)messageFanKuiVipID:(NSString*)vipID Content:(NSString*)content ImageArr:(NSString*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
+#pragma mark --30.分页加载我的收藏信息
++(void)shouCangPage:(NSString*)page VIP:(NSString*)vipid success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+//31接口不用
+#pragma mark --32加载我的推广信息
++(void)jiaZaiTuiGuangMessageVIPID:(NSString*)vipID success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 
 @end

@@ -59,6 +59,8 @@
 		8FB6DD8F1EBF19CF006E40ED /* ScanCodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FB6DD8E1EBF19CF006E40ED /* ScanCodeModel.m */; };
 		8FBA9F3B1EB1A13D00115E52 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F3A1EB1A13D00115E52 /* CustomAlert.m */; };
 		8FBA9F3E1EB1A18B00115E52 /* CustomAlertTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBA9F3D1EB1A18B00115E52 /* CustomAlertTwo.m */; };
+		8FBBB4AC1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBB4AB1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.m */; };
+		8FBBB4AF1ECD8E6800E6E94F /* MyShouCangModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBB4AE1ECD8E6800E6E94F /* MyShouCangModel.m */; };
 		8FC5B1B91EB96DE500EEDB3D /* YaoFangContentXQCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5B1B81EB96DE500EEDB3D /* YaoFangContentXQCell.m */; };
 		8FC5B1BD1EB9B6A200EEDB3D /* BingMingXiangQingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5B1BC1EB9B6A200EEDB3D /* BingMingXiangQingVC.m */; };
 		8FC5B1C01EB9C28500EEDB3D /* BingMingXiangQingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC5B1BF1EB9C28500EEDB3D /* BingMingXiangQingCell.m */; };
@@ -281,6 +283,10 @@
 		8FBA9F3A1EB1A13D00115E52 /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
 		8FBA9F3C1EB1A18B00115E52 /* CustomAlertTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertTwo.h; sourceTree = "<group>"; };
 		8FBA9F3D1EB1A18B00115E52 /* CustomAlertTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlertTwo.m; sourceTree = "<group>"; };
+		8FBBB4AA1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+YBAttributeTextTapAction.h"; sourceTree = "<group>"; };
+		8FBBB4AB1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+YBAttributeTextTapAction.m"; sourceTree = "<group>"; };
+		8FBBB4AD1ECD8E6800E6E94F /* MyShouCangModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShouCangModel.h; sourceTree = "<group>"; };
+		8FBBB4AE1ECD8E6800E6E94F /* MyShouCangModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShouCangModel.m; sourceTree = "<group>"; };
 		8FC5B1B71EB96DE500EEDB3D /* YaoFangContentXQCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YaoFangContentXQCell.h; sourceTree = "<group>"; };
 		8FC5B1B81EB96DE500EEDB3D /* YaoFangContentXQCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YaoFangContentXQCell.m; sourceTree = "<group>"; };
 		8FC5B1BB1EB9B6A200EEDB3D /* BingMingXiangQingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BingMingXiangQingVC.h; sourceTree = "<group>"; };
@@ -588,6 +594,7 @@
 		8F02FE691DA89AFE0051EDFC /* LIb */ = {
 			isa = PBXGroup;
 			children = (
+				8FBBB4A91ECD450500E6E94F /* YBAttributeTextTapAction */,
 				8FA855E81EADD0DD0056971A /* XJAVPlayer */,
 				8FE95AE31EA84490009F04E7 /* MJRefresh */,
 				8FE95ADA1EA84470009F04E7 /* MBProgressHUD */,
@@ -635,10 +642,12 @@
 		8F048E1B1EB5C4A4008CF5CF /* 我的收藏 */ = {
 			isa = PBXGroup;
 			children = (
-				8F048E1C1EB5C4A4008CF5CF /* MyShouCangCell.h */,
-				8F048E1D1EB5C4A4008CF5CF /* MyShouCangCell.m */,
 				8F048E1E1EB5C4A4008CF5CF /* MyShouCangVC.h */,
 				8F048E1F1EB5C4A4008CF5CF /* MyShouCangVC.m */,
+				8F048E1C1EB5C4A4008CF5CF /* MyShouCangCell.h */,
+				8F048E1D1EB5C4A4008CF5CF /* MyShouCangCell.m */,
+				8FBBB4AD1ECD8E6800E6E94F /* MyShouCangModel.h */,
+				8FBBB4AE1ECD8E6800E6E94F /* MyShouCangModel.m */,
 			);
 			path = "我的收藏";
 			sourceTree = "<group>";
@@ -866,6 +875,15 @@
 				8F80365F1EC314AE0088CF97 /* 有无放化疗 */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		8FBBB4A91ECD450500E6E94F /* YBAttributeTextTapAction */ = {
+			isa = PBXGroup;
+			children = (
+				8FBBB4AA1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.h */,
+				8FBBB4AB1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.m */,
+			);
+			path = YBAttributeTextTapAction;
 			sourceTree = "<group>";
 		};
 		8FC5B1BA1EB98F9F00EEDB3D /* 病名 */ = {
@@ -1466,6 +1484,7 @@
 				8F8036621EC314FA0088CF97 /* CustomAlertFour.m in Sources */,
 				8FF7D2381EB8361600914ABC /* MedicineXiangQingCell.m in Sources */,
 				8FCD4F841DA8B4D300CB113C /* AFURLConnectionOperation.m in Sources */,
+				8FBBB4AC1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.m in Sources */,
 				8FCD4F9F1DA8B4D300CB113C /* UIWebView+AFNetworking.m in Sources */,
 				8FF7D24B1EB839F300914ABC /* MyZhuYeVC.m in Sources */,
 				8FCD4F831DA8B4D300CB113C /* AFSecurityPolicy.m in Sources */,
@@ -1554,6 +1573,7 @@
 				8FE95B171EA84490009F04E7 /* MJRefreshAutoStateFooter.m in Sources */,
 				8FE95B131EA84490009F04E7 /* MJRefreshFooter.m in Sources */,
 				8FCD4F9B1DA8B4D300CB113C /* UIButton+AFNetworking.m in Sources */,
+				8FBBB4AF1ECD8E6800E6E94F /* MyShouCangModel.m in Sources */,
 				8FF7D2111EB835D500914ABC /* MoreClassVC.m in Sources */,
 				8FCD4FA31DA8B4D300CB113C /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				8F40D9C71EA8C5650073DE57 /* HomeVC.m in Sources */,

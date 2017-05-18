@@ -19,12 +19,7 @@
         _xqzyBingName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"diseaseName"]]];
        
         //君
-        NSArray * jun =[dic objectForKey:@"juns"];
-        _junYao=@"sss";
-        _chenYao=@"ccc";
-        _zuoYao=@"zzz";
-        _shiYao=@"sss";
-        
+        _junYao=@"";
         
         
         //定义

@@ -350,7 +350,7 @@
         
     }];
 }
-#pragma mark --18.加载所有的脉象信息
+#pragma mark --19.加载所有的脉象信息
 +(void)jiaZaiAllMaiXiangMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/queryPulseConditions",SERVICE];
@@ -359,17 +359,17 @@
     [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"18.加载所有的脉象信息%@",str);
+        NSLog(@"19.加载所有的脉象信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"18.加载所有的脉象信息%@",error);
-        [LCProgressHUD showMessage:@"18.网络超时"];
+        NSLog(@"19.加载所有的脉象信息%@",error);
+        [LCProgressHUD showMessage:@"19.网络超时"];
         aError(error);
         
     }];
 }
-#pragma mark --19.加载所有的病理信息
+#pragma mark --20.加载所有的病理信息
 +(void)jiaZaiBingLiMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/pathology/list",SERVICE];
@@ -378,17 +378,17 @@
     [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"19.加载所有的病理信息%@",str);
+        NSLog(@"20.加载所有的病理信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"19.加载所有的病理信息%@",error);
-        [LCProgressHUD showMessage:@"19.网络超时"];
+        NSLog(@"20.加载所有的病理信息%@",error);
+        [LCProgressHUD showMessage:@"20.网络超时"];
         aError(error);
         
     }];
 }
-#pragma mark --20.加载所有的病种分类信息
+#pragma mark --21.加载所有的病种分类信息
 +(void)jiaZaiBingMingAllMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/queryCategorys",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
@@ -397,17 +397,17 @@
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"20.加载所有的病种分类信息%@",str);
+        NSLog(@"21.加载所有的病种分类信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"20.加载所有的病种分类信息%@",error);
-        [LCProgressHUD showMessage:@"20.网络超时"];
+        NSLog(@"21.加载所有的病种分类信息%@",error);
+        [LCProgressHUD showMessage:@"21.网络超时"];
         aError(error);
         
     }];
 }
-#pragma mark --21.加载所有的主诉信息
+#pragma mark --22.加载所有的主诉信息
 +(void)jiaZaiZhuSuMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/symptom/list",SERVICE];
@@ -417,18 +417,18 @@
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"21.加载所有的主诉信息%@",str);
+        NSLog(@"22.加载所有的主诉信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"21.加载所有的主诉信息%@",error);
-        [LCProgressHUD showMessage:@"21.网络超时"];
+        NSLog(@"22.加载所有的主诉信息%@",error);
+        [LCProgressHUD showMessage:@"22.网络超时"];
         aError(error);
         
     }];
     
 }
-#pragma mark --23.分页加载所有我的报告单信息
+#pragma mark --24.分页加载所有我的报告单信息
 +(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/list",SERVICE];
@@ -441,18 +441,18 @@
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"23.分页加载所有我的报告单信息%@",str);
+        NSLog(@"24.分页加载所有我的报告单信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"23.分页加载所有我的报告单信息%@",error);
-        [LCProgressHUD showMessage:@"23.网络超时"];
+        NSLog(@"24.分页加载所有我的报告单信息%@",error);
+        [LCProgressHUD showMessage:@"24.网络超时"];
         aError(error);
         
     }];
     
 }
-#pragma mark --24.加载我的报告单详情信息
+#pragma mark --25.加载我的报告单详情信息
 +(void)baoGaiDanXiangQingMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/view",SERVICE];
@@ -464,18 +464,18 @@
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"24.加载我的报告单详情信息%@",str);
+        NSLog(@"25.加载我的报告单详情信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"24.加载我的报告单详情信息%@",error);
-        [LCProgressHUD showMessage:@"24.网络超时"];
+        NSLog(@"25.加载我的报告单详情信息%@",error);
+        [LCProgressHUD showMessage:@"25.网络超时"];
         aError(error);
         
     }];
     
 }
-#pragma mark --26.新增我的报告单信息
+#pragma mark --27.新增我的报告单信息
 +(void)saveBaoGaoDanID:(NSString*)idd Type:(NSString*)leiXing XingMing:(NSString*)name Sex:(NSString*)sex Age:(NSString*)age BingMingID:(NSString*)bingMing ZhuSuID:(NSString*)zhusu BingLiID:(NSString*)bingli MaiXiangID:(NSString*)maixiang SheZhiID:(NSString*)shezhi SheTaiID:(NSString*)shetai YouWuFangYN:(NSString*)yn FangZhouQi:(NSString*)zhouqi HuaYN:(NSString*)ynn HuaZhouQi:(NSString*)zhouq ShouShuID:(NSString*)shoushu TNMfen:(NSString*)tnm Pro:(NSString*)pro success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/save",SERVICE];
@@ -504,12 +504,59 @@
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"26.新增我的报告单信息%@",str);
+        NSLog(@"27.新增我的报告单信息%@",str);
         
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"26.新增我的报告单信息%@",error);
-        [LCProgressHUD showMessage:@"26.网络超时"];
+        NSLog(@"27.新增我的报告单信息%@",error);
+        [LCProgressHUD showMessage:@"27.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
+
+#pragma mark --30.分页加载我的收藏信息
++(void)shouCangPage:(NSString*)page VIP:(NSString*)vipid success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/collection/list",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",vipid]] forKey:@"memberId"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@"10"]] forKey:@"pageSize"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"30.分页加载我的收藏信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"30.分页加载我的收藏信息%@",error);
+        [LCProgressHUD showMessage:@"30.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
+#pragma mark --32加载我的推广信息
++(void)jiaZaiTuiGuangMessageVIPID:(NSString*)vipID success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/myExtension",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",vipID]] forKey:@"memberId"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"32加载我的推广信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"32加载我的推广信息%@",error);
+        [LCProgressHUD showMessage:@"32.网络超时"];
         aError(error);
         
     }];

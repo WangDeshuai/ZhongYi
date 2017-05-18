@@ -9,11 +9,20 @@
 #import "BingMingXiangQingVC.h"
 #import "BingMingXiangQingCell.h"
 #import "BingMingModel.h"
-@interface BingMingXiangQingVC ()<UITableViewDelegate,UITableViewDataSource>
+#import "UILabel+YBAttributeTextTapAction.h"
+#import "MedicineXiangQingVC.h"
+@interface BingMingXiangQingVC ()<UITableViewDelegate,UITableViewDataSource,YBAttributeTapActionDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
 @property(nonatomic,strong)NSMutableArray * dataArray;
-@property(nonatomic,strong)NSMutableArray * junYao;
+@property(nonatomic,strong)NSMutableArray * junYaoArray;
+@property(nonatomic,strong)NSMutableArray * chenYaoArray;
+@property(nonatomic,strong)NSMutableArray * zuoYaoArray;
+@property(nonatomic,strong)NSMutableArray * shiYaoArray;
+@property(nonatomic,strong)NSMutableArray * junYaoArrayID;
+@property(nonatomic,strong)NSMutableArray * chenYaoArrayID;
+@property(nonatomic,strong)NSMutableArray * zuoYaoArrayID;
+@property(nonatomic,strong)NSMutableArray * shiYaoArrayID;
 @end
 
 @implementation BingMingXiangQingVC
@@ -23,6 +32,16 @@
     // Do any additional setup after loading the view.
     self.title=_titleName;
     _dataArray=[NSMutableArray new];
+    _junYaoArray=[NSMutableArray new];
+    _chenYaoArray=[NSMutableArray new];
+    _zuoYaoArray=[NSMutableArray new];
+    _shiYaoArray=[NSMutableArray new];
+    
+    _junYaoArrayID=[NSMutableArray new];
+    _chenYaoArrayID=[NSMutableArray new];
+    _zuoYaoArrayID=[NSMutableArray new];
+    _shiYaoArrayID=[NSMutableArray new];
+   
     [self CreatData];
     [self CreatTabelView];
 }
@@ -41,7 +60,42 @@
             }
             [LCProgressHUD hide];
             NSDictionary * dataDic =[dic objectForKey:@"data"];
-            _junYao=[dataDic objectForKey:@"juns"];
+            NSArray * jun=[dataDic objectForKey:@"juns"];
+            NSArray * chen =[dataDic objectForKey:@"chens"];
+            NSArray * zuo=[dataDic objectForKey:@"zuos"];
+            NSArray * shi =[dataDic objectForKey:@"shis"];
+           //君药
+            for (NSDictionary * junDic in jun) {
+                NSString * name =[junDic objectForKey:@"drugName"];
+                NSString * idd =[NSString stringWithFormat:@"%@",[junDic objectForKey:@"id"]];
+                [_junYaoArray addObject:name];
+                [_junYaoArrayID addObject:idd];
+            }
+            //臣药
+            for (NSDictionary * chenDic in chen) {
+                NSString * name =[chenDic objectForKey:@"drugName"];
+                NSString * idd =[NSString stringWithFormat:@"%@",[chenDic objectForKey:@"id"]];
+                [_chenYaoArray addObject:name];
+                [_chenYaoArrayID addObject:idd];
+            }
+            
+            //佐药
+            for (NSDictionary * zuoDic in zuo) {
+                NSString * name =[zuoDic objectForKey:@"drugName"];
+                NSString * idd =[NSString stringWithFormat:@"%@",[zuoDic objectForKey:@"id"]];
+                [_zuoYaoArray addObject:name];
+                [_zuoYaoArrayID addObject:idd];
+            }
+            
+            //使药
+            for (NSDictionary * shiDic in shi) {
+                NSString * name =[shiDic objectForKey:@"drugName"];
+                NSString * idd =[NSString stringWithFormat:@"%@",[shiDic objectForKey:@"id"]];
+                [_shiYaoArray addObject:name];
+                [_shiYaoArrayID addObject:idd];
+            }
+            
+            
             BingMingModel * md =[[BingMingModel alloc]initWithBingMingXiangQingDic:dataDic];
             [_dataArray addObject:md.xqBingName];
             [_dataArray addObject:md.xqzyBingName];
@@ -53,6 +107,8 @@
             [_dataArray addObject:md.xqZhenDuan];
             [_dataArray addObject:md.xqJianBie];
             [_dataArray addObject:md.xqChangGui];
+            
+            self.title=md.xqBingName;
             [_tableView reloadData];
             
         }else{
@@ -90,11 +146,86 @@
     cell.titleLabel.text=_titleArray[indexPath.row];
     cell.text=_dataArray[indexPath.row];
     if (indexPath.row==2) {
-        cell.tableView.hidden=NO;
-        cell.junArr=_junYao;
+        cell.junLabel.hidden=NO;
+        cell.chenLabel.hidden=NO;
+        cell.zuoLabel.hidden=NO;
+        cell.shiLabel.hidden=NO;
+        
+        [self juYaoCell:cell];
+        [self chenCell:cell];
+        [self zuoYaoCell:cell];
+        [self shiYaoCell:cell];
+    
     }
     return cell;
 }
+
+//君药
+-(void)juYaoCell:(BingMingXiangQingCell*)cell{
+    NSString * label_text2 =[NSString stringWithFormat:@"【君药】%@",[_junYaoArray componentsJoinedByString:@"、"]];
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc]initWithString:label_text2];
+
+     [attributedString2 addAttribute:NSForegroundColorAttributeName value:JXColor(153, 153, 153, 1) range:NSMakeRange(0, 4)];
+     [attributedString2 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, label_text2.length)];
+  
+    cell.junLabel.attributedText=attributedString2;
+    [ cell.junLabel yb_addAttributeTapActionWithStrings:_junYaoArray tapClicked:^(NSString *string, NSRange range, NSInteger index) {
+        NSLog(@"君药>>>%@",string);
+        MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+        vc.yaoID=_junYaoArrayID[index];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    cell.junLabel.enabledTapEffect = NO;
+}
+//臣药
+-(void)chenCell:(BingMingXiangQingCell*)cell{
+    NSString * label_text2 =[NSString stringWithFormat:@"【臣药】%@",[_chenYaoArray componentsJoinedByString:@"、"]];
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc]initWithString:label_text2];
+    [attributedString2 addAttribute:NSForegroundColorAttributeName value:JXColor(153, 153, 153, 1) range:NSMakeRange(0, 4)];
+    [attributedString2 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, label_text2.length)];
+    cell.chenLabel.attributedText=attributedString2;
+    [ cell.chenLabel yb_addAttributeTapActionWithStrings:_chenYaoArray tapClicked:^(NSString *string, NSRange range, NSInteger index) {
+        NSLog(@"臣药>>>%@",string);
+        
+        MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+        vc.yaoID=_chenYaoArrayID[index];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }];
+    cell.chenLabel.enabledTapEffect = NO;
+}
+//佐药
+-(void)zuoYaoCell:(BingMingXiangQingCell*)cell{
+    NSString * label_text2 =[NSString stringWithFormat:@"【佐药】%@",[_zuoYaoArray componentsJoinedByString:@"、"]];
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc]initWithString:label_text2];
+      [attributedString2 addAttribute:NSForegroundColorAttributeName value:JXColor(153, 153, 153, 1) range:NSMakeRange(0, 4)];
+    [attributedString2 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, label_text2.length)];
+    cell.zuoLabel.attributedText=attributedString2;
+    [ cell.zuoLabel yb_addAttributeTapActionWithStrings:_zuoYaoArray tapClicked:^(NSString *string, NSRange range, NSInteger index) {
+        NSLog(@"佐药>>>%@",string);
+        MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+        vc.yaoID=_zuoYaoArrayID[index];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+     cell.zuoLabel.enabledTapEffect = NO;
+}
+//使药
+-(void)shiYaoCell:(BingMingXiangQingCell*)cell{
+    NSString * label_text2 =[NSString stringWithFormat:@"【使药】%@",[_shiYaoArray componentsJoinedByString:@"、"]];
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc]initWithString:label_text2];
+      [attributedString2 addAttribute:NSForegroundColorAttributeName value:JXColor(153, 153, 153, 1) range:NSMakeRange(0, 4)];
+    [attributedString2 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, label_text2.length)];
+    cell.shiLabel.attributedText=attributedString2;
+    [ cell.shiLabel yb_addAttributeTapActionWithStrings:_shiYaoArray tapClicked:^(NSString *string, NSRange range, NSInteger index) {
+        NSLog(@"使药>>>%@",string);
+        MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+        vc.yaoID=_shiYaoArrayID[index];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    cell.shiLabel.enabledTapEffect = NO;
+}
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -103,11 +234,41 @@
     
     if (indexPath.row==2) {
         
-        return 200;
+      NSString * label_text1 =[NSString stringWithFormat:@"【使药】%@",[_junYaoArray componentsJoinedByString:@"、"]];
+      NSString * label_text2 =[NSString stringWithFormat:@"【使药】%@",[_chenYaoArray componentsJoinedByString:@"、"]];
+    NSString * label_text3 =[NSString stringWithFormat:@"【使药】%@",[_zuoYaoArray componentsJoinedByString:@"、"]];
+    NSString * label_text4 =[NSString stringWithFormat:@"【使药】%@",[_shiYaoArray componentsJoinedByString:@"、"]];
+        
+        CGFloat g1 =[ToolClass HeightForText:label_text1 withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
+        CGFloat g2 =[ToolClass HeightForText:label_text2 withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
+        CGFloat g3 =[ToolClass HeightForText:label_text3 withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
+        CGFloat g4 =[ToolClass HeightForText:label_text4 withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
+        
+        CGFloat g11 =[self isPanDuanHeight:g1];
+         CGFloat g22 =[self isPanDuanHeight:g2];
+         CGFloat g33 =[self isPanDuanHeight:g3];
+         CGFloat g44 =[self isPanDuanHeight:g4];
+        
+//        NSLog(@"高度>>%f>>>%f>>%f>>%f",g1,g2,g3,g4);
+//        
+//       NSLog(@"过滤后高度>>%f>>>%f>>%f>>%f",g11,g22,g33,g44);
+        return g11+g22+g33+g44+30;
     }else{
       return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[BingMingXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]]+10;
     }
     
+}
+
+-(CGFloat)isPanDuanHeight:(CGFloat)idd{
+    CGFloat flat=0;
+    
+    if (idd<20) {
+        flat=30;
+    }else{
+        flat=idd;
+    }
+    
+    return flat;
 }
 
 - (void)didReceiveMemoryWarning {

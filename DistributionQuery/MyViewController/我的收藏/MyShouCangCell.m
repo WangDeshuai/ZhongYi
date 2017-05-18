@@ -71,6 +71,16 @@
     .heightIs(20);
     
 }
+-(void)setModel:(MyShouCangModel *)model
+{
+    _model=model;
+    
+    _namelabel.text=model.titlename;
+    _imageview.image=[UIImage imageNamed:model.imagename];
+    _dextlabel.text=model.typeName;
+    
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
