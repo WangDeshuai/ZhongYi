@@ -98,6 +98,17 @@
     .heightRatioToView(_titlelabel,1);
     [_timelable setSingleLineAutoResizeWithMaxWidth:200];
 }
+
+-(void)setModel:(MyTuiGuangModel *)model
+
+{
+    _model=model;
+    _titlelabel.text=model.titlename;
+    _dexlable.text=model.phonename;
+    _sexlabel.text=[NSString stringWithFormat:@"邀请码:%@",model.yaoQingMa];
+    _timelable.text=[ToolClass ConvertStrToTime:[model.timename longLongValue]];
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

@@ -49,6 +49,9 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --13.点击某个讲座后加载讲座详情
 +(void)jiangZuoXiangQingMeessageID:(NSString*)mesID success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+#pragma mark --14.分页加载所有的积分商品信息
++(void)shangPinJiaZaiMessage:(NSString*)page success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
 
 #pragma mark --16.加载所有的舌苔信息
 +(void)jiaZaiAllSheMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
@@ -64,6 +67,10 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --22.加载所有的主诉信息
 +(void)jiaZaiZhuSuMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+#pragma mark --23.加载所有的地区（省、市、区县）信息
++(void)shengShiXianDiQu:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
 #pragma mark --24.分页加载所有我的报告单信息
 +(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 #pragma mark --25.加载我的报告单详情信息

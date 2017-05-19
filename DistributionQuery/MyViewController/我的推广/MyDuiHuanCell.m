@@ -75,4 +75,11 @@
     .bottomSpaceToView(self.contentView,5);
     
 }
+-(void)setModel:(MyTuiGuangModel *)model
+{
+    _model=model;
+    _titleLable.text=model.dhTitle;
+    _contentLabel.text=model.dhContent;
+    [_bgimage setImageWithURL:[NSURL URLWithString:model.dhimage] placeholderImage:[UIImage imageNamed:@"dh_pic"]];
+}
 @end

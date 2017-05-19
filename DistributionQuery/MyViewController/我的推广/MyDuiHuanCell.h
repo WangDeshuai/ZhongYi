@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MyTuiGuangModel.h"
 @interface MyDuiHuanCell : UICollectionViewCell
-
+@property(nonatomic,strong)MyTuiGuangModel * model;
 @end

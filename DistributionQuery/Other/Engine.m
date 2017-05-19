@@ -307,7 +307,28 @@
 }
 
 
-
+#pragma mark --14.分页加载所有的积分商品信息
++(void)shangPinJiaZaiMessage:(NSString*)page success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/images/list",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@"10"]] forKey:@"pageSize"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"14.分页加载所有的积分商品信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"14.分页加载所有的积分商品信息%@",error);
+        [LCProgressHUD showMessage:@"14.网络超时"];
+        aError(error);
+        
+    }];
+}
 
 
 #pragma mark --16.加载所有的舌苔信息
@@ -428,6 +449,32 @@
     }];
     
 }
+
+#pragma mark --23.加载所有的地区（省、市、区县）信息
++(void)shengShiXianDiQu:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/nation/list",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"parentId"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"23.加载所有的地区（省、市、区县）信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"23.加载所有的地区（省、市、区县）信息%@",error);
+        [LCProgressHUD showMessage:@"23.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
+
+
+
+
 #pragma mark --24.分页加载所有我的报告单信息
 +(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     

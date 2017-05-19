@@ -10,8 +10,10 @@
 #import "MyTuiGuangCell.h"
 #import "TuiGuangPeopleVC.h"//推广人数
 #import "MyDuiHuanViewController.h"//我要兑换
+#import "MyTuiGuangModel.h"
 @interface MyTuiGuangVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
+@property(nonatomic,strong)NSMutableArray * dataArray;
 @end
 
 @implementation MyTuiGuangVC
@@ -20,9 +22,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"我的推广";
+    _dataArray=[NSMutableArray new];
     [self CreatRightBtn];
     [self CreatTabelView];
 }
+
+
+
+-(void)DataArrayShuJu{
+    
+}
+
 
 -(void)CreatRightBtn{
    UIButton*  backHomeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -86,6 +96,32 @@
     
     [tuiGuangMalab setSingleLineAutoResizeWithMaxWidth:ScreenWidth-100];
     
+    [LCProgressHUD showMessage:@"请稍后..."];
+    [Engine jiaZaiTuiGuangMessageVIPID:@"1" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            NSArray * memberArr =[dataDic objectForKey:@"members"];
+            for (NSDictionary * dicc in memberArr) {
+                MyTuiGuangModel * md =[[MyTuiGuangModel alloc]initWithTuiGuangDic:dicc];
+                [_dataArray addObject:md];
+            }
+            
+            numlab.text=[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"spreadCode"]]];
+            
+            
+            [_tableView reloadData];
+            [LCProgressHUD hide];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
     return headView;
 }
 
@@ -108,11 +144,12 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return _dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MyTuiGuangCell * cell =[MyTuiGuangCell cellWithTableView:tableView IndexPath:indexPath];
+    cell.model=_dataArray[indexPath.row];
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -189,8 +226,8 @@
 }
 #pragma mark --推广人数
 -(void)buttonClink{
-    TuiGuangPeopleVC * vc =[TuiGuangPeopleVC new];
-    [self.navigationController pushViewController:vc animated:YES];
+//    TuiGuangPeopleVC * vc =[TuiGuangPeopleVC new];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -8,6 +8,7 @@
 
 #import "MyZhuYeVC.h"
 #import "MyZhuYeXiuGaiVC.h"
+#import "ChooseCityVC.h"
 @interface MyZhuYeVC ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * leftArray;
@@ -142,6 +143,8 @@
 
     }else if (indexPath.row==4){
         //选择地区
+        ChooseCityVC * vc =[ChooseCityVC new];
+        [self.navigationController pushViewController:vc animated:YES];;
     }else if (indexPath.row==5){
         //详细地址
         MyZhuYeXiuGaiVC * vc =[MyZhuYeXiuGaiVC new];

@@ -112,6 +112,9 @@
 		8FCD4FA91DA8B4D300CB113C /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD4F7A1DA8B4D300CB113C /* SDCollectionViewCell.m */; };
 		8FCD4FAA1DA8B4D300CB113C /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD4F7C1DA8B4D300CB113C /* SDCycleScrollView.m */; };
 		8FCD4FAB1DA8B4D300CB113C /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD4F7E1DA8B4D300CB113C /* UIView+SDExtension.m */; };
+		8FDE3D501ECE945800BE7FD1 /* MyTuiGuangModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDE3D4F1ECE945800BE7FD1 /* MyTuiGuangModel.m */; };
+		8FDE3D541ECEFAED00BE7FD1 /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDE3D531ECEFAED00BE7FD1 /* CityModel.m */; };
+		8FDE3D571ECEFF3B00BE7FD1 /* ChooseCityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDE3D561ECEFF3B00BE7FD1 /* ChooseCityVC.m */; };
 		8FE95AE01EA84470009F04E7 /* LCProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8FE95ADB1EA84470009F04E7 /* LCProgressHUD.bundle */; };
 		8FE95AE11EA84470009F04E7 /* LCProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE95ADD1EA84470009F04E7 /* LCProgressHUD.m */; };
 		8FE95AE21EA84470009F04E7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE95ADF1EA84470009F04E7 /* MBProgressHUD.m */; };
@@ -389,6 +392,12 @@
 		8FCD4F7C1DA8B4D300CB113C /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
 		8FCD4F7D1DA8B4D300CB113C /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
 		8FCD4F7E1DA8B4D300CB113C /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
+		8FDE3D4E1ECE945800BE7FD1 /* MyTuiGuangModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTuiGuangModel.h; sourceTree = "<group>"; };
+		8FDE3D4F1ECE945800BE7FD1 /* MyTuiGuangModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTuiGuangModel.m; sourceTree = "<group>"; };
+		8FDE3D521ECEFAED00BE7FD1 /* CityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityModel.h; sourceTree = "<group>"; };
+		8FDE3D531ECEFAED00BE7FD1 /* CityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
+		8FDE3D551ECEFF3B00BE7FD1 /* ChooseCityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCityVC.h; sourceTree = "<group>"; };
+		8FDE3D561ECEFF3B00BE7FD1 /* ChooseCityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCityVC.m; sourceTree = "<group>"; };
 		8FE95ADB1EA84470009F04E7 /* LCProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LCProgressHUD.bundle; sourceTree = "<group>"; };
 		8FE95ADC1EA84470009F04E7 /* LCProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCProgressHUD.h; sourceTree = "<group>"; };
 		8FE95ADD1EA84470009F04E7 /* LCProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCProgressHUD.m; sourceTree = "<group>"; };
@@ -608,14 +617,16 @@
 		8F048E041EB5C457008CF5CF /* 我的推广 */ = {
 			isa = PBXGroup;
 			children = (
-				8F048E051EB5C457008CF5CF /* MyDuiHuanCell.h */,
-				8F048E061EB5C457008CF5CF /* MyDuiHuanCell.m */,
-				8F048E071EB5C457008CF5CF /* MyDuiHuanViewController.h */,
-				8F048E081EB5C457008CF5CF /* MyDuiHuanViewController.m */,
-				8F048E091EB5C457008CF5CF /* MyTuiGuangCell.h */,
-				8F048E0A1EB5C457008CF5CF /* MyTuiGuangCell.m */,
 				8F048E0B1EB5C457008CF5CF /* MyTuiGuangVC.h */,
 				8F048E0C1EB5C457008CF5CF /* MyTuiGuangVC.m */,
+				8F048E091EB5C457008CF5CF /* MyTuiGuangCell.h */,
+				8F048E0A1EB5C457008CF5CF /* MyTuiGuangCell.m */,
+				8F048E071EB5C457008CF5CF /* MyDuiHuanViewController.h */,
+				8F048E081EB5C457008CF5CF /* MyDuiHuanViewController.m */,
+				8F048E051EB5C457008CF5CF /* MyDuiHuanCell.h */,
+				8F048E061EB5C457008CF5CF /* MyDuiHuanCell.m */,
+				8FDE3D4E1ECE945800BE7FD1 /* MyTuiGuangModel.h */,
+				8FDE3D4F1ECE945800BE7FD1 /* MyTuiGuangModel.m */,
 				8F048E0D1EB5C457008CF5CF /* TuiGuangPeopleVC.h */,
 				8F048E0E1EB5C457008CF5CF /* TuiGuangPeopleVC.m */,
 			);
@@ -742,10 +753,7 @@
 				8F40D9D81EA8C5FF0073DE57 /* MyVC.m */,
 				8F40D9EF1EA90D1F0073DE57 /* MyTableViewCell.h */,
 				8F40D9F01EA90D1F0073DE57 /* MyTableViewCell.m */,
-				8FF7D2491EB839F300914ABC /* MyZhuYeVC.h */,
-				8FF7D24A1EB839F300914ABC /* MyZhuYeVC.m */,
-				8FF7D24C1EB8409D00914ABC /* MyZhuYeXiuGaiVC.h */,
-				8FF7D24D1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m */,
+				8FDE3D511ECEF47700BE7FD1 /* 我的主页 */,
 			);
 			name = "我的";
 			sourceTree = "<group>";
@@ -1059,6 +1067,21 @@
 				8FCD4F781DA8B4D300CB113C /* TAPageControl.m */,
 			);
 			path = PageControl;
+			sourceTree = "<group>";
+		};
+		8FDE3D511ECEF47700BE7FD1 /* 我的主页 */ = {
+			isa = PBXGroup;
+			children = (
+				8FF7D2491EB839F300914ABC /* MyZhuYeVC.h */,
+				8FF7D24A1EB839F300914ABC /* MyZhuYeVC.m */,
+				8FF7D24C1EB8409D00914ABC /* MyZhuYeXiuGaiVC.h */,
+				8FF7D24D1EB8409D00914ABC /* MyZhuYeXiuGaiVC.m */,
+				8FDE3D551ECEFF3B00BE7FD1 /* ChooseCityVC.h */,
+				8FDE3D561ECEFF3B00BE7FD1 /* ChooseCityVC.m */,
+				8FDE3D521ECEFAED00BE7FD1 /* CityModel.h */,
+				8FDE3D531ECEFAED00BE7FD1 /* CityModel.m */,
+			);
+			name = "我的主页";
 			sourceTree = "<group>";
 		};
 		8FE95ADA1EA84470009F04E7 /* MBProgressHUD */ = {
@@ -1478,6 +1501,7 @@
 				8F40D9EE1EA8C7060073DE57 /* LoginViewController.m in Sources */,
 				8FCD4F921DA8B4D300CB113C /* UIImage+GIF.m in Sources */,
 				8FCD4FA51DA8B4D300CB113C /* TAAbstractDotView.m in Sources */,
+				8FDE3D501ECE945800BE7FD1 /* MyTuiGuangModel.m in Sources */,
 				8FCD4F9D1DA8B4D300CB113C /* UIProgressView+AFNetworking.m in Sources */,
 				8F048E281EB5C52D008CF5CF /* YiJianFanKuiVC.m in Sources */,
 				8FCD4F971DA8B4D300CB113C /* UIView+WebCacheOperation.m in Sources */,
@@ -1535,10 +1559,12 @@
 				8FF7D2541EB8909500914ABC /* YaoFangModel.m in Sources */,
 				8FCD4F7F1DA8B4D300CB113C /* AFHTTPRequestOperation.m in Sources */,
 				8FCD4F871DA8B4D300CB113C /* AFURLSessionManager.m in Sources */,
+				8FDE3D541ECEFAED00BE7FD1 /* CityModel.m in Sources */,
 				8FC5B1BD1EB9B6A200EEDB3D /* BingMingXiangQingVC.m in Sources */,
 				8FCD4F881DA8B4D300CB113C /* MKAnnotationView+WebCache.m in Sources */,
 				8FBA9F3E1EB1A18B00115E52 /* CustomAlertTwo.m in Sources */,
 				8FA8560E1EADD0DD0056971A /* XJBottomMenu.m in Sources */,
+				8FDE3D571ECEFF3B00BE7FD1 /* ChooseCityVC.m in Sources */,
 				8FE95B221EA84490009F04E7 /* UIView+MJExtension.m in Sources */,
 				8FF7D2351EB8361600914ABC /* MedicineCell.m in Sources */,
 				8FE95B111EA84490009F04E7 /* MJRefreshBackFooter.m in Sources */,

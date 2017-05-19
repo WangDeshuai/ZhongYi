@@ -8,8 +8,12 @@
 
 #import "MyDuiHuanViewController.h"
 #import "MyDuiHuanCell.h"
+#import "MyTuiGuangModel.h"
 @interface MyDuiHuanViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property(nonatomic,strong)UICollectionView *collectionView;
+@property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,assign)int AAA;
+@property (nonatomic,strong) MJRefreshComponent *myRefreshView;
 @end
 
 @implementation MyDuiHuanViewController
@@ -20,6 +24,40 @@
     self.title=@"我要兑换";
     [self CreatCollectionView];
 }
+
+-(void)dataJieXiePage:(int)page
+{
+    [Engine shangPinJiaZaiMessage:[NSString stringWithFormat:@"%d",page] success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            NSMutableArray * array2 =[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                MyTuiGuangModel * md =[[MyTuiGuangModel alloc]initWithDuiHuanDic:dicc];
+                [array2 addObject:md];
+            }
+            
+            if (self.myRefreshView ==_collectionView.header) {
+                _dataArray=array2;
+                _collectionView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _collectionView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_collectionView reloadData];
+            [_myRefreshView  endRefreshing];
+        
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+}
+
+
+
+
 #pragma mark --创建collectionView
 -(void)CreatCollectionView{
     
@@ -53,14 +91,29 @@
     [self.view addSubview:_collectionView];
     [_collectionView registerClass:[MyDuiHuanCell class] forCellWithReuseIdentifier:@"cell"];
     //    [self.collectionView registerClass:[ReuserView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headView"];
+    __weak typeof (self) weakSelf =self;
+    _collectionView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.collectionView.header;
+        _AAA=1;
+        [self dataJieXiePage:_AAA];
+    }];
     
+    [_collectionView.header beginRefreshing];
+    //..上拉刷新
+    _collectionView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.myRefreshView = weakSelf.collectionView.footer;
+        _AAA=_AAA+1;
+          [self dataJieXiePage:_AAA];
+    }];
+    
+    _collectionView.footer.hidden = YES;
     
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return 10;
+    return _dataArray.count;
     
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -70,10 +123,23 @@
     //    cell.lab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     
     cell.backgroundColor=[UIColor whiteColor];
+    cell.model=_dataArray[indexPath.row];
     return cell;
     
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"立即兑换" message:@"兑换详情请拨打\n客服电话400-4125-406" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action =[UIAlertAction actionWithTitle:@"兑换" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [ToolClass tellPhone:@"400-4125-406"];
+    }];
+    UIAlertAction * action2 =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+   
+    [actionview addAction:action2];
+     [actionview addAction:action];
+    [self presentViewController:actionview animated:YES completion:nil];
     
 }
 
