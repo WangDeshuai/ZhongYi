@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title=@"地区选择";
     _dataArray1=[NSMutableArray new];
     _dataArray2=[NSMutableArray new];
     _dataArray3=[NSMutableArray new];
@@ -39,9 +40,9 @@
 
 #pragma mark --解析省
 -(void)jieXiSheng{
-    [Engine shengShiXianDiQu:@"" success:^(NSDictionary *dic) {
+    [Engine shengShiXianDiQu:@"1" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-        if ([code isEqualToString:@"1"]) {
+        if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
             for (NSDictionary * dicc in dataArr) {
                 CityModel * md =[[CityModel alloc]initWithShengDic:dicc];
@@ -59,9 +60,9 @@
 
 #pragma mark --根据省解析市
 -(void)jieXiCityID:(NSString*)idd{
-    [Engine shengShiXianDiQu:idd success:^(NSDictionary *dic) {
+    [Engine CityID:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-        if ([code isEqualToString:@"1"]) {
+        if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
             for (NSDictionary * dicc in dataArr) {
                 CityModel * md =[[CityModel alloc]initWithCityDic:dicc];
@@ -81,7 +82,7 @@
 -(void)jieXiXianID:(NSString*)idd{
     [Engine shengShiXianDiQu:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-        if ([code isEqualToString:@"1"]) {
+        if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
             for (NSDictionary * dicc in dataArr) {
                 CityModel * md =[[CityModel alloc]initWithXianDic:dicc];
@@ -115,7 +116,7 @@
     [_centerTableView removeFromSuperview];
     _centerTableView=nil;
     if (!_centerTableView) {
-        _centerTableView=[[UITableView alloc]initWithFrame:CGRectMake(ScreenWidth/3, 64, ScreenWidth/3, ScreenHeight-64) style:UITableViewStylePlain];
+        _centerTableView=[[UITableView alloc]initWithFrame:CGRectMake(ScreenWidth/3, 0, ScreenWidth/3, ScreenHeight-64) style:UITableViewStylePlain];
     }
     _centerTableView.dataSource=self;
     _centerTableView.delegate=self;
@@ -130,7 +131,7 @@
     [_rightTableView removeFromSuperview];
     _rightTableView=nil;
     if (!_rightTableView) {
-        _rightTableView=[[UITableView alloc]initWithFrame:CGRectMake(ScreenWidth/3*2, 64, ScreenWidth/3, ScreenHeight-64) style:UITableViewStylePlain];
+        _rightTableView=[[UITableView alloc]initWithFrame:CGRectMake(ScreenWidth/3*2, 0, ScreenWidth/3, ScreenHeight-64) style:UITableViewStylePlain];
     }
     _rightTableView.dataSource=self;
     _rightTableView.delegate=self;
@@ -169,6 +170,7 @@
     .centerYEqualToView(cell)
     .heightIs(20);
     [nameLabel setSingleLineAutoResizeWithMaxWidth:220];
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     if (tableView==_tableView) {
         CityModel * md =_dataArray1[indexPath.row];
         nameLabel.text=md.shengName;
@@ -176,6 +178,7 @@
          CityModel * md =_dataArray2[indexPath.row];
          nameLabel.text=md.cityName;
     }else{
+         cell.accessoryType=UITableViewCellAccessoryNone;
         CityModel * md =_dataArray3[indexPath.row];
         nameLabel.text=md.xianName;
     }
@@ -205,8 +208,8 @@
     }else{
          CityModel * md=_dataArray3[indexPath.row];
          NSLog(@"shengName%@,cityName%@,xianName%@",_shengName,_shiName,md.xianName);
-       // self.CityNameBlock(_shengName,_shiName,_dataArray3[indexPath.row]);
-      //  [self.navigationController popViewControllerAnimated:YES];
+        self.CityNameBlock(_shengName,_shiName,md.xianName,md.xianCode);
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

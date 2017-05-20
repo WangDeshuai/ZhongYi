@@ -12,6 +12,7 @@
 @property(nonatomic,strong)UITextField * textfield;
 @property(nonatomic,strong)NSArray * leftArray;
 @property(nonatomic,strong)UITableView * tableView;
+@property(nonatomic,strong)NSArray * canShuArr;
 @end
 
 @implementation MyZhuYeXiuGaiVC
@@ -21,7 +22,7 @@
     // Do any additional setup after loading the view.
     self.title=_titleStr;
   
-  
+    _canShuArr=@[@"name",@"hospital_name",@"address",@"sex"];
     if (_number==3) {
         //性别
         [self CreatTabelView];
@@ -81,8 +82,22 @@
     self.navigationItem.rightBarButtonItems=@[leftBtn2];
 }
 -(void)rightBtnClink{
-    self.messageBlock(_textfield.text);
-    [self.navigationController popViewControllerAnimated:YES];
+   // self.messageBlock(_textfield.text);
+    NSLog(@"参数>>>%@  Value>>%@",_canShuArr[_number],_textfield.text);
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine myZhuYeSaveMessageCanShuName:_canShuArr[_number] ValueName:_textfield.text Phone:@"15032735032" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
+             self.messageBlock(_textfield.text);
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+   // [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -126,11 +141,40 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
-        self.messageBlock(@"0");//男
-        [self.navigationController popViewControllerAnimated:YES];
+       
+        [LCProgressHUD showLoading:@"请稍后..."];
+        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"M" Phone:@"15032735032" success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                [LCProgressHUD hide];
+                self.messageBlock(@"0");
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+        
+        
+        
+        
+       // self.messageBlock(@"0");//男
+        //[self.navigationController popViewControllerAnimated:YES];
     }else if(indexPath.row==1){
-        self.messageBlock(@"1");//女
-        [self.navigationController popViewControllerAnimated:YES];
+        [LCProgressHUD showLoading:@"请稍后..."];
+        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"Y" Phone:@"15032735032" success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                [LCProgressHUD hide];
+                self.messageBlock(@"1");
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            }
+        } error:^(NSError *error) {
+            
+        }];
     }
 }
 

@@ -17,6 +17,8 @@
 @property(nonatomic,copy)NSString * yiYuanText;//医院名称
 @property(nonatomic,copy)NSString * addressText;//详细地址
 @property(nonatomic,copy)NSString * xingBieCode;//性别Code
+@property(nonatomic,copy)NSString * diQuName;
+@property(nonatomic,copy)NSString * diQuCode;
 @end
 
 @implementation MyZhuYeVC
@@ -80,6 +82,8 @@
         .centerYEqualToView(cell)
         .widthIs(60)
         .heightIs(60);
+        cell.detailTextLabel.font=[UIFont systemFontOfSize:15];
+        cell.detailTextLabel.textColor=[UIColor blackColor];
     }else if (indexPath.row==1){
         //姓名
         cell.detailTextLabel.text=[self stringHouMianText:_nameText InternetText:@"未填写"];
@@ -91,6 +95,7 @@
          cell.detailTextLabel.text=[self stringHouMianText:_yiYuanText InternetText:@"未填写"];
     }else if (indexPath.row==4){
         //地区选择
+         cell.detailTextLabel.text=[self stringHouMianText:_diQuName InternetText:@"未填写"];
     }else if (indexPath.row==5){
         //详细地址
          cell.detailTextLabel.text=[self stringHouMianText:_addressText InternetText:@"未填写"];
@@ -144,6 +149,11 @@
     }else if (indexPath.row==4){
         //选择地区
         ChooseCityVC * vc =[ChooseCityVC new];
+        vc.CityNameBlock=^(NSString*sheng,NSString*city,NSString*xian,NSString*xianCode){
+            _diQuName=[NSString stringWithFormat:@"%@-%@-%@",sheng,city,xian];
+            _diQuCode=xianCode;
+            [_tableView reloadData];
+        };
         [self.navigationController pushViewController:vc animated:YES];;
     }else if (indexPath.row==5){
         //详细地址

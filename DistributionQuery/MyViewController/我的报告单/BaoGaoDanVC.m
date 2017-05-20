@@ -28,7 +28,7 @@
 
 
 -(void)CreatBaoGaiDanDataPage:(int)page{
-    [Engine baoGaiDanPage:[NSString stringWithFormat:@"%d",page] memBerID:@"1" success:^(NSDictionary *dic) {
+    [Engine baoGaiDanPage:[NSString stringWithFormat:@"%d",page] memBerID:@"15032735032" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSMutableArray * array2 =[NSMutableArray new];

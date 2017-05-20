@@ -453,7 +453,7 @@
 #pragma mark --23.加载所有的地区（省、市、区县）信息
 +(void)shengShiXianDiQu:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
-    NSString * urlStr =[NSString stringWithFormat:@"%@/api/nation/list",SERVICE];
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/nation/queryAllProOrDis",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"parentId"];
@@ -471,7 +471,27 @@
     }];
     
 }
-
+#pragma mark --加载市
++(void)CityID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/nation/queryCitiesByParentId",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"parentId"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"23.加载所有的地区（省、市、区县）信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"23.加载所有的地区（省、市、区县）信息%@",error);
+        [LCProgressHUD showMessage:@"23.网络超时"];
+        aError(error);
+        
+    }];
+    
+    
+}
 
 
 
@@ -607,6 +627,31 @@
         aError(error);
         
     }];
+    
+}
+
+#pragma mark --36.个人主页保存信息
++(void)myZhuYeSaveMessageCanShuName:(NSString*)name ValueName:(NSString*)value Phone:(NSString*)phone success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/save",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",value]] forKey:name];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",phone]] forKey:@"phone"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"36.个人主页保存信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"36.个人主页保存信息%@",error);
+        [LCProgressHUD showMessage:@"36.网络超时"];
+        aError(error);
+        
+    }];
+    
     
 }
 @end

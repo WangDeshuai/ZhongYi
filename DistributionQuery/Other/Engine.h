@@ -69,7 +69,8 @@ typedef void (^ErrorBlock)(NSError*error);
 +(void)jiaZaiZhuSuMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 #pragma mark --23.加载所有的地区（省、市、区县）信息
 +(void)shengShiXianDiQu:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-
+#pragma mark --加载市
++(void)CityID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 #pragma mark --24.分页加载所有我的报告单信息
 +(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
@@ -85,9 +86,14 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --30.分页加载我的收藏信息
 +(void)shouCangPage:(NSString*)page VIP:(NSString*)vipid success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
 //31接口不用
 #pragma mark --32加载我的推广信息
 +(void)jiaZaiTuiGuangMessageVIPID:(NSString*)vipID success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --36.个人主页保存信息
++(void)myZhuYeSaveMessageCanShuName:(NSString*)name ValueName:(NSString*)value Phone:(NSString*)phone success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 
 @end

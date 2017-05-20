@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface ChooseCityVC : BaseViewController
-//@property(nonatomic,copy)void(^CityNameBlock)(NSString*shengName,NSString*shiName,NSString *xianName);
+@property(nonatomic,copy)void(^CityNameBlock)(NSString*shengName,NSString*shiName,NSString *xianName,NSString* xianCode);
 @end
