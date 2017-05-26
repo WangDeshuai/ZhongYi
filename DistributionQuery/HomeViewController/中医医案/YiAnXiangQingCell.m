@@ -9,6 +9,7 @@
 #import "YiAnXiangQingCell.h"
 @interface YiAnXiangQingCell()
 @property(nonatomic,strong)UILabel * contentLabel;
+@property(nonatomic,strong)UILabel * bingAnLab;
 @end
 @implementation YiAnXiangQingCell
 
@@ -37,13 +38,14 @@
 -(void)CreatStar{
     _leftLabel=[UILabel new];
     _contentLabel=[UILabel new];
-    
-    [self.contentView sd_addSubviews:@[_leftLabel,_contentLabel]];
+    _bingAnLab=[UILabel new];
+    [self.contentView sd_addSubviews:@[_leftLabel,_contentLabel,_bingAnLab]];
     _leftLabel.alpha=.5;
     _leftLabel.font=[UIFont systemFontOfSize:15];
     _contentLabel.font=[UIFont systemFontOfSize:15];
     _contentLabel.alpha=.8;
-    
+    _bingAnLab.font=[UIFont systemFontOfSize:15];
+    _bingAnLab.alpha=.8;
     
     
     _leftLabel.sd_layout
@@ -56,6 +58,13 @@
     .rightSpaceToView(self.contentView,15)
     .topSpaceToView(self.contentView,15)
     .leftSpaceToView(self.contentView,15)
+    .autoHeightRatio(0);
+    
+    _bingAnLab.hidden=YES;
+    _bingAnLab.sd_layout
+    .rightSpaceToView(self.contentView,15)
+    .topSpaceToView(_leftLabel,5)
+    .leftEqualToView(_leftLabel)
     .autoHeightRatio(0);
     
     [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:15];
@@ -71,6 +80,12 @@
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSParagraphStyleAttributeName: paragraphStyle}];
     _contentLabel.attributedText = string;
     _contentLabel.isAttributedContent = YES;
+}
+-(void)setText1:(NSString *)text1
+{
+    _text1=text1;
+    _bingAnLab.hidden=NO;
+    _bingAnLab.attributedText = [ToolClass HTML:text1];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

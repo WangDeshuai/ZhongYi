@@ -203,6 +203,25 @@
 
 #pragma mark --登录点击状态
 -(void)loginBtnn{
+    [LCProgressHUD showLoading:@"正在登陆..."];
+    [Engine loginAppPhone:_phoneText.text Password:_passwordText.text success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            //存储手机号,用来判断登录状态
+            [NSUSE_DEFO setObject:[dataDic objectForKey:@"phone"] forKey:@"token"];
+            [NSUSE_DEFO synchronize];
+            
+            //存储登录的plist文件
+            [ToolClass savePlist:[ToolClass isDictionary:dataDic] name:@"Login"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
     
 }
 #pragma mark --忘记密码
@@ -212,6 +231,10 @@
 #pragma mark --手机号注册
 -(void)zhuCeBtnClink{
     RegisterVC * vc =[RegisterVC new];
+    vc.PhonePswBlock=^(NSString*phone,NSString*psw){
+        _phoneText.text=phone;
+        _passwordText.text=psw;
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {

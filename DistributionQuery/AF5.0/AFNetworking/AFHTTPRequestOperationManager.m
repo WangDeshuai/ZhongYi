@@ -172,7 +172,7 @@
        // NSLog(@">>%@",comp);
    // }
     
-    
+   // URLString= [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithHTTPMethod:@"POST" URLString:URLString parameters:parameters success:success failure:failure];
 

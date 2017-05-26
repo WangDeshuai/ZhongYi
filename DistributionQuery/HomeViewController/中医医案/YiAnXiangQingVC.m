@@ -113,7 +113,15 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YiAnXiangQingCell * cell =[YiAnXiangQingCell cellWithTableView:tableView IndexPath:indexPath];
-    cell.text=[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
+    
+    if (indexPath.row==2) {
+        cell.text1=[_dataArray lastObject];
+    }else{
+        cell.text=[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
+    }
+    
+    
+    
     cell.leftLabel.text=_leftArray[indexPath.row];
     return cell;
 }

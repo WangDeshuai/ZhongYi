@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"药方";
+    self.title=@"方剂";
     [self searchView];
     [self CreatDataArray];
     [self CreatTabelView];
@@ -125,7 +125,7 @@
     .leftSpaceToView(_tableView,0)
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
-    .heightIs(164+5);
+    .heightIs(248+5);
     //分类图标
     UIImageView * tuBiaoImage =[UIImageView new];
     tuBiaoImage.image=[UIImage imageNamed:@"yf_search"];
@@ -161,19 +161,22 @@
             [array addObject:@"更多"];
             //若干个按钮
             _topArray=array;
-            int kj= 15;
-            int k =(ScreenWidth-(15*5))/4;
+            int kj= 10;
+            int k =(ScreenWidth-(10*5))/4;
             int gj =15;
             int g =25;
             for (int i =0; i<array.count; i++) {
                 UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
-                button.titleLabel.font=[UIFont systemFontOfSize:15];
+                button.titleLabel.font=[UIFont systemFontOfSize:13];
                 [button setTitle:array[i] forState:0];
                 [button setTitleColor:[UIColor blackColor] forState:0];
                 [bgHeadView sd_addSubviews:@[button]];
                 if (i==array.count-1) {
                     [button setTitleColor:MAIN_COLOR forState:0];
                 }
+//                button.layer.borderColor=[UIColor blackColor].CGColor;
+//                button.layer.borderWidth=1;
+                button.backgroundColor=BG_COLOR;
                 button.tag=i;
                 button.sd_layout
                 .leftSpaceToView(bgHeadView,kj+(kj+k)*(i%4))
@@ -264,6 +267,7 @@
         namelabel.tag=1;
         [cell sd_addSubviews:@[namelabel]];
     }
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     UILabel * namelable= (UILabel*)[cell viewWithTag:1];
     namelable.alpha=.7;
     namelable.font=[UIFont systemFontOfSize:16];

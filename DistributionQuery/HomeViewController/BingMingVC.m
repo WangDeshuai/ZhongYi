@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"病名";
+    self.title=@"病种";
     _classID=[NSMutableArray new];
     _dataArray1=[NSMutableArray new];
     [self CreatSearch];
@@ -168,7 +168,7 @@
                 btn.sd_cornerRadius=@(15);
                 btn.tag=i;
                 [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
-                btn.titleLabel.font=[UIFont systemFontOfSize:15];
+                btn.titleLabel.font=[UIFont systemFontOfSize:13];
                 
                 [btn setTitle:_dataArray1[i] forState:0];
                 [btn setTitleColor:[UIColor lightGrayColor] forState:0];

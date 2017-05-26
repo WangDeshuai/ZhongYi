@@ -9,10 +9,11 @@
 #import "RegisterVC.h"
 
 @interface RegisterVC ()
-@property(nonatomic,strong)UITextField * phoneText;
-@property(nonatomic,strong)UITextField * codeText;
-@property(nonatomic,strong)UITextField * pswText;
-@property(nonatomic,strong)UITextField * pswTwoText;
+@property(nonatomic,strong)UITextField * phoneText;//手机号
+@property(nonatomic,strong)UITextField * codeText;//验证码
+@property(nonatomic,strong)UITextField * pswText;//密码
+@property(nonatomic,strong)UITextField * pswTwoText;//密码2
+@property(nonatomic,strong)UITextField * tuiGuangCode;//推广码
 @end
 
 @implementation RegisterVC
@@ -142,6 +143,33 @@
     .heightIs(1);
     
     
+    //请输入推广码
+    _tuiGuangCode=[UITextField new];
+    _tuiGuangCode.leftView =[self imageViewNameStr:@"tgm"];
+    _tuiGuangCode.leftViewMode = UITextFieldViewModeAlways;
+    _tuiGuangCode.backgroundColor=[UIColor whiteColor];
+    _tuiGuangCode.placeholder=@"请输入推广码(选填)";
+    _tuiGuangCode.font=[UIFont systemFontOfSize:16];
+    [bgImage sd_addSubviews:@[_tuiGuangCode]];
+    _tuiGuangCode.sd_layout
+    .leftSpaceToView(bgImage,15)
+    .rightSpaceToView(bgImage,15)
+    .topSpaceToView(linView4,10)
+    .heightIs(40);
+    
+    UIView * linView5 =[UIView new];
+    linView5.backgroundColor=BG_COLOR;
+    [bgImage sd_addSubviews:@[linView5]];
+    linView5.sd_layout
+    .leftSpaceToView(bgImage,15)
+    .rightSpaceToView(bgImage,15)
+    .topSpaceToView(_tuiGuangCode,0)
+    .heightIs(1);
+    
+    
+    
+    
+    
     //注册按钮
     UIButton * registBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [registBtn setTitle:@"注册" forState:0];
@@ -152,7 +180,7 @@
     registBtn.sd_layout
     .leftSpaceToView(bgImage,15)
     .rightSpaceToView(bgImage,15)
-    .topSpaceToView(linView4,30)
+    .topSpaceToView(linView5,30)
     .heightIs(45);
     
     
@@ -188,11 +216,20 @@
         .topSpaceToView(linView3,10)
         .heightIs(55);
         
+        
+        //请输入推广码
+        _tuiGuangCode.sd_layout
+        .leftSpaceToView(bgImage,15)
+        .rightSpaceToView(bgImage,15)
+        .topSpaceToView(linView4,10)
+        .heightIs(55);
+        
+        
         //注册按钮
         registBtn.sd_layout
         .leftSpaceToView(bgImage,15)
         .rightSpaceToView(bgImage,15)
-        .topSpaceToView(linView4,60)
+        .topSpaceToView(linView5,60)
         .heightIs(55);
     }
     
@@ -204,10 +241,47 @@
 #pragma mark --获取验证码
 -(void)codeBtnClink{
     [LCProgressHUD showMessage:@"获取验证码成功"];
+//
+    
+    
+    
+   
+    
 }
+
+
+
+
+
+
+
+
 #pragma mark --注册按钮
 -(void)registBtnClick{
      [LCProgressHUD showMessage:@"注册成功"];
+    //    phoneText;//手机号
+    //    codeText;//验证码
+    //    pswText;//密码
+    //    tuiGuangCode;//推广码
+
+//    NSLog(@"手机号>>>%@",_phoneText.text);
+//    NSLog(@"验证码>>>%@",_codeText.text);
+//    NSLog(@"密码>>>%@",_pswText.text);
+//    NSLog(@"推广码>>>%@",_tuiGuangCode.text);
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine registerMessagePhone:_phoneText.text Password:_pswText.text ResPassword:_pswTwoText.text YaoQingMa:_tuiGuangCode.text YanZhengMa:_codeText.text success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
+            self.PhonePswBlock(_phoneText.text,_pswText.text );
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
 }
 
 

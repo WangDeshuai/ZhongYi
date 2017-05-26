@@ -45,7 +45,7 @@
             [LCProgressHUD hide];
             NSArray * dataArr =[dic objectForKey:@"data"];
             NSMutableArray * titleArr =[NSMutableArray new];
-//            NSMutableArray * dexArr =[NSMutableArray new];
+            NSMutableArray * dexArr =[NSMutableArray new];
             NSMutableArray * imageArr =[NSMutableArray new];
             NSMutableArray * iddArr =[NSMutableArray new];
             for (int i =0; i<dataArr.count; i++) {
@@ -53,14 +53,14 @@
                 MedicineModel * md =[[MedicineModel alloc]initWithYaoDic:dicc];
                 [_dataArray addObject:md];
                 [titleArr addObject:md.yaoTitleName];
-                //[dexArr addObject:md.yaoDexName];
+                [dexArr addObject:md.yaoDexName];
                 [imageArr addObject:md.yaoImageName];
                 [iddArr addObject:md.yaoID];
             }
             
             _rightIndexArr=[ChineseString IndexArray:titleArr];//索引
             _contentArr=[ChineseString LetterSortArray:titleArr];//标题
-           // _dexcontentArr=[ChineseString LetterSortArray:dexArr];//副标题
+            _dexcontentArr=[ChineseString LetterSortArray:dexArr];//副标题(去前缀)
             _imageArr=[ChineseString LetterSortArray2:imageArr];//图片(注意去掉前缀)
             _contentIDArr=[ChineseString LetterSortArray2:iddArr];//ID(注意去前缀)
             [_tableView reloadData];
@@ -202,6 +202,12 @@
     NSString * title =_contentArr[indexPath.section][indexPath.row];
     NSString * imageName2 =_imageArr[indexPath.section][indexPath.row];
     cell.titleLabel.text=title;
+    //拼音
+    NSString * pinYin =_dexcontentArr[indexPath.section][indexPath.row];
+    //去前缀
+    NSString * pinYinStr =[pinYin substringFromIndex:title.length];
+    cell.dexLabel.text=pinYinStr;
+    
     
     [cell.imageview setImageWithURL:[NSURL URLWithString:[imageName2 substringFromIndex:title.length]] placeholderImage:[UIImage imageNamed:@"yao_zw"]];
     return cell;

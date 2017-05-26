@@ -34,7 +34,7 @@
 
 -(void)jieXieDataPage:(int)page{
     
-    [Engine shouCangPage:[NSString stringWithFormat:@"%d",page] VIP:@"15032735032" success:^(NSDictionary *dic) {
+    [Engine shouCangPage:[NSString stringWithFormat:@"%d",page]  success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

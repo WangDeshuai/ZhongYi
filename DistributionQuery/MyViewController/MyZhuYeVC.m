@@ -11,17 +11,40 @@
 #import "ChooseCityVC.h"
 @interface MyZhuYeVC ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property(nonatomic,strong)UITableView * tableView;
+@property(nonatomic,strong)NSMutableDictionary * messageDic;
 @property(nonatomic,strong)NSArray * leftArray;
 @property(nonatomic,strong)UIImage * headImage;//头像
 @property(nonatomic,copy)NSString * nameText;//姓名
 @property(nonatomic,copy)NSString * yiYuanText;//医院名称
 @property(nonatomic,copy)NSString * addressText;//详细地址
-@property(nonatomic,copy)NSString * xingBieCode;//性别Code
+@property(nonatomic,copy)NSString * xingBieText;//性别Code
 @property(nonatomic,copy)NSString * diQuName;
 @property(nonatomic,copy)NSString * diQuCode;
 @end
 
 @implementation MyZhuYeVC
+
+-(void)viewWillAppear:(BOOL)animated
+{
+   
+    [Engine chaXunMyZhuYesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+
+            _messageDic=[ToolClass isDictionary:dataDic];
+            [_tableView reloadData];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+//    _messageDic=[ToolClass duquPlistWenJianPlistName:@"Login"];
+  
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,37 +91,40 @@
     cell.textLabel.text=_leftArray[indexPath.row];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.detailTextLabel.font=[UIFont systemFontOfSize:15];
+    cell.detailTextLabel.textColor=[UIColor blackColor];
+    cell.detailTextLabel.alpha=.7;
     if (indexPath.row==0) {
         //头像
         imageivew.hidden=NO;
         if (_headImage==nil) {
-           imageivew.image=[UIImage imageNamed:@"homepage_pic"];
+          
+            [imageivew setImageWithURL:[NSURL URLWithString:[_messageDic objectForKey:@"filePath"]] placeholderImage:[UIImage imageNamed:@"homepage_pic"]];
         }else{
             imageivew.image=_headImage;
         }
-        
+        imageivew.sd_cornerRadius=@(30);
         imageivew.sd_layout
         .rightSpaceToView(cell,35)
         .centerYEqualToView(cell)
         .widthIs(60)
         .heightIs(60);
-        cell.detailTextLabel.font=[UIFont systemFontOfSize:15];
-        cell.detailTextLabel.textColor=[UIColor blackColor];
+        
     }else if (indexPath.row==1){
         //姓名
-        cell.detailTextLabel.text=[self stringHouMianText:_nameText InternetText:@"未填写"];
+        cell.detailTextLabel.text=[self stringHouMianText:_nameText InternetText:[self stringValue:[_messageDic objectForKey:@"name"] Sting:@"未填写"]];
     }else if (indexPath.row==2){
         //性别
-         cell.detailTextLabel.text=[self stringHouMianText:[ToolClass XingBieStr:_xingBieCode ] InternetText:@"未选择"];
+         cell.detailTextLabel.text=[self stringHouMianText:_xingBieText InternetText:[self stringValue:[self sringSex:[_messageDic objectForKey:@"sex"]] Sting:@"未选择"]];
     }else if (indexPath.row==3){
         //医院名称
-         cell.detailTextLabel.text=[self stringHouMianText:_yiYuanText InternetText:@"未填写"];
+         cell.detailTextLabel.text=[self stringHouMianText:_yiYuanText InternetText:[self stringValue:[_messageDic objectForKey:@"hospitalName"] Sting:@"未填写"]];
     }else if (indexPath.row==4){
         //地区选择
-         cell.detailTextLabel.text=[self stringHouMianText:_diQuName InternetText:@"未填写"];
+         cell.detailTextLabel.text=[self stringHouMianText:_diQuName InternetText:[self stringValue:[_messageDic objectForKey:@"city_name"] Sting:@"未填写"]];
     }else if (indexPath.row==5){
         //详细地址
-         cell.detailTextLabel.text=[self stringHouMianText:_addressText InternetText:@"未填写"];
+         cell.detailTextLabel.text=[self stringHouMianText:_addressText InternetText:[self stringValue:[_messageDic objectForKey:@"address"] Sting:@"未填写"]];
     }
     
     
@@ -130,7 +156,7 @@
         vc.titleStr=_leftArray[indexPath.row];
         vc.number=3;
         vc.messageBlock=^(NSString*name){
-            _xingBieCode=name;
+            _xingBieText=name;
             [_tableView reloadData];
         };
         [self.navigationController pushViewController:vc animated:YES];
@@ -185,6 +211,26 @@
     return str;
 }
 
+-(NSString*)stringValue:(NSString*)str1 Sting:(NSString*)str2{
+    if (str1 && ![str1 isEqualToString:@""]) {
+        return str1;
+    }else{
+        return str2;
+    }
+}
+//性别
+-(NSString*)sringSex:(NSString*)str{
+    if ([str isEqualToString:@"Y"]) {
+        return @"女";
+    }else if ([str isEqualToString:@"M"]){
+        return @"男";
+    }else{
+        return @"未选择";
+    }
+    
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
@@ -212,6 +258,13 @@
    
     _headImage=image;
     [self dismissViewControllerAnimated:YES completion:nil];
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine headImage:image success:^(NSDictionary *dic) {
+       
+        [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+    } error:^(NSError *error) {
+        
+    }];
     [_tableView reloadData];
 }
 /*

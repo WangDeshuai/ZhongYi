@@ -170,6 +170,7 @@
 +(void)FirstJiaZaiYiAnMessagePage:(NSString*)page PageSize:(NSString*)pagesize success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/consilia/list",SERVICE];
+    //urlStr= [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
         [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
@@ -496,14 +497,21 @@
 
 
 #pragma mark --24.分页加载所有我的报告单信息
-+(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
++(void)baoGaiDanPage:(NSString*)page  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/list",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"33请登录"];
+        return;
+    }
+    
+    
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@"10"]] forKey:@"pageSize"];
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"memberId"];
+    [dic setObject:token forKey:@"phone"];
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -542,11 +550,41 @@
     }];
     
 }
+#pragma mark --26.编辑我的报告单信息
++(void)bianJiMyBaoGaoDanMessage:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/edit",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];
+    
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"26.编辑我的报告单信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"26.编辑我的报告单信息%@",error);
+        [LCProgressHUD showMessage:@"26.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
 #pragma mark --27.新增我的报告单信息
 +(void)saveBaoGaoDanID:(NSString*)idd Type:(NSString*)leiXing XingMing:(NSString*)name Sex:(NSString*)sex Age:(NSString*)age BingMingID:(NSString*)bingMing ZhuSuID:(NSString*)zhusu BingLiID:(NSString*)bingli MaiXiangID:(NSString*)maixiang SheZhiID:(NSString*)shezhi SheTaiID:(NSString*)shetai YouWuFangYN:(NSString*)yn FangZhouQi:(NSString*)zhouqi HuaYN:(NSString*)ynn HuaZhouQi:(NSString*)zhouq ShouShuID:(NSString*)shoushu TNMfen:(NSString*)tnm Pro:(NSString*)pro success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/save",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    
+    NSString * token= [NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"27请登录"];
+        return;
+    }
+    
+    
     NSMutableDictionary * dic =[NSMutableDictionary new];
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];//1.idd
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",leiXing]] forKey:@"type"];//2.报告单类型
@@ -567,7 +605,9 @@
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",tnm]] forKey:@"TNM"];//17.TNM分期
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",pro]] forKey:@"problem"];//18.主要会诊问题
     
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@"1"]] forKey:@"memberId"];
+    
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -584,12 +624,18 @@
 }
 
 #pragma mark --30.分页加载我的收藏信息
-+(void)shouCangPage:(NSString*)page VIP:(NSString*)vipid success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
++(void)shouCangPage:(NSString*)page  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/collection/list",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",vipid]] forKey:@"memberId"];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"30请登录"];
+        return;
+    }
+    
+    [dic setObject:token forKey:@"phone"];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@"10"]] forKey:@"pageSize"];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
     
@@ -608,12 +654,17 @@
     
 }
 #pragma mark --32加载我的推广信息
-+(void)jiaZaiTuiGuangMessageVIPID:(NSString*)vipID success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
++(void)jiaZaiTuiGuangMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/myExtension",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",vipID]] forKey:@"memberId"];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"32请登录"];
+        return;
+    }
+    [dic setObject:token forKey:@"phone"];
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -629,15 +680,106 @@
     }];
     
 }
+#pragma mark --33.加载个人主页
++(void)chaXunMyZhuYesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/index",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"33请登录"];
+        return;
+    }
+    [dic setObject:token forKey:@"phone"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"33.加载个人主页%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"33.加载个人主页%@",error);
+        [LCProgressHUD showMessage:@"33.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
+#pragma mark --34.注册会员信息
++(void)registerMessagePhone:(NSString*)phone Password:(NSString*)psw  ResPassword:(NSString*)pswTwo  YaoQingMa:(NSString*)yaoqing YanZhengMa:(NSString*)code success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/register",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",phone]] forKey:@"phone"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",psw]] forKey:@"password"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",pswTwo]] forKey:@"resPassword"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",yaoqing]] forKey:@"inviterSpreadCode"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",code]] forKey:@"verifyCode"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"34.注册会员信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"34.注册会员信息%@",error);
+        [LCProgressHUD showMessage:@"34.网络超时"];
+        aError(error);
+        
+    }];
+    
+    
+}
+
+#pragma mark-- 35.会员登录
++(void)loginAppPhone:(NSString*)phone Password:(NSString*)psw success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/login",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",phone]] forKey:@"phone"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",psw]] forKey:@"password"];
+    
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"35.会员登录%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"35.会员登录%@",error);
+        [LCProgressHUD showMessage:@"35.网络超时"];
+        aError(error);
+        
+    }];
+}
+
+
+
+
 
 #pragma mark --36.个人主页保存信息
-+(void)myZhuYeSaveMessageCanShuName:(NSString*)name ValueName:(NSString*)value Phone:(NSString*)phone success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
++(void)myZhuYeSaveMessageCanShuName:(NSString*)name ValueName:(NSString*)value  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/save",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+   
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"36请登录"];
+        return;
+    }
+   
+    
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",value]] forKey:name];
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",phone]] forKey:@"phone"];
+    [dic setObject:token forKey:@"phone"];
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -653,5 +795,68 @@
     }];
     
     
+}
+#pragma mark --37.会员头像修改
++(void)headImage:(UIImage*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/changeHead",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"37请登录"];
+        return;
+    }
+
+    
+    NSData *data = UIImageJPEGRepresentation(image, 0);
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:token forKey:@"phone"];
+    
+    [manager POST:urlStr parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
+        [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
+         NSString *imagetype=@"jpg";
+        [formData appendPartWithFileData:data name:@"head" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"37.会员头像修改%@",str);
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"上传失败%@>>>",error);
+         aError(error);
+    }];
+    
+    
+}
+#pragma mark --38.会员修改密码
++(void)XiuGaiPassWordYuan:(NSString*)oldWord NewWord:(NSString*)newword success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/changePass",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"38请登录"];
+        return;
+    }
+    
+    
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",oldWord]] forKey:@"old_password"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",newword]] forKey:@"new_password"];
+    [dic setObject:token forKey:@"phone"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"38.会员修改密码%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"38.会员修改密码%@",error);
+        [LCProgressHUD showMessage:@"38.网络超时"];
+        aError(error);
+        
+    }];
 }
 @end

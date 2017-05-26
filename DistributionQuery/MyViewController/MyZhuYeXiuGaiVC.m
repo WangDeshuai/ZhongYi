@@ -85,11 +85,16 @@
    // self.messageBlock(_textfield.text);
     NSLog(@"参数>>>%@  Value>>%@",_canShuArr[_number],_textfield.text);
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine myZhuYeSaveMessageCanShuName:_canShuArr[_number] ValueName:_textfield.text Phone:@"15032735032" success:^(NSDictionary *dic) {
+    [Engine myZhuYeSaveMessageCanShuName:_canShuArr[_number] ValueName:_textfield.text  success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
              self.messageBlock(_textfield.text);
+            
+            NSDictionary * data =[dic objectForKey:@"data"];
+            [ToolClass savePlist:[ToolClass isDictionary:data] name:@"Login"];
+            
+            
             [self.navigationController popViewControllerAnimated:YES];
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
@@ -143,11 +148,13 @@
     if (indexPath.row==0) {
        
         [LCProgressHUD showLoading:@"请稍后..."];
-        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"M" Phone:@"15032735032" success:^(NSDictionary *dic) {
+        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"M"  success:^(NSDictionary *dic) {
             NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {
                 [LCProgressHUD hide];
-                self.messageBlock(@"0");
+                self.messageBlock(@"男");
+                NSDictionary * data =[dic objectForKey:@"data"];
+                [ToolClass savePlist:[ToolClass isDictionary:data] name:@"Login"];
                 [self.navigationController popViewControllerAnimated:YES];
             }else{
                 [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
@@ -157,17 +164,15 @@
         }];
         
         
-        
-        
-       // self.messageBlock(@"0");//男
-        //[self.navigationController popViewControllerAnimated:YES];
     }else if(indexPath.row==1){
         [LCProgressHUD showLoading:@"请稍后..."];
-        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"Y" Phone:@"15032735032" success:^(NSDictionary *dic) {
+        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"Y"  success:^(NSDictionary *dic) {
             NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {
                 [LCProgressHUD hide];
-                self.messageBlock(@"1");
+                self.messageBlock(@"女");
+                NSDictionary * data =[dic objectForKey:@"data"];
+                [ToolClass savePlist:[ToolClass isDictionary:data] name:@"Login"];
                 [self.navigationController popViewControllerAnimated:YES];
             }else{
                 [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];

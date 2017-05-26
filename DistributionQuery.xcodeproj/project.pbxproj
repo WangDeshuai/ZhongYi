@@ -37,6 +37,9 @@
 		8F40D9FC1EA9F3660073DE57 /* ScanCodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F40D9FB1EA9F3660073DE57 /* ScanCodeCell.m */; };
 		8F50678F1EBAC3E400BFA9DA /* BingMingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F50678E1EBAC3E400BFA9DA /* BingMingModel.m */; };
 		8F5067921EBB1B2700BFA9DA /* ZhongYiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5067911EBB1B2700BFA9DA /* ZhongYiModel.m */; };
+		8F7866261ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F7866251ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.m */; };
+		8F7866291ED6758100DBEB27 /* SheZhiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F7866281ED6758100DBEB27 /* SheZhiViewController.m */; };
+		8F78662C1ED67B1700DBEB27 /* XiuGaiPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F78662B1ED67B1700DBEB27 /* XiuGaiPasswordVC.m */; };
 		8F80365E1EC303790088CF97 /* CustomAlertThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80365D1EC303790088CF97 /* CustomAlertThree.m */; };
 		8F8036621EC314FA0088CF97 /* CustomAlertFour.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8036611EC314FA0088CF97 /* CustomAlertFour.m */; };
 		8F8036661EC31FCE0088CF97 /* CustomAlertFive.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8036651EC31FCE0088CF97 /* CustomAlertFive.m */; };
@@ -249,6 +252,12 @@
 		8F50678E1EBAC3E400BFA9DA /* BingMingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BingMingModel.m; sourceTree = "<group>"; };
 		8F5067901EBB1B2700BFA9DA /* ZhongYiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhongYiModel.h; sourceTree = "<group>"; };
 		8F5067911EBB1B2700BFA9DA /* ZhongYiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhongYiModel.m; sourceTree = "<group>"; };
+		8F7866241ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XiuGaiBaoGaoDanVC.h; sourceTree = "<group>"; };
+		8F7866251ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XiuGaiBaoGaoDanVC.m; sourceTree = "<group>"; };
+		8F7866271ED6758100DBEB27 /* SheZhiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheZhiViewController.h; sourceTree = "<group>"; };
+		8F7866281ED6758100DBEB27 /* SheZhiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheZhiViewController.m; sourceTree = "<group>"; };
+		8F78662A1ED67B1700DBEB27 /* XiuGaiPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XiuGaiPasswordVC.h; sourceTree = "<group>"; };
+		8F78662B1ED67B1700DBEB27 /* XiuGaiPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XiuGaiPasswordVC.m; sourceTree = "<group>"; };
 		8F80365C1EC303790088CF97 /* CustomAlertThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertThree.h; sourceTree = "<group>"; };
 		8F80365D1EC303790088CF97 /* CustomAlertThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlertThree.m; sourceTree = "<group>"; };
 		8F8036601EC314FA0088CF97 /* CustomAlertFour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertFour.h; sourceTree = "<group>"; };
@@ -646,6 +655,8 @@
 				8FC836181EC46E0D00094323 /* BaoGaoDanXiangQing.m */,
 				8FFA86FA1ECB15D5004E3AA9 /* HuiZhenKaiFangVC.h */,
 				8FFA86FB1ECB15D5004E3AA9 /* HuiZhenKaiFangVC.m */,
+				8F7866241ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.h */,
+				8F7866251ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.m */,
 			);
 			path = "我的报告单";
 			sourceTree = "<group>";
@@ -753,6 +764,10 @@
 				8F40D9D81EA8C5FF0073DE57 /* MyVC.m */,
 				8F40D9EF1EA90D1F0073DE57 /* MyTableViewCell.h */,
 				8F40D9F01EA90D1F0073DE57 /* MyTableViewCell.m */,
+				8F7866271ED6758100DBEB27 /* SheZhiViewController.h */,
+				8F7866281ED6758100DBEB27 /* SheZhiViewController.m */,
+				8F78662A1ED67B1700DBEB27 /* XiuGaiPasswordVC.h */,
+				8F78662B1ED67B1700DBEB27 /* XiuGaiPasswordVC.m */,
 				8FDE3D511ECEF47700BE7FD1 /* 我的主页 */,
 			);
 			name = "我的";
@@ -1261,10 +1276,10 @@
 		8FF7D2401EB8388F00914ABC /* 药 */ = {
 			isa = PBXGroup;
 			children = (
-				8FF7D2281EB8361600914ABC /* MedicineCell.h */,
-				8FF7D2291EB8361600914ABC /* MedicineCell.m */,
 				8FF7D22C1EB8361600914ABC /* MedicineVC.h */,
 				8FF7D22D1EB8361600914ABC /* MedicineVC.m */,
+				8FF7D2281EB8361600914ABC /* MedicineCell.h */,
+				8FF7D2291EB8361600914ABC /* MedicineCell.m */,
 			);
 			name = "药";
 			sourceTree = "<group>";
@@ -1508,6 +1523,7 @@
 				8F8036621EC314FA0088CF97 /* CustomAlertFour.m in Sources */,
 				8FF7D2381EB8361600914ABC /* MedicineXiangQingCell.m in Sources */,
 				8FCD4F841DA8B4D300CB113C /* AFURLConnectionOperation.m in Sources */,
+				8F78662C1ED67B1700DBEB27 /* XiuGaiPasswordVC.m in Sources */,
 				8FBBB4AC1ECD450500E6E94F /* UILabel+YBAttributeTextTapAction.m in Sources */,
 				8FCD4F9F1DA8B4D300CB113C /* UIWebView+AFNetworking.m in Sources */,
 				8FF7D24B1EB839F300914ABC /* MyZhuYeVC.m in Sources */,
@@ -1541,6 +1557,7 @@
 				8FA8560F1EADD0DD0056971A /* XJTopMenu.m in Sources */,
 				8F048E121EB5C457008CF5CF /* MyTuiGuangVC.m in Sources */,
 				8F50678F1EBAC3E400BFA9DA /* BingMingModel.m in Sources */,
+				8F7866291ED6758100DBEB27 /* SheZhiViewController.m in Sources */,
 				8FCD4F891DA8B4D300CB113C /* NSData+ImageContentType.m in Sources */,
 				8FE95B1F1EA84490009F04E7 /* MJRefreshConst.m in Sources */,
 				8FE95B101EA84490009F04E7 /* MJRefreshAutoFooter.m in Sources */,
@@ -1610,6 +1627,7 @@
 				8FA856101EADD0DD0056971A /* UIDevice+XJDevice.m in Sources */,
 				8FA856121EADD0DD0056971A /* SCYLayerAddition.m in Sources */,
 				8FCD4FAB1DA8B4D300CB113C /* UIView+SDExtension.m in Sources */,
+				8F7866261ED6688200DBEB27 /* XiuGaiBaoGaoDanVC.m in Sources */,
 				8FC5B1B91EB96DE500EEDB3D /* YaoFangContentXQCell.m in Sources */,
 				8FCD4F9E1DA8B4D300CB113C /* UIRefreshControl+AFNetworking.m in Sources */,
 				8FF7D2201EB835F200914ABC /* JiangZuoXiangQingVC.m in Sources */,

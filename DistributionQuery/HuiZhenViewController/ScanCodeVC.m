@@ -171,7 +171,7 @@
         [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         if ([code isEqualToString:@"200"]) {
             //清空信息
-            [LCProgressHUD hide];
+           
             [self dissMissContent];
         }else{
         }

@@ -73,9 +73,13 @@ typedef void (^ErrorBlock)(NSError*error);
 +(void)CityID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 #pragma mark --24.分页加载所有我的报告单信息
-+(void)baoGaiDanPage:(NSString*)page memBerID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)baoGaiDanPage:(NSString*)page  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 #pragma mark --25.加载我的报告单详情信息
 +(void)baoGaiDanXiangQingMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --26.编辑我的报告单信息
++(void)bianJiMyBaoGaoDanMessage:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
 
 #pragma mark --27.新增我的报告单信息
 +(void)saveBaoGaoDanID:(NSString*)idd Type:(NSString*)leiXing XingMing:(NSString*)name Sex:(NSString*)sex Age:(NSString*)age BingMingID:(NSString*)bingMing ZhuSuID:(NSString*)zhusu BingLiID:(NSString*)bingli MaiXiangID:(NSString*)maixiang SheZhiID:(NSString*)shezhi SheTaiID:(NSString*)shetai YouWuFangYN:(NSString*)yn FangZhouQi:(NSString*)zhouqi HuaYN:(NSString*)ynn HuaZhouQi:(NSString*)zhouq ShouShuID:(NSString*)shoushu TNMfen:(NSString*)tnm Pro:(NSString*)pro success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
@@ -85,15 +89,29 @@ typedef void (^ErrorBlock)(NSError*error);
 
 
 #pragma mark --30.分页加载我的收藏信息
-+(void)shouCangPage:(NSString*)page VIP:(NSString*)vipid success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)shouCangPage:(NSString*)page success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 
 //31接口不用
 #pragma mark --32加载我的推广信息
-+(void)jiaZaiTuiGuangMessageVIPID:(NSString*)vipID success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)jiaZaiTuiGuangMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --33.加载个人主页
++(void)chaXunMyZhuYesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
+#pragma mark --34.注册会员信息
++(void)registerMessagePhone:(NSString*)phone Password:(NSString*)psw  ResPassword:(NSString*)pswTwo  YaoQingMa:(NSString*)yaoqing YanZhengMa:(NSString*)code success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+#pragma mark-- 35.会员登录
++(void)loginAppPhone:(NSString*)phone Password:(NSString*)psw  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 #pragma mark --36.个人主页保存信息
-+(void)myZhuYeSaveMessageCanShuName:(NSString*)name ValueName:(NSString*)value Phone:(NSString*)phone success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)myZhuYeSaveMessageCanShuName:(NSString*)name ValueName:(NSString*)value  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 
+#pragma mark --37.会员头像修改
++(void)headImage:(UIImage*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --38.会员修改密码
++(void)XiuGaiPassWordYuan:(NSString*)oldWord NewWord:(NSString*)newword success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 @end

@@ -74,7 +74,7 @@
     .leftSpaceToView(_tableView,0)
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
-    .heightIs(114);
+    .heightIs(347);
     
     //创建选择病名
     UIView * view1=[UIView new];
@@ -175,8 +175,16 @@
             }
             
             [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
+             __weak __typeof(headview)weakSelf = headview;
             headview.didFinishAutoLayoutBlock=^(CGRect rect){
                 NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
+                weakSelf.sd_layout
+                .leftSpaceToView(_tableView,0)
+                .rightSpaceToView(_tableView,0)
+                .topSpaceToView(_tableView,0)
+                .heightIs(rect.size.height);
+
+                
             };
             
             

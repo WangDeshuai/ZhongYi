@@ -32,12 +32,20 @@
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
+            if (dataArr.count==0) {
+                [LCProgressHUD showMessage:@"暂无内容"];
+                [self.navigationController popViewControllerAnimated:YES];
+                return ;
+            }
+            
             for (NSDictionary * dicc in dataArr) {
                 YaoFangModel * md =[[YaoFangModel alloc]initWithFenLeiXiangQingDic:dicc];
                 [_dataArray addObject:md];
             }
             [_tableView reloadData];
             
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
     } error:^(NSError *error) {
         

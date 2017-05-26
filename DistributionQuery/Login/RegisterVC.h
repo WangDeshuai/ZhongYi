@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface RegisterVC : BaseViewController
-
+@property(nonatomic,copy)void(^PhonePswBlock)(NSString*phone,NSString*psw);
 @end

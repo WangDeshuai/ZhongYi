@@ -11,5 +11,6 @@
 @interface YiAnXiangQingCell : UITableViewCell
 +(instancetype)cellWithTableView:(UITableView*)tableView IndexPath:(NSIndexPath *)indexPath;
 @property(nonatomic,strong)UILabel * leftLabel;
-@property(nonatomic,copy)NSString * text;
+@property(nonatomic,copy)NSString * text;//其它label
+@property(nonatomic,copy)NSString * text1;//病案详情
 @end

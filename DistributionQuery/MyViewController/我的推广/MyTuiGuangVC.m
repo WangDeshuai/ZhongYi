@@ -97,7 +97,7 @@
     [tuiGuangMalab setSingleLineAutoResizeWithMaxWidth:ScreenWidth-100];
     
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine jiaZaiTuiGuangMessageVIPID:@"15032735032" success:^(NSDictionary *dic) {
+    [Engine jiaZaiTuiGuangMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSDictionary * dataDic =[dic objectForKey:@"data"];
@@ -108,13 +108,15 @@
             }
             
             numlab.text=[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"spreadCode"]]];
-            
-            
             [_tableView reloadData];
             [LCProgressHUD hide];
+        }else if ([code isEqualToString:@"400"]){
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+             numlab.text=[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"spreadCode"]]];
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
+        
     } error:^(NSError *error) {
         
     }];

@@ -10,6 +10,7 @@
 #import "BaoGaiDanModel.h"
 #import "HuiZhenKaiFangVC.h"
 #import "MedicineXiangQingVC.h"
+#import "XiuGaiBaoGaoDanVC.h"
 @interface BaoGaoDanXiangQing ()
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UILabel * contentlabel;
@@ -24,6 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"报告单详情";
+    [self CreatRightBtn];
     _fount=12;
    
     _classIDArray=[NSMutableArray new];
@@ -35,7 +37,22 @@
     [self CreatContent];
     
 }
-
+#pragma mark --修改按钮
+-(void)CreatRightBtn{
+    UIButton*  backHomeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [backHomeBtn setTitle:@"修改" forState:0];
+    [backHomeBtn setTitleColor:MAIN_COLOR forState:0];
+    backHomeBtn.frame=CGRectMake(0, 0, 100, 30);
+    backHomeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    backHomeBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
+    [backHomeBtn addTarget:self action:@selector(rightBtnClink) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * leftBtn2 =[[UIBarButtonItem alloc]initWithCustomView:backHomeBtn];
+    self.navigationItem.rightBarButtonItems=@[leftBtn2];
+}
+-(void)rightBtnClink{
+    XiuGaiBaoGaoDanVC * vc =[XiuGaiBaoGaoDanVC new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 -(void)CreatContent{
     UIView * bgView=_myScrollView;//[UIView new];

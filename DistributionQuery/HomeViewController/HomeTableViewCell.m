@@ -81,7 +81,7 @@
 {
     _model=model;
     _titleLable.text=model.titlename;
-    _contentlabel.text=model.contentName;
+    _contentlabel.attributedText=[ToolClass HTML:model.contentName];
     _timelabel.text=[ToolClass ConvertStrToTime:[model.timeStr longLongValue]];//;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

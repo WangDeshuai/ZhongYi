@@ -14,6 +14,7 @@
 #import "MyTuiGuangVC.h"//我的推广
 #import "YiJianFanKuiVC.h"//意见反馈
 #import "MyZhuYeVC.h"//我的主页
+#import "SheZhiViewController.h"//设置
 @interface MyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
@@ -23,6 +24,7 @@
 @implementation MyVC
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden=YES;
+     _tableView.tableHeaderView=[self CreatTabeleViewHead];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -64,9 +66,10 @@
     .topSpaceToView(headView,0)
     .heightIs(182+20);
     
-    //头像
+    //头像zz123321
     UIButton * headBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [headBtn setBackgroundImage:[UIImage imageNamed:@"my_head"] forState:0];
+    [headBtn addTarget:self action:@selector(loginBtnClink) forControlEvents:UIControlEventTouchUpInside];
     headBtn.sd_cornerRadius=@(71/2);
     [bgImage sd_addSubviews:@[headBtn]];
     headBtn.sd_layout
@@ -74,9 +77,30 @@
     .topSpaceToView(bgImage,50)
     .widthIs(71)
     .heightIs(71);
+    
+    [Engine chaXunMyZhuYesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            
+            [headBtn setBackgroundImageForState:0 withURL:[NSURL URLWithString:[ToolClass isString:[dataDic objectForKey:@"filePath"]]] placeholderImage:[UIImage imageNamed:@"my_head"]];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+    
+    
     //姓名
     UILabel * namelabel =[UILabel new];
-    namelabel.text=@"刘医生";
+    if ([ToolClass isLogin]) {
+       namelabel.text=[NSUSE_DEFO objectForKey:@"token"];
+    }else{
+         namelabel.text=@"未登录";
+    }
+   
     namelabel.font=[UIFont systemFontOfSize:16];
     namelabel.textAlignment=1;
     namelabel.textColor=[UIColor whiteColor];
@@ -84,12 +108,13 @@
     namelabel.sd_layout
     .centerXEqualToView(headBtn)
     .topSpaceToView(headBtn,10)
-    .widthIs(70)
     .heightIs(20);
+    [namelabel setSingleLineAutoResizeWithMaxWidth:200];
     //设置
     UIButton * setBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [setBtn setImage:[UIImage imageNamed:@"my_set"] forState:0];
     [bgImage sd_addSubviews:@[setBtn]];
+    [setBtn addTarget:self action:@selector(sheZhiBtnClink) forControlEvents:UIControlEventTouchUpInside];
     setBtn.sd_layout
     .rightSpaceToView(bgImage,10)
     .topEqualToView(headBtn)
@@ -122,7 +147,37 @@
     return headView;
 }
 
+#pragma mark --设置点击
+-(void)sheZhiBtnClink{
+    
+    if ([ToolClass isLogin]==NO) {
+        LoginViewController * vc =[LoginViewController new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    
+    
+    SheZhiViewController * vc =[SheZhiViewController new];
+    vc.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
+
+#pragma mark --点击头像
+-(void)loginBtnClink{
+   
+    if ([ToolClass isLogin]==NO) {
+        LoginViewController * vc =[LoginViewController new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        MyZhuYeVC * vc =[MyZhuYeVC new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+   
+}
 
 
 #pragma mark --创建表格
@@ -161,13 +216,18 @@
 #pragma mark --表格点击
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([ToolClass isLogin]==NO) {
+        LoginViewController * vc =[LoginViewController new];
+        vc.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+        return;
+    }
+    
+    
     
     if (indexPath.section==0) {
         if (indexPath.row==0) {
-            //我的主页
-//            LoginViewController * vc =[LoginViewController new];
-//            vc.hidesBottomBarWhenPushed=YES;
-//            [self.navigationController pushViewController:vc animated:YES];
             MyZhuYeVC * vc =[MyZhuYeVC new];
             vc.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:vc animated:YES];

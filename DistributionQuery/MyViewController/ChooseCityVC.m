@@ -208,8 +208,22 @@
     }else{
          CityModel * md=_dataArray3[indexPath.row];
          NSLog(@"shengName%@,cityName%@,xianName%@",_shengName,_shiName,md.xianName);
-        self.CityNameBlock(_shengName,_shiName,md.xianName,md.xianCode);
-        [self.navigationController popViewControllerAnimated:YES];
+        [LCProgressHUD showLoading:@"请稍后..."];
+        [Engine myZhuYeSaveMessageCanShuName:@"address_code" ValueName:md.xianCode  success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                [LCProgressHUD hide];
+                NSDictionary * data =[dic objectForKey:@"data"];
+                [ToolClass savePlist:[ToolClass isDictionary:data] name:@"Login"];
+                self.CityNameBlock(_shengName,_shiName,md.xianName,md.xianCode);
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+        
     }
 }
 
