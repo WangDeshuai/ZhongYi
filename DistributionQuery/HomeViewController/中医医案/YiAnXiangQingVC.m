@@ -19,10 +19,59 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"医案详情";
+    self.title=_titlename;
+    [self CreatRightBtn];
     [self CreatArr];
     [self CreatTabelView];
 }
+
+-(void)CreatRightBtn{
+    UIButton*  backHomeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [backHomeBtn setImage:[UIImage imageNamed:@"xq_sc"] forState:0];
+    [backHomeBtn setImage:[UIImage imageNamed:@"xq_sc_click"] forState:UIControlStateSelected];
+    [backHomeBtn setTitleColor:MAIN_COLOR forState:0];
+    backHomeBtn.frame=CGRectMake(0, 0, 100, 30);
+    backHomeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    backHomeBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
+    [backHomeBtn addTarget:self action:@selector(rightBtnClink:) forControlEvents:UIControlEventTouchUpInside];
+    [Engine YanZhengMyShouCangMessageID:_messageID Type:@"4" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            //收藏
+            backHomeBtn.selected=YES;
+        }else{
+            //未收藏
+            backHomeBtn.selected=NO;
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    UIBarButtonItem * leftBtn2 =[[UIBarButtonItem alloc]initWithCustomView:backHomeBtn];
+    self.navigationItem.rightBarButtonItems=@[leftBtn2];
+}
+-(void)rightBtnClink:(UIButton*)btn{
+    btn.selected=!btn.selected;
+    if (btn.selected==NO) {
+        //取消
+        NSLog(@"取消");
+        [Engine shouCangSaveStype:@"4" MessageID:_messageID uccess:^(NSDictionary *dic) {
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        } error:^(NSError *error) {
+            
+        }];
+    }else{
+        //选中（药=1，病=2，讲座=3，医案=4）
+        NSLog(@"收藏");
+        [Engine shouCangSaveStype:@"4" MessageID:_messageID uccess:^(NSDictionary *dic) {
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        } error:^(NSError *error) {
+            
+        }];
+    }
+    
+}
+
+
 -(void)CreatArr{
     _leftArray=@[@"患者情况:",@"初诊时间:",@"病案详情:"];
     _dataArray=[NSMutableArray new];
@@ -45,7 +94,7 @@
     nameLable.textColor=MAIN_COLOR;
     nameLable.font=[UIFont systemFontOfSize:16];
     nameLable.textAlignment=1;
-    [headview sd_addSubviews:@[nameLable]];
+    //[headview sd_addSubviews:@[nameLable]];
     nameLable.sd_layout
     .leftSpaceToView(headview,10)
     .rightSpaceToView(headview,10)
@@ -58,7 +107,7 @@
     imageview.sd_layout
     .leftSpaceToView(headview,0)
     .rightSpaceToView(headview,0)
-    .topSpaceToView(nameLable,15)
+    .topSpaceToView(headview,5)
     .heightIs(370/2);
     
     
@@ -131,7 +180,9 @@
     CGFloat gg =[tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[YiAnXiangQingCell class] contentViewWidth:[ToolClass cellContentViewWith]];
     
     if (indexPath.row==2) {
-        return gg;
+         CGFloat ggg =[tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text1" cellClass:[YiAnXiangQingCell class] contentViewWidth:[ToolClass cellContentViewWith]];
+        
+        return ggg;
     }
     
     return gg;

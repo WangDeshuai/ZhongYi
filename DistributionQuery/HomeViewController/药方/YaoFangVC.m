@@ -147,7 +147,7 @@
     .widthIs(150);
     
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+    [Engine yaoFangClassFenLeisuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
              [LCProgressHUD hide];
@@ -158,7 +158,7 @@
                 [array addObject:md.yaoFangClass];
                 [_topClassID addObject:md.yaoClassID];
             }
-            [array addObject:@"更多"];
+//            [array addObject:@"更多"];
             //若干个按钮
             _topArray=array;
             int kj= 10;
@@ -171,9 +171,9 @@
                 [button setTitle:array[i] forState:0];
                 [button setTitleColor:[UIColor blackColor] forState:0];
                 [bgHeadView sd_addSubviews:@[button]];
-                if (i==array.count-1) {
-                    [button setTitleColor:MAIN_COLOR forState:0];
-                }
+//                if (i==array.count-1) {
+//                    [button setTitleColor:MAIN_COLOR forState:0];
+//                }
 //                button.layer.borderColor=[UIColor blackColor].CGColor;
 //                button.layer.borderWidth=1;
                 button.backgroundColor=BG_COLOR;
@@ -210,15 +210,15 @@
 #pragma mark --topClink
 -(void)buttonClinck:(UIButton*)btn{
 //    YaoFangModel * md=_topArray[btn.tag];
-    if (btn.tag==_topArray.count-1) {
-        MoreClassVC * vc =[MoreClassVC new];
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
+//    if (btn.tag==_topArray.count-1) {
+//        MoreClassVC * vc =[MoreClassVC new];
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }else{
         YaoFangTopXQVC * vc =[YaoFangTopXQVC new];
         vc.classID=_topClassID[btn.tag];
         vc.titlename=_topArray[btn.tag];
         [self.navigationController pushViewController:vc animated:YES];
-    }
+//    }
     
 }
 #pragma mark --创建表格
@@ -297,7 +297,7 @@
     .widthIs(13)
     .heightIs(11);
     UILabel * nameLabel =[UILabel new];
-    nameLabel.text=@"张士舜名医名方";
+    nameLabel.text=@"名医名方";
     nameLabel.textColor=MAIN_COLOR;
     nameLabel.font=[UIFont systemFontOfSize:16];
     [headview sd_addSubviews:@[nameLabel]];

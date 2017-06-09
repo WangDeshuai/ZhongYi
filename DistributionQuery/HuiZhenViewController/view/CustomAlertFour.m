@@ -97,7 +97,7 @@
         _leftTableView=[[UITableView alloc]init];
     }
     _leftTableView.tableFooterView=[UIView new];
-    _leftTableView.backgroundColor=BG_COLOR;
+    _leftTableView.backgroundColor=[UIColor whiteColor];
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -116,7 +116,7 @@
         _centerTableView=[[UITableView alloc]init];
     }
     _centerTableView.tableFooterView=[UIView new];
-    _centerTableView.backgroundColor=BG_COLOR;
+    _centerTableView.backgroundColor=[UIColor whiteColor];
     _centerTableView.delegate=self;
     _centerTableView.dataSource=self;
     _centerTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -136,7 +136,7 @@
         _rightTableView=[[UITableView alloc]init];
     }
     _rightTableView.tableFooterView=[UIView new];
-    _rightTableView.backgroundColor=BG_COLOR;
+    _rightTableView.backgroundColor=[UIColor whiteColor];
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;

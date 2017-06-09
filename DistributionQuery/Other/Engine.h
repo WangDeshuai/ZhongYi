@@ -84,6 +84,10 @@ typedef void (^ErrorBlock)(NSError*error);
 #pragma mark --27.新增我的报告单信息
 +(void)saveBaoGaoDanID:(NSString*)idd Type:(NSString*)leiXing XingMing:(NSString*)name Sex:(NSString*)sex Age:(NSString*)age BingMingID:(NSString*)bingMing ZhuSuID:(NSString*)zhusu BingLiID:(NSString*)bingli MaiXiangID:(NSString*)maixiang SheZhiID:(NSString*)shezhi SheTaiID:(NSString*)shetai YouWuFangYN:(NSString*)yn FangZhouQi:(NSString*)zhouqi HuaYN:(NSString*)ynn HuaZhouQi:(NSString*)zhouq ShouShuID:(NSString*)shoushu TNMfen:(NSString*)tnm Pro:(NSString*)pro success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
+#pragma mark --28.更新报告单信息
++(void)saveGengXinBaoGaoDanMessageID:(NSString*)idd MessageName:(NSString*)name MessageSex:(NSString*)sex Age:(NSString*)age success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
 #pragma mark --29.保存我的意见反馈信息(带有图片)
 //+(void)messageFanKuiVipID:(NSString*)vipID Content:(NSString*)content ImageArr:(NSString*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
@@ -91,8 +95,12 @@ typedef void (^ErrorBlock)(NSError*error);
 #pragma mark --30.分页加载我的收藏信息
 +(void)shouCangPage:(NSString*)page success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
+#pragma mark --31.保存我的收藏信息
++(void)shouCangSaveStype:(NSString*)type MessageID:(NSString*)messageid uccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
-//31接口不用
+#pragma mark --验证我的收藏信息
++(void)YanZhengMyShouCangMessageID:(NSString*)messageID Type:(NSString*)type success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
 #pragma mark --32加载我的推广信息
 +(void)jiaZaiTuiGuangMessagesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
@@ -114,4 +122,17 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --38.会员修改密码
 +(void)XiuGaiPassWordYuan:(NSString*)oldWord NewWord:(NSString*)newword success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+#pragma mark --40.加载所有的病种分类信息（适用于药方页加载病种分类的接口）
++(void)yaoFangClassFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
+#pragma mark --41.加载所有的病种分类信息（适用于病名页加载病种分类的接口）
++(void)bingMingFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --42.加载首页轮播图
++(void)shouYiFirstLunBosuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --43.首页全局搜索
++(void)searchFirstKeyWord:(NSString*)name success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
 @end

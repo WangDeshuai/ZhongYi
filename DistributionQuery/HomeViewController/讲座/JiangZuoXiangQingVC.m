@@ -36,9 +36,60 @@
     appdelegate.allowRotation=YES;
     [self moNiDaoHang];
     [self CreatLabel];
-
+    [self CreatRightBtn];
 
 }
+
+
+
+-(void)CreatRightBtn{
+    UIButton*  backHomeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [backHomeBtn setImage:[UIImage imageNamed:@"xq_sc"] forState:0];
+    [backHomeBtn setImage:[UIImage imageNamed:@"xq_sc_click"] forState:UIControlStateSelected];
+    [backHomeBtn setTitleColor:MAIN_COLOR forState:0];
+    backHomeBtn.frame=CGRectMake(0, 0, 100, 30);
+    backHomeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
+    backHomeBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
+    [backHomeBtn addTarget:self action:@selector(rightBtnClink:) forControlEvents:UIControlEventTouchUpInside];
+    [Engine YanZhengMyShouCangMessageID:_messageid Type:@"3" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            //收藏
+            backHomeBtn.selected=YES;
+        }else{
+            //未收藏
+            backHomeBtn.selected=NO;
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    UIBarButtonItem * leftBtn2 =[[UIBarButtonItem alloc]initWithCustomView:backHomeBtn];
+    self.navigationItem.rightBarButtonItems=@[leftBtn2];
+}
+-(void)rightBtnClink:(UIButton*)btn{
+    btn.selected=!btn.selected;
+    if (btn.selected==NO) {
+        //取消
+        [Engine shouCangSaveStype:@"3" MessageID:_messageid uccess:^(NSDictionary *dic) {
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        } error:^(NSError *error) {
+            
+        }];
+    }else{
+        //选中（药=1，病=2，讲座=3，医案=4）
+        NSLog(@"收藏");
+        [Engine shouCangSaveStype:@"3" MessageID:_messageid uccess:^(NSDictionary *dic) {
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        } error:^(NSError *error) {
+            
+        }];
+    }
+    
+}
+
+
+
+
 - (BOOL)shouldAutorotate{
     return YES;
 }

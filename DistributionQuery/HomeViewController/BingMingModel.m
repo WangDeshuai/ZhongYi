@@ -14,7 +14,9 @@
     self=[super init];
     if (self) {
         //病名
-        _xqBingName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"diseaseName"]]];
+        
+        NSDictionary * categoryDic =[dic objectForKey:@"category"];
+        _xqBingName=[ToolClass isString:[NSString stringWithFormat:@"%@",[categoryDic objectForKey:@"name"]]];
         //中医病名
         _xqzyBingName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"diseaseName"]]];
        

@@ -8,7 +8,6 @@
 
 #import "BaoGaoDanXiangQing.h"
 #import "BaoGaiDanModel.h"
-#import "HuiZhenKaiFangVC.h"
 #import "MedicineXiangQingVC.h"
 #import "XiuGaiBaoGaoDanVC.h"
 @interface BaoGaoDanXiangQing ()
@@ -51,6 +50,7 @@
 }
 -(void)rightBtnClink{
     XiuGaiBaoGaoDanVC * vc =[XiuGaiBaoGaoDanVC new];
+    vc.baoGaoID=_messageID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -224,7 +224,7 @@
             [LCProgressHUD hide];
             NSDictionary * dicc =[dic objectForKey:@"data"];
             //@"张士舜三辩肿瘤治疗会诊中心报告单"
-            titlelabel.text=[ToolClass isString:[NSString stringWithFormat:@"张士舜三辩%@治疗会诊中心报告单",[dicc objectForKey:@"type"]]];
+            titlelabel.text=[ToolClass isString:[NSString stringWithFormat:@"张士舜%@治疗会诊中心报告单",[dicc objectForKey:@"type"]]];
             
             BaoGaiDanModel * md =[[BaoGaiDanModel alloc]initWithBaoGaoDanXiangQingDic:dicc];
             [array2 addObject:md.xqname];

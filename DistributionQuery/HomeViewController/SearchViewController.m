@@ -1,74 +1,53 @@
 //
-//  MyShouCangVC.m
+//  SearchViewController.m
 //  DistributionQuery
 //
-//  Created by Macx on 17/4/25.
+//  Created by Macx on 17/6/9.
 //  Copyright © 2017年 Macx. All rights reserved.
 //
 
-#import "MyShouCangVC.h"
+#import "SearchViewController.h"
+#import "searchModel.h"
 #import "MyShouCangCell.h"
-#import "MyShouCangModel.h"
 #import "MedicineXiangQingVC.h"//药详情
 #import "BingMingXiangQingVC.h"//病名详情
+#import "YaoFangContentXQVC.h"//方剂详情
 #import "YiAnXiangQingVC.h"//医案详情
 #import "JiangZuoXiangQingVC.h"//讲座详情
-@interface MyShouCangVC ()<UITableViewDelegate,UITableViewDataSource>
-@property(nonatomic,strong)UITableView * tableView;
-@property(nonatomic,strong)NSArray * imageArr;
+@interface SearchViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)NSMutableArray * dataArray;
-@property(nonatomic,assign)int AAA;
-@property (nonatomic,strong) MJRefreshComponent *myRefreshView;
-
+@property(nonatomic,strong)UITableView * tableView;
 @end
 
-@implementation MyShouCangVC
+@implementation SearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"我的收藏";
-//    [self CreatArr];
+    self.title=@"搜索";
+    _dataArray=[NSMutableArray new];
+    [self shuJuData];
     [self CreatTabelView];
 }
-
--(void)jieXieDataPage:(int)page{
-    
-    [Engine shouCangPage:[NSString stringWithFormat:@"%d",page]  success:^(NSDictionary *dic) {
+-(void)shuJuData{
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine searchFirstKeyWord:_keyWord success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
+            [LCProgressHUD hide];
             NSArray * dataArr =[dic objectForKey:@"data"];
-            NSMutableArray * array2 =[NSMutableArray new];
             for (NSDictionary * dicc in dataArr) {
-                MyShouCangModel * md =[[MyShouCangModel alloc]initWithShangCangDic:dicc];
-                [array2 addObject:md];
-            }
-            
-            if (self.myRefreshView ==_tableView.header) {
-                _dataArray=array2;
-                _tableView.footer.hidden=_dataArray.count==0?YES:NO;
-            }else if (self.myRefreshView == _tableView.footer){
-                [_dataArray addObjectsFromArray:array2];
+                 searchModel * md =[[searchModel alloc]initWithSearchDic:dicc];
+                [_dataArray addObject:md];
             }
             [_tableView reloadData];
-            [_myRefreshView  endRefreshing];
-            
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
-        
-        
     } error:^(NSError *error) {
-        [LCProgressHUD showMessage:@"网络超时，请重试!"];
+        
     }];
-    
 }
-
-
-//-(void)CreatArr{
-//    _imageArr=@[@"sc_bing",@"sc_jz",@"sc_ya",@"sc_yao"];
-//}
-
 #pragma mark --创建表格
 -(void)CreatTabelView{
     if (!_tableView) {
@@ -79,29 +58,8 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    _tableView.rowHeight=60;
+    
     [self.view sd_addSubviews:@[_tableView]];
-    
-    
-    __weak typeof (self) weakSelf =self;
-    _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        weakSelf.myRefreshView = weakSelf.tableView.header;
-        _AAA=1;
-        [self jieXieDataPage:_AAA];
-    }];
-    
-    [_tableView.header beginRefreshing];
-    //..上拉刷新
-    _tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        weakSelf.myRefreshView = weakSelf.tableView.footer;
-        _AAA=_AAA+1;
-          [self jieXieDataPage:_AAA];
-    }];
-    
-    _tableView.footer.hidden = YES;
-    
-    
-    
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -110,42 +68,54 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-      MyShouCangCell * cell =[MyShouCangCell cellWithTableView:tableView CellID:[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section]];
-    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-    cell.model=_dataArray[indexPath.row];
+    MyShouCangCell * cell =[MyShouCangCell cellWithTableView:tableView CellID:[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section]];
+    cell.searMd=_dataArray[indexPath.row];
     return cell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    MyShouCangModel * md =_dataArray[indexPath.row];
+    searchModel * md =_dataArray[indexPath.row];
     if ([md.type isEqualToString:@"1"]) {
         //药
         MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
-        vc.yaoID=md.targetID;
+        vc.yaoID=md.idd;
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([md.type isEqualToString:@"2"]){
+        //方剂
+        YaoFangContentXQVC * vc =[YaoFangContentXQVC new];
+        vc.yaoID=md.idd;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if ([md.type isEqualToString:@"3"]){
         //病
         BingMingXiangQingVC * vc =[BingMingXiangQingVC new];
-        vc.bingID=md.targetID;
+        vc.bingID=md.idd;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if ([md.type isEqualToString:@"3"]){
+    }else if ([md.type isEqualToString:@"5"]){
         //讲座
         JiangZuoXiangQingVC * vc =[JiangZuoXiangQingVC new];
-        vc.messageid=md.targetID;
+        vc.messageid=md.idd;
         [self.navigationController pushViewController:vc animated:YES];
     }else if ([md.type isEqualToString:@"4"]){
         //中医医案
         YiAnXiangQingVC * vc =[YiAnXiangQingVC new];
-        vc.messageID=md.targetID;
-        vc.titlename=md.titlename;
+        vc.messageID=md.idd;
+        vc.titlename=md.contentName;
         [self.navigationController pushViewController:vc animated:YES];
     }
     
     
 }
+
+
+
 
 
 

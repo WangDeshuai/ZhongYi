@@ -25,7 +25,7 @@
     self.title=@"病种";
     _classID=[NSMutableArray new];
     _dataArray1=[NSMutableArray new];
-    [self CreatSearch];
+//    [self CreatSearch];
     [self CreatTabelView];
 }
 #pragma mark --创建顶部搜索框
@@ -137,9 +137,9 @@
     .heightIs(300);
 
     
+    //
     
-    
-    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+    [Engine bingMingFenLeisuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -153,8 +153,8 @@
 //            NSArray * btnArr=@[@"肺癌",@"胃癌",@"肝癌",@"肾癌",@"胶质量",@"鼻咽癌",@"口腔癌",@"下咽癌",@"乳腺癌",@"食管癌",@"贵门癌",@"大肠癌",@"但脑癌",@"胰腺癌",@"膀胱癌",@"阴茎癌",@"卵巢癌",@"宫颈癌",@"扁桃体癌",@"甲状腺癌",@"前列腺癌",@"黑色素癌",@"恶性淋巴瘤",@"子宫内膜瘤",@"胸膜间皮癌"];
             
             int kj =10;
-            int k=(ScreenWidth-kj*5)/4;
-            int g=k*52/148;
+            int k=(ScreenWidth-kj*4)/3;
+            int g=k*52/148-10;
             int gj=15;
             if ([ToolClass isiPad]) {
                 kj =25;
@@ -184,8 +184,8 @@
                 
                 [view2 sd_addSubviews:@[btn]];
                 btn.sd_layout
-                .leftSpaceToView(view2,kj+(k+kj)*(i%4))
-                .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                .leftSpaceToView(view2,kj+(k+kj)*(i%3))
+                .topSpaceToView(view2,gj+(g+gj)*(i/3))
                 .widthIs(k)
                 .heightIs(g);
                 [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
@@ -227,7 +227,7 @@
 #pragma mark --创建表格
 -(void)CreatTabelView{
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 55, ScreenWidth, ScreenHeight-64-55) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64) style:UITableViewStylePlain];
     }
     _tableView.tableFooterView=[UIView new];
     _tableView.backgroundColor=[UIColor whiteColor];

@@ -14,6 +14,7 @@
 #import "CustomAlertThree.h"
 #import "CustomAlertFour.h"
 #import "CustomAlertFive.h"
+#import "ScanCodeModel.h"
 @interface ScanCodeVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UITextViewDelegate>
 @property(nonatomic,strong)UIButton * sexBtn;
 @property(nonatomic,strong)NSMutableArray * image2;
@@ -40,15 +41,18 @@
 @property(nonatomic,copy)NSString * shouShu;//手术
 @property(nonatomic,copy)NSString * tnmStr;//tNm分期(展示用)
 @property(nonatomic,copy)NSString * tnmStrID;
+@property(nonatomic,strong)NSMutableArray * zhuSuIDArr;
 @property(nonatomic,copy)NSString * zhuSuStr;//主诉
 @property(nonatomic,copy)NSString * zhuSuStrID;//主诉ID
 @property(nonatomic,copy)NSString * wenTiMiaoShu;//问题描述
-@property(nonatomic,copy)NSString * zhuSuStr2;//主诉
-@property(nonatomic,copy)NSString * zhuSuStrID2;//主诉ID
-@property(nonatomic,copy)NSString * zhuSuStr3;//主诉
-@property(nonatomic,copy)NSString * zhuSuStrID3;//主诉ID
-@property(nonatomic,copy)NSString * zhuSuStr4;//主诉
-@property(nonatomic,copy)NSString * zhuSuStrID4;//主诉ID
+/*
+ 
+ 主诉这，可以无限增加。把需要上传的主诉ID存到zhuSuIDArr中了。
+ 主诉的名字存到_image2中，_image2本来是存储最左边图标的就存了1个
+ 现在从第二个开始，就存成主诉的名字了
+ 
+ */
+
 @end
 
 @implementation ScanCodeVC
@@ -56,53 +60,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"三辩会诊";
-    [self CreatRightBtn];
+    self.title=@"三辨会诊";
+    if (_tagg==1) {
+        self.backHomeBtn.hidden=NO;
+    }else{
+        self.backHomeBtn.hidden=YES;
+    }
     [self imageData];
     [self CreatTabelView];
-   // [self publicButton];
+    [self addFooterButton];
 }
-
--(void)CreatRightBtn{
-    UIButton*  backHomeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-    [backHomeBtn setTitle:@"提交" forState:0];
-    [backHomeBtn setTitleColor:MAIN_COLOR forState:0];
-    backHomeBtn.frame=CGRectMake(0, 0, 100, 30);
-    backHomeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
-    backHomeBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
-    [backHomeBtn addTarget:self action:@selector(publicBtnClink) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * leftBtn2 =[[UIBarButtonItem alloc]initWithCustomView:backHomeBtn];
-    self.navigationItem.rightBarButtonItems=@[leftBtn2];
-}
-
 
 
 
 -(void)imageData{
+    _zhuSuIDArr=[NSMutableArray new];
     NSArray * imageArr1=@[@"sbhz_lx",@"sbhz_admin"];//
-   // NSArray * imageArr2=@[@"sbhz_bm",@"sbhz_bl",@"sbhz_mx",@"sbhz_st",@"sbhz_zs"];
-    _image2=[[NSMutableArray alloc]initWithObjects:@"sbhz_bm",@"sbhz_bl",@"sbhz_mx",@"sbhz_st",@"sbhz_zs", nil];
-    
-    NSArray * imageArr3=@[@"sbhz_fl",@"sbhz_fl",@"sbhz_fq",@"sbhz_fl"];
+    NSArray * imageArr2 =@[@"sbhz_bm",@"sbhz_bl",@"sbhz_fq",@"sbhz_mx",@"sbhz_st"];
+    _image2=[[NSMutableArray alloc]initWithObjects:@"sbhz_zs", nil];
+    NSArray * imageArr3=@[@"sbhz_fl",@"sbhz_fl",@"sbhz_fl"];
     NSArray * imageArr4=@[@"sbhz_question"];
-     _imageArray=@[imageArr1,_image2,imageArr3,imageArr4];
+     _imageArray=@[imageArr1,imageArr2,_image2,imageArr3,imageArr4];
 }
 
 
-//#pragma mark --创建发布按钮
-//-(void)publicButton{
-//    
-//    UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
-//    [button setTitle:@"发布" forState:0];
-//    button.frame=CGRectMake(15, 665+50*3, ScreenWidth-30, 40);
-//    button.backgroundColor=JXColor(254, 81, 15, 1);
-//    [button addTarget:self action:@selector(publicBtnClink) forControlEvents:UIControlEventTouchUpInside];
-//    button.layer.cornerRadius=5;
-//    button.clipsToBounds=YES;
-//    [_tableView addSubview:button];
-//    [_tableView setContentInset:UIEdgeInsetsMake(0, 0, 70+30+50, 0)];
-//}
-
+#pragma mark --创建发布按钮
+-(void)addFooterButton
+{
+    UIView * footView =[UIView new];
+    footView.backgroundColor=BG_COLOR;
+    footView.frame=CGRectMake(0, 10, ScreenWidth, 100);
+    
+    // 1.初始化Button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    //2.设置文字和文字颜色
+    [button setTitle:@"提交" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //3.设置圆角幅度
+    button.layer.cornerRadius = 10.0;
+    //
+    [button addTarget:self action:@selector(publicBtnClink) forControlEvents:UIControlEventTouchUpInside];
+    //4.设置frame
+    button.frame =CGRectMake(30, 30, ScreenWidth-60, 40);;
+    //5.设置背景色
+    button.backgroundColor = MAIN_COLOR;
+    
+    [footView addSubview:button];
+    self.tableView.tableFooterView = footView;
+}
 #pragma mark --发布信息
 -(void)publicBtnClink{
    //类型
@@ -123,49 +128,29 @@
       NSLog(@"舌苔>>>%@>>>id=%@",_sheTai,_sheTaiID);
     //舌质
       NSLog(@"舌质>>>%@>>>id=%@",_sheZhi,_sheZhiID);
-    //主诉
-      NSLog(@"主诉>>>%@>>>>id=%@",_zhuSuStr,_zhuSuStrID);
-     NSLog(@"主诉2>>>%@>>>>id2=%@",_zhuSuStr2,_zhuSuStrID2);
-     NSLog(@"主诉3>>>%@>>>>id3=%@",_zhuSuStr3,_zhuSuStrID3);
-     NSLog(@"主诉4>>>%@>>>>id4=%@",_zhuSuStr4,_zhuSuStrID4);
-    
-    NSMutableArray * array =[NSMutableArray new];
-    if (![_zhuSuStrID isEqualToString:@""] && _zhuSuStrID!=nil) {
-        [array addObject:_zhuSuStrID];
-    }
-    if (![_zhuSuStrID2 isEqualToString:@""] && _zhuSuStrID2!=nil) {
-        [array addObject:_zhuSuStrID2];
-    }
-    if (![_zhuSuStrID3 isEqualToString:@""] && _zhuSuStrID3!=nil) {
-        [array addObject:_zhuSuStrID3];
-    }
-    if (![_zhuSuStrID4 isEqualToString:@""] && _zhuSuStrID4!=nil) {
-        [array addObject:_zhuSuStrID4];
-    }
-    
-    
-    
-    
   
-    NSLog(@">>>主诉%@",[array componentsJoinedByString:@","] );
+    NSLog(@">>>主诉%@",[_zhuSuIDArr componentsJoinedByString:@","] );
     
     
     
     
     //有无放疗
     NSLog(@">>>%@",_youWuFangLiao);
-    NSLog(@"有无放疗>>>%@>>>期数=%@",[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao],[self ShaiXuanYouWuFnagHuQiShuStr:_youWuFangLiao]);
+    NSLog(@"有无放疗>>>%@>>>期数=%@",[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao],_youWuFangLiao);//[self ShaiXuanYouWuFnagHuQiShuStr:_youWuFangLiao]
     //有无化疗
     NSLog(@">>>%@",_youWuHuaLiao);
-    NSLog(@"有无化疗>>>%@>>>期数=%@",[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao],[self ShaiXuanYouWuFnagHuQiShuStr:_youWuHuaLiao]);
+    NSLog(@"有无化疗>>>%@>>>期数=%@",[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao],_youWuHuaLiao);//[self ShaiXuanYouWuFnagHuQiShuStr:_youWuHuaLiao]
     //TNM分期
     NSLog(@"TNM分期>>>%@",_tnmStrID);
     //手术
      NSLog(@"手术>>>%@>>>id=%@",_shouShu,[ToolClass quChuLaiStr:_shouShu]);
     //主要问题描述
     NSLog(@"问题描述>>>%@",_wenTiMiaoShu);
+    
+   
+    
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[array componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:[self ShaiXuanYouWuFnagHuQiShuStr:_youWuFangLiao] HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:[self ShaiXuanYouWuFnagHuQiShuStr:_youWuHuaLiao] ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+    [Engine saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
         
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
@@ -238,7 +223,13 @@
     }else if(indexPath.section==1){
         if (indexPath.row==0) {
             //病名(2级)
-            [self ShowAlerViewTwoTag:1];
+//            [self ShowAlerViewTwoTag:1];
+            if (self.isSelect == false) {
+                self.isSelect = true;
+                [self performSelector:@selector(repeatDelay) withObject:nil afterDelay:1];
+                // 在下面实现点击cell需要实现的逻辑就可以了
+                [self huoQuBingMingMessageDataID:@""];
+            }
         }else if (indexPath.row==1){
             //病理
             if (self.isSelect == false) {
@@ -251,6 +242,9 @@
             
           
         }else if (indexPath.row==2){
+            //TNM分期
+            [self alevrViewTNMTitle:@"TNM分期"];
+        }else if (indexPath.row==3){
             //脉象
             if (self.isSelect == false) {
                 self.isSelect = true;
@@ -259,25 +253,17 @@
                  [self maiXiangData];
             }
             
-            
-            
-        }else if (indexPath.row==3){
+        }else if (indexPath.row==4){
             //舌苔 舌质(2级)
              [self ShowAlerViewTwoTag:2];;
-        }else if (indexPath.row==4){
-            //主诉
-            [self alevrViewZhuSuTag:1];
-        }else if (indexPath.row==5){
-            //主诉2
-            [self alevrViewZhuSuTag:2];
-        }else if (indexPath.row==6){
-            //主诉3
-            [self alevrViewZhuSuTag:3];
-        }else if (indexPath.row==7){
-            //主诉4
-            [self alevrViewZhuSuTag:4];
         }
-    }else if(indexPath.section==2){
+
+    }else if (indexPath.section==2){
+        [self alevrViewZhuSuTag:indexPath];
+
+
+    }
+    else if(indexPath.section==3){
         if (indexPath.row==0) {
             //有无放疗
             [self alevrViewThreeTitle:@"有无放疗" Tag:0];
@@ -285,11 +271,8 @@
             //有无化疗
             [self alevrViewThreeTitle:@"有无化疗" Tag:1];
         }else if (indexPath.row==2){
-            //TNM分期
-            [self alevrViewTNMTitle:@"TNM分期"];
-        }else if (indexPath.row==3){
             //手术
-            [self ShowAlerViewNSArray:@[@"有",@"无"] Title:@"手术" intt:4];
+             [self ShowAlerViewNSArray:@[@"有",@"无"] Title:@"手术" intt:4];
         }
     }
     
@@ -344,7 +327,25 @@
         
     }];
 }
-
+//tag==1 (病名接口)
+-(void)huoQuBingMingMessageDataID:(NSString*)idd{
+    [Engine jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+             NSMutableArray * dataTitle=[NSMutableArray new];
+            for (NSDictionary * dicc in dataArr) {
+                ScanCodeModel * model =[[ScanCodeModel alloc]initWithBingMingDic:dicc];
+                [dataTitle addObject:model];
+            }
+             [self ShowAlerViewNSArray:dataTitle Title:@"诊断"  intt:5];
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        [LCProgressHUD showMessage:@"失败"];
+    } ];
+}
 
 #pragma mark --显示弹框1
 -(void)ShowAlerViewNSArray:(NSArray*)contentArr Title:(NSString*)title intt:(int)tag{
@@ -354,6 +355,7 @@
      tagg==2  病理
      tagg==3  脉象
      tagg==4  手术
+     tagg==5 诊断
      */
     CustomAlert * alertView=nil;
     [alertView dissmiss];
@@ -372,6 +374,10 @@
             _maiXiangID=mdd.maiXiangID;
         }else if (tag==4){
             _shouShu=name;
+        }else if (tag==5){
+            _bingMing=mdd.bingMingName;
+            _bingMingID=mdd.bingMingID;
+            NSLog(@">>a>>%@>>s>%@",_bingMing,_bingMingID);
         }
         [_tableView reloadData];
         [weakSelf dissmiss];
@@ -384,20 +390,27 @@
      tag==1 (病名)  tag==2(舌苔)
      contentArray 内容Array
      */
-    CustomAlertTwo * alertView =[[CustomAlertTwo alloc]initWithTitle:@"病名" canCleBtn:@"取消" achiveBtn:@"完成" Tag:tag];
+    NSString * str =@"";
+    if (tag==1) {
+        str=@"诊断";
+    }else if (tag==2){
+        str=@"舌苔舌质";
+    }
+    CustomAlertTwo * alertView =[[CustomAlertTwo alloc]initWithTitle:str canCleBtn:@"取消" achiveBtn:@"完成" Tag:tag];
      __weak __typeof(alertView)weakSelf = alertView;
     alertView.clickBlock=^(UIButton*btn,ScanCodeModel*md,ScanCodeModel*md2){
         if(tag==1){
             _bingMing=md.bingMingName;
             _bingMingID=md.bingMingID;
         }else if (tag==2){
-            //md2是舌苔 md是舌质
-            NSLog(@">>>%@>>>>%@",md2.sheTaiName,md.sheZhiName);
-            _sheTaiZhi=[NSString stringWithFormat:@"舌苔:%@ 舌质:%@",md2.sheTaiName,md.sheZhiName];
-            _sheTai=md2.sheTaiName;
-            _sheTaiID=md2.sheTaiID;
-            _sheZhi=md.sheZhiName;
-            _sheZhiID=md.sheZhiID;
+            //md2是舌质  md是舌苔
+            NSLog(@">>>%@>>>>%@",md2.sheZhiName,md.sheTaiName);
+            _sheTaiZhi=[NSString stringWithFormat:@"舌质:%@ 舌苔:%@",md2.sheZhiName,md.sheTaiName];
+            _sheTai=md.sheTaiName;
+            _sheTaiID=md.sheTaiID;
+           
+            _sheZhi=md2.sheZhiName;
+            _sheZhiID=md2.sheZhiID;
             
         }
           [_tableView reloadData];
@@ -439,25 +452,27 @@
 
 }
 #pragma mark --显示弹框5(主诉)
--(void)alevrViewZhuSuTag:(int)tag{
+-(void)alevrViewZhuSuTag:(NSIndexPath*)tag{
     
     CustomAlertFive * vc =[[CustomAlertFive alloc]initWithTitle:@"主诉" canCleBtn:@"取消" achiveBtn:@"完成" ];
     __weak __typeof(vc)weakSelf = vc;
     vc.NameBlock=^(ScanCodeModel*name){
-        if (tag==1) {
+
+        for (NSString * idd in _zhuSuIDArr) {
+            if ([idd isEqualToString:name.zhuSuID]) {
+                [LCProgressHUD showMessage:@"不能重复选择"];
+                return ;
+            }
+        }
+        
+        if (tag.row==0) {
             _zhuSuStr=name.zhuSuName;
             _zhuSuStrID=name.zhuSuID;
-        }else if (tag==2){
-            _zhuSuStr2=name.zhuSuName;
-            _zhuSuStrID2=name.zhuSuID;
-        }else if (tag==3){
-            _zhuSuStr3=name.zhuSuName;
-            _zhuSuStrID3=name.zhuSuID;
-        }else if (tag==4){
-            _zhuSuStr4=name.zhuSuName;
-            _zhuSuStrID4=name.zhuSuID;
+            [_zhuSuIDArr addObject:name.zhuSuID];
+        }else{
+            [_image2 replaceObjectAtIndex:tag.row withObject:name.zhuSuName];
+            [_zhuSuIDArr addObject:name.zhuSuID];
         }
-       
         [_tableView reloadData];
         [weakSelf dissmiss];
     };
@@ -586,6 +601,7 @@
     if (indexPath.section==0) {
         if (indexPath.row==0) {
             if ([_leiXing isEqualToString:@""] || _leiXing==nil) {
+                cell.textfield.text=nil;
                  cell.textfield.placeholder=@"选择类型";
             }else{
                 cell.textfield.text=[NSString stringWithFormat:@"类型:%@",_leiXing];//;
@@ -598,15 +614,18 @@
         
     }else if (indexPath.section==1){
         if (indexPath.row==0) {
+            //诊断
             if([_bingMing isEqualToString:@""] || _bingMing==nil){
-                cell.textfield.placeholder=@"病名";
+                 cell.textfield.text=nil;
+                cell.textfield.placeholder=@"诊断";
             }else{
-                 cell.textfield.text=[NSString stringWithFormat:@"病名:%@",_bingMing];
+                 cell.textfield.text=[NSString stringWithFormat:@"诊断:%@",_bingMing];
             }
            
         }else if (indexPath.row==1){
-           
+           //病理
             if([_bingLi isEqualToString:@""] || _bingLi==nil){
+                 cell.textfield.text=nil;
                  cell.textfield.placeholder=@"病理";
             }else{
                 cell.textfield.text=[NSString stringWithFormat:@"病理:%@",_bingLi];//;
@@ -614,106 +633,88 @@
             
             
         }else if (indexPath.row==2){
-            
-            if([_maiXiang isEqualToString:@""] || _maiXiang==nil){
-                cell.textfield.placeholder=@"脉象";
+            //TNM分期
+            if([_tnmStr isEqualToString:@""] || _tnmStr==nil){
+                 cell.textfield.text=nil;
+                cell.textfield.placeholder=@"TNM分期";
             }else{
-                cell.textfield.text=[NSString stringWithFormat:@"脉象:%@",_maiXiang];//_maiXiang;
+                cell.textfield.text=_tnmStr;
+            }
+        }else if (indexPath.row==3){
+            //脉象
+            if([_maiXiang isEqualToString:@""] || _maiXiang==nil){
+                 cell.textfield.text=nil;
+                cell.textfield.placeholder=@"脉象";
+                
+            }else{
+                cell.textfield.text=[NSString stringWithFormat:@"脉象:%@",_maiXiang];
             }
             
-        }else if (indexPath.row==3){
+        }else if (indexPath.row==4){
+            //舌苔
             if([_sheTaiZhi isEqualToString:@""] || _sheTaiZhi==nil){
+                 cell.textfield.text=nil;
                 cell.textfield.placeholder=@"舌苔";
             }else{
-                cell.textfield.text=[NSString stringWithFormat:@"%@",_sheTaiZhi];//_sheTaiZhi;
-            }
-           
-        }else if (indexPath.row==4){
-            cell.accessoryType=UITableViewCellAccessoryNone;
-            cell.insertBtn.hidden=NO;
-            cell.insertBtn.tag=indexPath.row;
-            [cell.insertBtn setImage:[UIImage imageNamed:@"sbhz_add"] forState:0];
-            [cell.insertBtn addTarget:self action:@selector(insertbtnClink:) forControlEvents:UIControlEventTouchUpInside];
-            if([_zhuSuStr isEqualToString:@""] || _zhuSuStr==nil){
-               cell.textfield.placeholder=@"主诉";
-            }else{
-                cell.textfield.text=[NSString stringWithFormat:@"主诉:%@",_zhuSuStr];//_zhuSuStr;
-            }
-            
-        }else if (indexPath.row==5){
-            //主诉2
-            cell.accessoryType=UITableViewCellAccessoryNone;
-            cell.insertBtn.hidden=NO;
-            [cell.insertBtn setImage:[UIImage imageNamed:@"sbhz_jian"] forState:0];
-               cell.insertBtn.tag=indexPath.row;
-            [cell.insertBtn addTarget:self action:@selector(insertbtnClink:) forControlEvents:UIControlEventTouchUpInside];
-           
-            if([_zhuSuStr2 isEqualToString:@""] || _zhuSuStr2==nil){
-                cell.textfield.placeholder=@"主诉2";
-            }else{
-                cell.textfield.text=[NSString stringWithFormat:@"主诉:%@",_zhuSuStr2];
-            }
-            
-        }else if (indexPath.row==6){
-            //主诉3
-            cell.accessoryType=UITableViewCellAccessoryNone;
-            cell.insertBtn.hidden=NO;
-            [cell.insertBtn setImage:[UIImage imageNamed:@"sbhz_jian"] forState:0];
-            cell.insertBtn.tag=indexPath.row;
-            [cell.insertBtn addTarget:self action:@selector(insertbtnClink:) forControlEvents:UIControlEventTouchUpInside];
-            
-            if([_zhuSuStr3 isEqualToString:@""] || _zhuSuStr3==nil){
-                cell.textfield.placeholder=@"主诉3";
-            }else{
-                cell.textfield.text=[NSString stringWithFormat:@"主诉:%@",_zhuSuStr3];
-            }
-        }else if (indexPath.row==7){
-            //主诉4
-            cell.accessoryType=UITableViewCellAccessoryNone;
-            cell.insertBtn.hidden=NO;
-            [cell.insertBtn setImage:[UIImage imageNamed:@"sbhz_jian"] forState:0];
-            cell.insertBtn.tag=indexPath.row;
-            [cell.insertBtn addTarget:self action:@selector(insertbtnClink:) forControlEvents:UIControlEventTouchUpInside];
-            
-            if([_zhuSuStr4 isEqualToString:@""] || _zhuSuStr4==nil){
-                cell.textfield.placeholder=@"主诉4";
-            }else{
-                cell.textfield.text=[NSString stringWithFormat:@"主诉:%@",_zhuSuStr4];
+                cell.textfield.text=[NSString stringWithFormat:@"%@",_sheTaiZhi];
             }
         }
-        
+
         
     }else if (indexPath.section==2){
+        cell.insertBtn.hidden=NO;
+        cell.insertBtn.tag=indexPath.row;
+        cell.accessoryType=UITableViewCellAccessoryNone;
+         [cell.insertBtn addTarget:self action:@selector(insertbtnClink:) forControlEvents:UIControlEventTouchUpInside];
+        if (indexPath.row==0) {
+            [cell.insertBtn setImage:[UIImage imageNamed:@"sbhz_add"] forState:0];
+           
+            if([_zhuSuStr isEqualToString:@""] || _zhuSuStr==nil){
+                 cell.textfield.text=nil;
+                cell.textfield.placeholder=@"主诉1";
+            }else{
+                cell.textfield.text=[NSString stringWithFormat:@"主诉1:%@",_zhuSuStr];//_zhuSuStr;
+            }
+        }else{
+            if (_image2.count>1) {
+                [cell.insertBtn setImage:[UIImage imageNamed:@"sbhz_jian"] forState:0];
+                cell.textfield.text=[NSString stringWithFormat:@"主诉%lu:%@",indexPath.row+1,_image2[indexPath.row]];
+            }
+            
+        }
+        
+    }
+    else if (indexPath.section==3){
+        //有无放疗
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         if (indexPath.row==0) {
            
             if([_youWuFangLiao isEqualToString:@""] || _youWuFangLiao==nil){
+                 cell.textfield.text=nil;
                  cell.textfield.placeholder=@"有无放疗";
             }else{
                 cell.textfield.text=[NSString stringWithFormat:@"有无放疗:%@",_youWuFangLiao];
             }
             
         }else if (indexPath.row==1){
+            //有无化疗
             if([_youWuHuaLiao isEqualToString:@""] || _youWuHuaLiao==nil){
+                 cell.textfield.text=nil;
                cell.textfield.placeholder=@"有无化疗";
             }else{
                 cell.textfield.text=[NSString stringWithFormat:@"有无化疗:%@",_youWuHuaLiao];//_youWuHuaLiao;
             }
         }else if (indexPath.row==2){
-            
-            if([_tnmStr isEqualToString:@""] || _tnmStr==nil){
-               cell.textfield.placeholder=@"TNM分期";
-            }else{
-                cell.textfield.text=_tnmStr;
-            }
-        }else if (indexPath.row==3){
+            //手术
             if([_shouShu isEqualToString:@""] || _shouShu==nil){
+                 cell.textfield.text=nil;
                 cell.textfield.placeholder=@"手术";
             }else{
                 cell.textfield.text=[NSString stringWithFormat:@"手术:%@",_shouShu];//_shouShu;
             }
         }
-    }else if (indexPath.section==3){
+    }else if (indexPath.section==4){
+        //主要问题描述
          cell.accessoryType=UITableViewCellAccessoryNone;
         cell.textfield.placeholder=@"主要会诊问题描述";
         
@@ -739,40 +740,74 @@
 #pragma mark --插入一行
 -(void)insertbtnClink:(UIButton*)btn{
     
-    if (btn.tag==4) {
-        if (_image2.count>7) {
-            [LCProgressHUD showMessage:@"暂时最多支持4个主诉"];
-            return;
-        }
-       [_image2 addObject:@""];
+    
+    if (btn.tag==0) {
+        //插入一行
+        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+        NSInteger row = _image2.count;
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:2];
+        [indexPaths addObject: indexPath];
+        [_image2 addObject:@""];
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+        
+        
+        [_tableView scrollToRowAtIndexPath:indexPath
+                                atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        
+        
     }else{
-       
-        ScanCodeCell * cell1 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:btn.tag inSection:1]];
-        cell1.textfield.text=nil;
-        if (btn.tag==5) {
-           _zhuSuStr2=@"";
-           _zhuSuStrID2=@"";
-           _zhuSuStr2=nil;
-        
-        }else if (btn.tag==6){
-            _zhuSuStr3=@"";
-            _zhuSuStrID3=@"";
-        }else if (btn.tag==7){
-            _zhuSuStr4=@"";
-            _zhuSuStrID4=@"";
-        }
-        NSLog(@">>>%lu",btn.tag);
-//       [_image2 removeLastObject];
-        [_image2 removeObjectAtIndex:btn.tag];
-        
+        _tableView.editing=!_tableView.editing;
     }
-   
-    [_tableView reloadData];
 
 }
+
+#pragma mark --删除
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   
+    if (indexPath.section==2) {
+        if (indexPath.row==0) {
+            return NO;
+        }else{
+           return YES;
+        }
+    }else{
+      return NO;
+    }
+    
+    
+}
+//定义编辑样式
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+//修改编辑按钮文字
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+//进入编辑模式，按下出现的编辑按钮后,进行删除操作
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [_image2 removeObjectAtIndex:indexPath.row];
+        if (_zhuSuIDArr.count!=0) {
+            [_zhuSuIDArr removeObjectAtIndex:indexPath.row];
+        }
+       
+        // Delete the row from the data source.
+        [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+#pragma mark --删除结束
+#pragma mark --行高
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==3) {
+    if (indexPath.section==4) {
         return 120;
     }else{
 
@@ -790,40 +825,9 @@
     [_tableView setContentOffset:CGPointMake(0, 0) animated:NO];
     
      [_image2 removeAllObjects];
-     [_image2 addObject:@"sbhz_bm"];
-     [_image2 addObject:@"sbhz_bl"];
-     [_image2 addObject:@"sbhz_mx"];
-     [_image2 addObject:@"sbhz_st"];
+  
      [_image2 addObject:@"sbhz_zs"];
-    
-    
-    
-    ScanCodeCell * cell0 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    ScanCodeCell * cell1 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    
-    ScanCodeCell * cell2 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
-    ScanCodeCell * cell3 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    ScanCodeCell * cell4 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
-    ScanCodeCell * cell5 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:1]];
-    ScanCodeCell * cell6 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1]];
-    //ScanCodeCell * cell7 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    
-    ScanCodeCell * cell7 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
-    ScanCodeCell * cell8 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
-    ScanCodeCell * cell9 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:2]];
-    ScanCodeCell * cell10 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:2]];
-    
-     cell0.textfield.text=nil;
-     cell1.textfield.text=nil;
-     cell2.textfield.text=nil;
-     cell3.textfield.text=nil;
-     cell4.textfield.text=nil;
-     cell5.textfield.text=nil;
-     cell6.textfield.text=nil;
-     cell7.textfield.text=nil;
-     cell8.textfield.text=nil;
-     cell9.textfield.text=nil;
-     cell10.textfield.text=nil;
+     [_zhuSuIDArr removeAllObjects];
     
     
     
@@ -873,8 +877,22 @@
         _age=textField.text;
     }
 }
+
+#pragma mark --TextViewDeleagte
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    NSLog(@"开始滑动");
+     _tableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight-64);
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+//    NSLog(@"开始");
+    _tableView.frame = CGRectMake(0, -180, ScreenWidth, ScreenHeight-64);
+}
 - (void)textViewDidEndEditing:(UITextView *)textView{
     _wenTiMiaoShu=textView.text;
+//    NSLog(@"结束");
+    _tableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight-64);
+
 }
 -(NSString*)ShaiXuanYouWuFnagHuStr:(NSString*)str{
     NSString * youWu;
@@ -892,10 +910,10 @@
 -(NSString*)ShaiXuanYouWuFnagHuQiShuStr:(NSString*)strr{
     NSString * qiShu =[self ShaiXuanYouWuFnagHuStr:strr];
     NSMutableDictionary * dicc =[NSMutableDictionary new];
-    [dicc setObject:@"1" forKey:@"一期"];
-    [dicc setObject:@"2" forKey:@"二期"];
-    [dicc setObject:@"3" forKey:@"三期"];
-    [dicc setObject:@"4" forKey:@"四期"];
+    [dicc setObject:@"1" forKey:@"一个周期"];
+    [dicc setObject:@"2" forKey:@"二个周期"];
+    [dicc setObject:@"3" forKey:@"三个周期"];
+    [dicc setObject:@"4" forKey:@"四个周期"];
     
     if ([qiShu isEqualToString:@"Y"]) {
          return [dicc objectForKey:strr];

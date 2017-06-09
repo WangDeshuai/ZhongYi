@@ -135,8 +135,8 @@
             }
             
             int kj =10;
-            int k=(ScreenWidth-kj*5)/4;
-            int g=k*52/148;
+            int k=(ScreenWidth-kj*4)/3;
+            int g=k*52/148-10;
             int gj=15;
             if ([ToolClass isiPad]) {
                 kj =25;
@@ -150,7 +150,7 @@
                 btn.sd_cornerRadius=@(15);
                 btn.tag=i;
                 [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
-                btn.titleLabel.font=[UIFont systemFontOfSize:15];
+                btn.titleLabel.font=[UIFont systemFontOfSize:13];
                 
                 [btn setTitle:_dataArray1[i] forState:0];
                 [btn setTitleColor:[UIColor lightGrayColor] forState:0];
@@ -166,11 +166,21 @@
                 
                 [view2 sd_addSubviews:@[btn]];
                 btn.sd_layout
-                .leftSpaceToView(view2,kj+(k+kj)*(i%4))
-                .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                .leftSpaceToView(view2,kj+(k+kj)*(i%3))
+                .topSpaceToView(view2,gj+(g+gj)*(i/3))
                 .widthIs(k)
                 .heightIs(g);
                 [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
+                
+                
+                if ([ToolClass isiPad]) {
+                    btn.sd_layout
+                    .leftSpaceToView(view2,kj+(k+kj)*(i%4))
+                    .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                    .widthIs(k)
+                    .heightIs(g);
+                    [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
+                }
                 
             }
             
@@ -261,6 +271,7 @@
     ZhongYiModel * md =_dataArray[indexPath.row];
     YiAnXiangQingVC * vc =[YiAnXiangQingVC new];
     vc.messageID=md.zhongYiID;
+    vc.titlename=md.titlename;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -296,7 +307,7 @@
     [moreBtn addTarget:self action:@selector(moreBtnClink) forControlEvents:UIControlEventTouchUpInside];
     moreBtn.titleLabel.font=[UIFont systemFontOfSize:15];
     [moreBtn setTitleColor:JXColor(171, 171, 171, 1) forState:0];
-    [headview sd_addSubviews:@[moreBtn]];
+//    [headview sd_addSubviews:@[moreBtn]];
     moreBtn.sd_layout
     .rightSpaceToView(headview,15)
     .centerYEqualToView(headview)

@@ -103,7 +103,7 @@
         _leftTableView=[[UITableView alloc]init];
     }
     _leftTableView.tableFooterView=[UIView new];
-    _leftTableView.backgroundColor=BG_COLOR;
+    _leftTableView.backgroundColor=[UIColor whiteColor];
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -122,7 +122,7 @@
         _centerTableView=[[UITableView alloc]init];
     }
     _centerTableView.tableFooterView=[UIView new];
-    _centerTableView.backgroundColor=BG_COLOR;
+    _centerTableView.backgroundColor=[UIColor whiteColor];
     _centerTableView.delegate=self;
     _centerTableView.dataSource=self;
     _centerTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -202,7 +202,7 @@
         _rightTableView=[[UITableView alloc]init];
     }
     _rightTableView.tableFooterView=[UIView new];
-    _rightTableView.backgroundColor=BG_COLOR;
+    _rightTableView.backgroundColor=[UIColor whiteColor];
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -238,7 +238,7 @@
             nameLable.textAlignment=1;
             nameLable.alpha=.6;
             nameLable.tag=1;
-            nameLable.font=[UIFont systemFontOfSize:15];
+            nameLable.font=[UIFont systemFontOfSize:14];
             [cell sd_addSubviews:@[nameLable]];
         }
         ScanCodeModel * md =_dataArray1[indexPath.row];
@@ -247,9 +247,8 @@
         .leftSpaceToView(cell,15)
         .rightSpaceToView(cell,15)
         .centerYEqualToView(cell)
-        .heightIs(20);
+        .autoHeightRatio(0);
         nameLable.text=md.zhuSuName;
-        
         return cell;
     }else if (tableView==_centerTableView) {
         NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
@@ -261,7 +260,7 @@
             nameLable2.textAlignment=1;
             nameLable2.alpha=.6;
             nameLable2.tag=2;
-            nameLable2.font=[UIFont systemFontOfSize:15];
+            nameLable2.font=[UIFont systemFontOfSize:14];
             [cell sd_addSubviews:@[nameLable2]];
         }
         //
@@ -270,7 +269,7 @@
         .leftSpaceToView(cell,15)
         .rightSpaceToView(cell,15)
         .centerYEqualToView(cell)
-        .heightIs(20);
+        .autoHeightRatio(0);
         cell.accessoryType=UITableViewCellAccessoryNone;
         ScanCodeModel * md =_dataArray2[indexPath.row];
         nameLable.text=md.zhuSuName;
@@ -286,7 +285,7 @@
             nameLable2.textAlignment=1;
             nameLable2.alpha=.6;
             nameLable2.tag=2;
-            nameLable2.font=[UIFont systemFontOfSize:15];
+            nameLable2.font=[UIFont systemFontOfSize:14];
             [cell sd_addSubviews:@[nameLable2]];
         }
         //
@@ -295,7 +294,7 @@
         .leftSpaceToView(cell,15)
         .rightSpaceToView(cell,15)
         .centerYEqualToView(cell)
-        .heightIs(20);
+        .autoHeightRatio(0);
         cell.accessoryType=UITableViewCellAccessoryNone;
         ScanCodeModel * md =_dataArray3[indexPath.row];
         nameLable.text=md.zhuSuName;
@@ -322,7 +321,19 @@
         _md3=md;
     }
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_leftTableView==tableView) {
+       ScanCodeModel * md = _dataArray1[indexPath.row];
+      return   [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20];
+    }else if (_centerTableView==tableView){
+         ScanCodeModel * md = _dataArray2[indexPath.row];
+        return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20]+15;
+    }else{
+         ScanCodeModel * md = _dataArray3[indexPath.row];
+         return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20]+15;
+    }
+}
 
 #pragma mark --完成
 -(void)achiveBtnClink{

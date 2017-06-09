@@ -14,10 +14,10 @@
     self=[super init];
     if (self) {
         
-        NSDictionary * categoryDic =[dic objectForKey:@"category"];
+//        NSDictionary * categoryDic =[dic objectForKey:@"category"];
       
-        _titlename=[ToolClass isString:[NSString stringWithFormat:@"%@",[categoryDic objectForKey:@"name"]]];
-        _contentName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"content"]]];
+        _titlename=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"categoryName"]]];
+        _contentName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"patientCondition"]]];
         
         _zhongYiID=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]];
         _timeStr=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"createTime"]]];

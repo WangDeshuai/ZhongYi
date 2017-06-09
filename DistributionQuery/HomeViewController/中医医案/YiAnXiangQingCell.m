@@ -61,6 +61,7 @@
     .autoHeightRatio(0);
     
     _bingAnLab.hidden=YES;
+    
     _bingAnLab.sd_layout
     .rightSpaceToView(self.contentView,15)
     .topSpaceToView(_leftLabel,5)
@@ -86,6 +87,10 @@
     _text1=text1;
     _bingAnLab.hidden=NO;
     _bingAnLab.attributedText = [ToolClass HTML:text1];
+    NSLog(@">>>>>%@",[ToolClass HTML:text1]);
+    
+    
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

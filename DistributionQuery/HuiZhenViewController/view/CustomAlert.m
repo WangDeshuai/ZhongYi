@@ -99,7 +99,7 @@
         _tableView=[[UITableView alloc]init];
     }
     _tableView.tableFooterView=[UIView new];
-    _tableView.backgroundColor=BG_COLOR;
+    _tableView.backgroundColor=[UIColor whiteColor];
     _tableView.delegate=self;
     _tableView.dataSource=self;
     _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -144,7 +144,12 @@
       }else if ([_biaoShiStr isEqualToString:@"脉象"]){
           ScanCodeModel * md =_dataArray[indexPath.row];
           nameLable.text=md.maiXiangName;
-      }else{
+      }else if ([_biaoShiStr isEqualToString:@"诊断"])
+      {
+          ScanCodeModel * md =_dataArray[indexPath.row];
+          nameLable.text=md.bingMingName;
+      }
+      else{
            nameLable.text=_dataArray[indexPath.row];
       }
     
@@ -174,7 +179,10 @@
        _md =_dataArray[indexPath.row];
     }else if ([_biaoShiStr isEqualToString:@"脉象"]){
         _md =_dataArray[indexPath.row];
-    }else{
+    }else if ([_biaoShiStr isEqualToString:@"诊断"]){
+        _md =_dataArray[indexPath.row];
+    }
+    else{
         _namelabel=_dataArray[indexPath.row];
     }
     
@@ -196,7 +204,10 @@
         self.clickBlock(_md,@"");
     }else if ([_biaoShiStr isEqualToString:@"脉象"]){
         self.clickBlock(_md,@"");
-    }else{
+    }else if ([_biaoShiStr isEqualToString:@"诊断"]){
+        self.clickBlock(_md,@"");
+    }
+    else{
         self.clickBlock(_md,_namelabel);
     }
     

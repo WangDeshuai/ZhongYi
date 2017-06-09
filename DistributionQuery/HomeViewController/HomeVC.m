@@ -15,7 +15,8 @@
 #import "BingMingVC.h"//病名
 #import "ZhongYiModel.h"
 #import "YiAnXiangQingVC.h"
-@interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate>
+#import "SearchViewController.h"//搜索
+@interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,assign)int AAA;
 @property (nonatomic,strong) MJRefreshComponent *myRefreshView;
@@ -126,6 +127,22 @@
     .centerYEqualToView(seaarchBtn)
     .widthIs(24/2)
     .heightIs(34/2);
+    //搜索框
+    UITextField * searchText =[UITextField new];
+    searchText.placeholder=@"搜索病种、方剂、中药等";
+    [searchText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    searchText.font=[UIFont systemFontOfSize:15];
+    searchText.returnKeyType=UIReturnKeySearch;
+    searchText.textColor=[UIColor whiteColor];
+    searchText.delegate = self;
+    [seaarchBtn sd_addSubviews:@[searchText]];
+    searchText.sd_layout
+    .leftSpaceToView(searImage,5)
+    .rightSpaceToView(yuYinImage,10)
+    .centerYEqualToView(seaarchBtn)
+    .heightIs(30);
+    
+    
     
 //创建的6个按钮
     UIView * btnView =[UIView new];
@@ -243,6 +260,7 @@
     }else if (btn.tag==2){
         //三辩会诊
         ScanCodeVC * vc =[ScanCodeVC new];
+        vc.tagg=1;
         vc.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:vc animated:YES];
     }else if (btn.tag==3){
@@ -312,6 +330,7 @@
     YiAnXiangQingVC * vc =[YiAnXiangQingVC new];
     vc.hidesBottomBarWhenPushed=YES;
     vc.messageID=md.zhongYiID;
+    vc.titlename=md.titlename;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -391,7 +410,17 @@
 
 
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
 
+{
+    
+    [self.view endEditing:YES];
+    SearchViewController * vc =[SearchViewController new];
+    vc.keyWord=textField.text;
+    vc.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    return YES;
+}
 
 
 

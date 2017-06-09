@@ -39,9 +39,10 @@
     _contentlabel =[UILabel new];
     _namelabel =[UILabel new];
     [self.contentView sd_addSubviews:@[_namelabel,_contentlabel]];
-    _namelabel.alpha=.4;
+//    _namelabel.alpha=.4;
     _namelabel.font=[UIFont systemFontOfSize:15];
     _namelabel.textAlignment=0;
+    _namelabel.textColor=MAIN_COLOR;
     _contentlabel.font=[UIFont systemFontOfSize:15];
     _contentlabel.alpha=.7;
     _contentlabel.numberOfLines=0;

@@ -62,6 +62,7 @@
     .bottomSpaceToView(self.contentView,5)
     .rightSpaceToView(self.contentView,15);
     
+   
     
     //插入一行
     _insertBtn=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -71,8 +72,8 @@
     _insertBtn.sd_layout
     .rightSpaceToView(self.contentView,15)
     .centerYEqualToView(self.contentView)
-    .widthIs(20)
-    .heightIs(20);
+    .widthIs(50)
+    .heightIs(50);
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

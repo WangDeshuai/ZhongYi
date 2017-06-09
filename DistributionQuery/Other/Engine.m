@@ -622,7 +622,33 @@
     }];
     
 }
+#pragma mark --28.更新报告单信息
++(void)saveGengXinBaoGaoDanMessageID:(NSString*)idd MessageName:(NSString*)name MessageSex:(NSString*)sex Age:(NSString*)age success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/editSave",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    
+    [dic setObject:[ToolClass isString:idd] forKey:@"id"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",name]] forKey:@"name"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",sex]] forKey:@"sex"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",age]] forKey:@"age"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"30.分页加载我的收藏信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"30.分页加载我的收藏信息%@",error);
+        [LCProgressHUD showMessage:@"30.网络超时"];
+        aError(error);
+        
+    }];
 
+    
+}
 #pragma mark --30.分页加载我的收藏信息
 +(void)shouCangPage:(NSString*)page  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
@@ -648,6 +674,65 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"30.分页加载我的收藏信息%@",error);
         [LCProgressHUD showMessage:@"30.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
+
+#pragma mark --31.保存我的收藏信息
++(void)shouCangSaveStype:(NSString*)type MessageID:(NSString*)messageid uccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/collection/save",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"31.保存我的收藏信息请登录"];
+        return;
+    }
+    
+    [dic setObject:token forKey:@"phone"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",type]] forKey:@"type"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",messageid]] forKey:@"targetId"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"31.保存我的收藏信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"31.保存我的收藏信息%@",error);
+        [LCProgressHUD showMessage:@"31.网络超时"];
+        aError(error);
+        
+    }];
+}
+#pragma mark --验证我的收藏信息
++(void)YanZhengMyShouCangMessageID:(NSString*)messageID Type:(NSString*)type success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/collection/validate",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"验证我的收藏信息"];
+        return;
+    }
+    
+    [dic setObject:token forKey:@"phone"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",type]] forKey:@"type"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",messageID]] forKey:@"targetId"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"验证我的收藏信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"验证我的收藏信息%@",error);
+        [LCProgressHUD showMessage:@"验证我的收藏信息"];
         aError(error);
         
     }];
@@ -855,6 +940,83 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"38.会员修改密码%@",error);
         [LCProgressHUD showMessage:@"38.网络超时"];
+        aError(error);
+        
+    }];
+}
+#pragma mark --40.加载所有的病种分类信息（适用于药方页加载病种分类的接口）
++(void)yaoFangClassFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/queryPreCategorys",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    
+    [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"40.加载所有的病种分类信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"40.加载所有的病种分类信息%@",error);
+        [LCProgressHUD showMessage:@"40.网络超时"];
+        aError(error);
+        
+    }];
+
+}
+#pragma mark --41.加载所有的病种分类信息（适用于病名页加载病种分类的接口）
++(void)bingMingFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/queryDisCategorys",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    
+    [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"41.加载所有的病种分类信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"41.加载所有的病种分类信息%@",error);
+        [LCProgressHUD showMessage:@"41.网络超时"];
+        aError(error);
+        
+    }];
+}
+#pragma mark--42.加载首页轮播图
++(void)shouYiFirstLunBosuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/changeimg/list",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    
+    [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"42.加载首页轮播图%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"42.加载首页轮播图%@",error);
+        [LCProgressHUD showMessage:@"42.网络超时"];
+        aError(error);
+        
+    }];
+
+}
+#pragma mark --43.首页全局搜索
++(void)searchFirstKeyWord:(NSString*)name success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/changeimg/queryAll",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:name forKey:@"name"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"43.首页全局搜索%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"43.首页全局搜索%@",error);
+        [LCProgressHUD showMessage:@"43.网络超时"];
         aError(error);
         
     }];

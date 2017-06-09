@@ -29,7 +29,7 @@
                                    kSelImgKey : @"hp_hp1"},
                                  
                                  @{kClassKey  : @"ScanCodeVC",
-                                   kTitleKey  : @"三辩会诊",
+                                   kTitleKey  : @"三辨会诊",
                                    kImgKey    : @"hp_scan",
                                    kSelImgKey : @"hp_scan1"},
                                  

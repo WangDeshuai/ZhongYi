@@ -90,7 +90,7 @@
             [self huoQuBingMingMessageDataID:@""];
         }else if(tag==2){
             //舌苔 舌质
-            NSArray * titleAr=@[@"舌苔",@"舌质"];
+            NSArray * titleAr=@[@"舌质",@"舌苔"];
             for (int i =0; i<titleAr.count; i++) {
                 UILabel * namelabel =[UILabel new];
                 namelabel.text=titleAr[i];
@@ -117,8 +117,9 @@
             .rightSpaceToView(self,0)
             .topSpaceToView(linView,50)
             .heightIs(2);
-            [self sheTaiData];//舌苔
+           
             [self sheZhiData];//舌质
+             [self sheTaiData];//舌苔
         }
     }
     //二级分类
@@ -133,7 +134,7 @@
         _leftTableView=[[UITableView alloc]init];
     }
     _leftTableView.tableFooterView=[UIView new];
-    _leftTableView.backgroundColor=BG_COLOR;
+    _leftTableView.backgroundColor=[UIColor whiteColor];
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -195,9 +196,9 @@
             NSArray * dataArr =[dic objectForKey:@"data"];
             for (NSDictionary * dicc in dataArr) {
                 ScanCodeModel * md =[[ScanCodeModel alloc]initWithSheTaiDic:dicc];
-                [_dataArr addObject:md];
+                [_dataArr2 addObject:md];
             }
-            [_leftTableView reloadData];
+            [_rightTableView reloadData];
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
@@ -213,9 +214,9 @@
             NSArray * dataArr =[dic objectForKey:@"data"];
             for (NSDictionary * dicc in dataArr) {
                 ScanCodeModel * md =[[ScanCodeModel alloc]initWithSheZhiDic:dicc];
-                 [_dataArr2 addObject:md];
+                 [_dataArr addObject:md];
             }
-            [_rightTableView reloadData];
+            [_leftTableView reloadData];
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
@@ -230,7 +231,7 @@
         _rightTableView=[[UITableView alloc]init];
     }
     _rightTableView.tableFooterView=[UIView new];
-    _rightTableView.backgroundColor=BG_COLOR;
+    _rightTableView.backgroundColor=[UIColor whiteColor];
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -287,7 +288,7 @@
             nameLable.text=md.bingMingName;
         }else if(_tagg==2){
             ScanCodeModel * md =_dataArr[indexPath.row];
-            nameLable.text=md.sheTaiName;
+            nameLable.text=md.sheZhiName;
         }
        
 
@@ -319,7 +320,7 @@
             nameLable.text=md.bingMingName;
         }else if(_tagg==2){
              ScanCodeModel * md =_dataArr2[indexPath.row];
-             nameLable.text=md.sheZhiName;
+             nameLable.text=md.sheTaiName;
         }
         return cell;
         

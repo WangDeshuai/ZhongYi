@@ -10,4 +10,5 @@
 
 @interface YiAnXiangQingVC : BaseViewController
 @property(nonatomic,copy)NSString * messageID;
+@property(nonatomic,copy)NSString * titlename;
 @end

@@ -66,7 +66,7 @@
     //副标题
     _dextlabel.sd_layout
     .leftEqualToView(_namelabel)
-    .topSpaceToView(_namelabel,10)
+    .topSpaceToView(_namelabel,5)
     .widthRatioToView(_namelabel,1)
     .heightIs(20);
     
@@ -79,6 +79,14 @@
     _imageview.image=[UIImage imageNamed:model.imagename];
     _dextlabel.text=model.typeName;
     
+    
+}
+-(void)setSearMd:(searchModel *)searMd
+{
+    _searMd=searMd;
+    _namelabel.text=searMd.titleName;
+    _imageview.image=[UIImage imageNamed:searMd.imageName];
+    _dextlabel.text=searMd.contentName;
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

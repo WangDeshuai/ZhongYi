@@ -58,7 +58,7 @@
         //放疗
         NSString * YN =[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"isRadiotherapy"]]];
         if ([YN isEqualToString:@"Y"]) {
-            _xqyouFang=[ToolClass isString:[NSString stringWithFormat:@"第%@期",[dic objectForKey:@"radiotherapyCycle"]]];
+            _xqyouFang=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"radiotherapyCycle"]]];
         }else{
             _xqyouFang=@"无";
         }
@@ -66,7 +66,7 @@
         //化疗
         NSString * YNN =[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"isChemotherapy"]]];
         if ([YNN isEqualToString:@"Y"]) {
-            _xqyouHua=[ToolClass isString:[NSString stringWithFormat:@"第%@期",[dic objectForKey:@"chemotherapyCycle"]]];
+            _xqyouHua=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"chemotherapyCycle"]]];
         }else{
             _xqyouHua=@"无";
         }

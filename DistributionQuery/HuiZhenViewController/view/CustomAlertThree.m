@@ -14,7 +14,7 @@
 @property(nonatomic,strong)NSArray * dataArray1;
 @property(nonatomic,strong)NSArray * dataArray2;
 @property(nonatomic,copy)NSString * string;
-
+@property(nonatomic,copy)NSString * titleName;
 @end
 
 @implementation CustomAlertThree
@@ -26,7 +26,7 @@
         self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
         self.backgroundColor=[UIColor whiteColor];
         _dataArray1=@[@"有",@"无"];
-       
+        _titleName=title;
         //标题
         UILabel * titlable =[UILabel new];
         
@@ -95,7 +95,7 @@
         _leftTableView=[[UITableView alloc]init];
     }
     _leftTableView.tableFooterView=[UIView new];
-    _leftTableView.backgroundColor=BG_COLOR;
+    _leftTableView.backgroundColor=[UIColor whiteColor];
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -114,7 +114,7 @@
         _rightTableView=[[UITableView alloc]init];
     }
     _rightTableView.tableFooterView=[UIView new];
-    _rightTableView.backgroundColor=BG_COLOR;
+    _rightTableView.backgroundColor=[UIColor whiteColor];
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
@@ -193,7 +193,12 @@
 {
     if (tableView==_leftTableView) {
         if (indexPath.row==0) {
-             _dataArray2=@[@"一期",@"二期",@"三期",@"四期"];
+            if ([_titleName isEqualToString:@"有无化疗"]) {
+                 _dataArray2=@[@"一个周期",@"二个周期",@"三个周期",@"四个周期",@"更多"];
+            }else{
+                 _dataArray2=@[@"30Gy以下",@"30~40Gy",@"40~50Gy",@"50~60Gy",@"更多"];
+            }
+            
             
         }else{
             _dataArray2=nil;

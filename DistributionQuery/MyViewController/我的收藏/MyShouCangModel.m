@@ -29,8 +29,8 @@
 
 -(NSString*)stingName:(NSString*)name{
     NSMutableDictionary * dicc =[NSMutableDictionary new];
-    [dicc setObject:@"药" forKey:@"1"];
-    [dicc setObject:@"病" forKey:@"2"];
+    [dicc setObject:@"中药" forKey:@"1"];
+    [dicc setObject:@"病种" forKey:@"2"];
     [dicc setObject:@"讲座" forKey:@"3"];
     [dicc setObject:@"中医医案" forKey:@"4"];
     
