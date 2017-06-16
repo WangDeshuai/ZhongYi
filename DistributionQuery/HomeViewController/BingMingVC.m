@@ -190,6 +190,15 @@
                 .heightIs(g);
                 [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
                 
+                if ([ToolClass isiPad]) {
+                    btn.sd_layout
+                    .leftSpaceToView(view2,kj+(k+kj)*(i%4))
+                    .topSpaceToView(view2,gj+(g+gj)*(i/4))
+                    .widthIs(k)
+                    .heightIs(g);
+                    [view2 setupAutoHeightWithBottomView:btn bottomMargin:20];
+                }
+                
             }
             
             [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];

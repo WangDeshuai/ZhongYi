@@ -119,6 +119,14 @@
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
     .heightIs(220*(ScreenWidth-30)/346+30);
+    
+    if ([ToolClass isiPad]) {
+        headView.sd_layout
+        .leftSpaceToView(_tableView,0)
+        .rightSpaceToView(_tableView,0)
+        .topSpaceToView(_tableView,0)
+        .heightIs((ScreenWidth-30)*676/1425+30);
+    }
    
     UIImageView * imageview =[UIImageView new];
     imageview.image=[UIImage imageNamed:@"yao_xq_banner"];
@@ -129,7 +137,13 @@
     .topSpaceToView(headView,15)
     .heightIs(220*(ScreenWidth-30)/346);//
    
-    
+    if ([ToolClass isiPad]) {
+        imageview.sd_layout
+        .leftSpaceToView(headView,15)
+        .rightSpaceToView(headView,15)
+        .topSpaceToView(headView,15)
+        .heightIs((ScreenWidth-30)*676/1425);//
+    }
     
     
     return headView;

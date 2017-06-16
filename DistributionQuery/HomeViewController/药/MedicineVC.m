@@ -11,7 +11,7 @@
 #import "MedicineCell.h"
 #import "MedicineModel.h"
 #import "MedicineXiangQingVC.h"//详情页
-@interface MedicineVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface MedicineVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UITextField * textfield;//文本框
 @property(nonatomic,strong)NSMutableArray * rightIndexArr;//索引
@@ -104,6 +104,8 @@
     textfield.leftView =[ToolClass imageViewNameStr:@"yao_search"];
     textfield.leftViewMode = UITextFieldViewModeAlways;
     textfield.sd_cornerRadius=@(5);
+    textfield.delegate=self;
+    textfield.returnKeyType=UIReturnKeySearch;
     [self.view sd_addSubviews:@[textfield]];
     textfield.sd_layout
     .leftSpaceToView(self.view,15)
@@ -139,7 +141,14 @@
 -(void)searchBtnClink{
     [self dataArrSearZi:_textfield.text];
 }
+#pragma mark --搜索
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
 
+{
+    [self.view endEditing:YES];
+    [self dataArrSearZi:_textfield.text];
+    return YES;
+}
 
 
 #pragma mark --创建表格

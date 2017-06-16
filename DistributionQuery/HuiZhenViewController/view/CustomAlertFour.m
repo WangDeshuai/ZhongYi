@@ -101,7 +101,11 @@
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _leftTableView.rowHeight=60;
+    }else{
+        _leftTableView.rowHeight=44;
+    }
     [self sd_addSubviews:@[_leftTableView]];
     _leftTableView.sd_layout
     .leftSpaceToView(self,0)
@@ -120,7 +124,11 @@
     _centerTableView.delegate=self;
     _centerTableView.dataSource=self;
     _centerTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _centerTableView.rowHeight=60;
+    }else{
+        _centerTableView.rowHeight=44;
+    }
     [self sd_addSubviews:@[_centerTableView]];
     _centerTableView.sd_layout
     .leftSpaceToView(self,ScreenWidth/3)
@@ -140,7 +148,11 @@
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _rightTableView.rowHeight=60;
+    }else{
+        _rightTableView.rowHeight=44;
+    }
     [self sd_addSubviews:@[_rightTableView]];
     _rightTableView.sd_layout
     .rightSpaceToView(self,0)

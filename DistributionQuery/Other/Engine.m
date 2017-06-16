@@ -586,14 +586,14 @@
     
     
     NSMutableDictionary * dic =[NSMutableDictionary new];
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];//1.idd
+//     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];//1.idd
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",leiXing]] forKey:@"type"];//2.报告单类型
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",name]] forKey:@"name"];//3.姓名
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",sex]] forKey:@"sex"];//4.性别
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",age]] forKey:@"age"];//5.年龄
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",bingMing]] forKey:@"categoryId"];//6.病名
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhusu]] forKey:@"symptomIds"];//7.主诉
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",bingli]] forKey:@"pathologyId"];//8.病理
+     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@""]] forKey:@"pathologyId"];//8.病理
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",maixiang]] forKey:@"pulseConditionId"];//9.脉象
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shezhi]] forKey:@"tongueNatureId"];//10.舌质
      [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shetai]] forKey:@"coatedTongueId"];//11.舌苔
@@ -648,6 +648,52 @@
     }];
 
     
+}
+#pragma mark --29.保存我的意见反馈信息(带有图片)
++(void)messageFanKuiContent:(NSString*)content ImageArr:(UIImage*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/opinion/save",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"29请登录"];
+        return;
+    }
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:token forKey:@"phone"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",content]] forKey:@"content"];
+    if (image==nil) {
+        [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"29.保存我的意见反馈信息%@",str);
+            
+            aSuccess(responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"29.保存我的意见反馈信息%@",error);
+            [LCProgressHUD showMessage:@"30.网络超时"];
+            aError(error);
+            
+        }];
+    }else{
+        NSData *data = UIImageJPEGRepresentation(image, 0);
+        [manager POST:urlStr parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
+            [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
+            NSString *imagetype=@"jpg";
+            [formData appendPartWithFileData:data name:@"file" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"29.保存我的意见反馈信息(带有图片)%@",str);
+            aSuccess(responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"上传失败%@>>>",error);
+            aError(error);
+        }];
+    }
+    
+    
+  
 }
 #pragma mark --30.分页加载我的收藏信息
 +(void)shouCangPage:(NSString*)page  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
@@ -944,6 +990,34 @@
         
     }];
 }
+#pragma mark --39.会员重置密码
++(void)forGetPassWordCode:(NSString*)code Phone:(NSString*)phone Password:(NSString*)psw1 PassWordTwo:(NSString*)psw2 success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/resetPass",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    
+    
+    
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",code]] forKey:@"verifyCode"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",psw1]] forKey:@"password"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",phone]] forKey:@"phone"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",psw2]] forKey:@"resPassword"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"39.会员重置密码%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"39.会员重置密码%@",error);
+        [LCProgressHUD showMessage:@"39.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
 #pragma mark --40.加载所有的病种分类信息（适用于药方页加载病种分类的接口）
 +(void)yaoFangClassFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/queryPreCategorys",SERVICE];
@@ -1017,6 +1091,29 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"43.首页全局搜索%@",error);
         [LCProgressHUD showMessage:@"43.网络超时"];
+        aError(error);
+        
+    }];
+}
+
+#pragma mark --44.发送短信验证码
++(void)sendCodePhone:(NSString*)phone Type:(NSString*)type success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    //register”（register=注册；reset=重置密码）
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/messageCode/send",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",phone]] forKey:@"phone"];
+    [dic setObject:type forKey:@"type"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"44.发送短信验证码%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"44.发送短信验证码%@",error);
+        [LCProgressHUD showMessage:@"44.网络超时"];
         aError(error);
         
     }];

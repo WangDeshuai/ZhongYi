@@ -85,7 +85,7 @@
     .topSpaceToView(titlelabel,25)
     .heightIs(1);
     
-    NSArray * arr=@[@"姓名",@"性别",@"年龄",@"舌苔舌质",@"手术",@"脉象",@"TNM分期",@"有无放疗",@"有无化疗",@"病名",@"病理"];
+    NSArray * arr=@[@"姓名",@"性别",@"年龄",@"舌苔舌质",@"手术",@"脉象",@"TNM分期",@"有无放疗",@"有无化疗",@"病名"];
     
     NSMutableArray * arr1 =[NSMutableArray new];
     [arr1 addObjectsFromArray:arr];
@@ -237,8 +237,8 @@
             [array2 addObject:md.xqyouFang];
             [array2 addObject:md.xqyouHua];
             [array2 addObject:md.xqbingMing];
-            [array2 addObject:md.xqbingLi];
-            
+//            [array2 addObject:md.xqbingLi];
+            //给label赋值的
             for (int i=0; i<array2.count; i++) {
                 NSString * str1 =arr1[i];
                 NSString * str2 =array2[i];
@@ -271,8 +271,21 @@
                 .topSpaceToView(huiZhenKai,10+(g+gj)*(i/2))
                 .heightIs(g);
                 //[btn setSingleLineAutoResizeWithMaxWidth:200];
+                
+                
                 qianZi.sd_layout
                 .topSpaceToView(btn,50);
+                
+                if ([ToolClass isiPad]) {
+                    btn.sd_layout
+                    .leftSpaceToView(bgView,20+(k+kj)*(i%4))
+                    .widthIs(k)
+                    .topSpaceToView(huiZhenKai,10+(g+gj)*(i/4))
+                    .heightIs(g);
+                    qianZi.sd_layout
+                    .topSpaceToView(btn,120);
+                }
+                
                 UILabel * yaoName =[UILabel new];
                 yaoName.text=[yaoDic objectForKey:@"drug_name"];
                 yaoName.font=[UIFont systemFontOfSize:13];
@@ -328,7 +341,13 @@
         _myScrollView.contentSize=CGSizeMake(ScreenWidth, rect.size.height+rect.origin.y+20);
     };
     
-    
+//    if ([ToolClass isiPad]) {
+//        for (int i =0; i<arry.count; i++) {
+//            UILabel * labe =arry[i];
+//            labe.font=[UIFont systemFontOfSize:17];
+//        }
+//    
+//    }
   
 }
 -(void)btnClink:(UIButton*)btn{

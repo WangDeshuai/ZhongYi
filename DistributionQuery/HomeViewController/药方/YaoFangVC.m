@@ -19,6 +19,7 @@
 @property(nonatomic,strong)NSArray * topArray;
 @property(nonatomic,assign)int AAA;
 @property (nonatomic,strong) MJRefreshComponent *myRefreshView;
+@property(nonatomic,strong)UIButton * lastBtn;
 @end
 
 @implementation YaoFangVC
@@ -161,28 +162,60 @@
 //            [array addObject:@"更多"];
             //若干个按钮
             _topArray=array;
-            int kj= 10;
-            int k =(ScreenWidth-(10*5))/4;
-            int gj =15;
-            int g =25;
+//            int kj= 10;
+//            int k =(ScreenWidth-(10*5))/4;
+//            int gj =15;
+//            int g =25;
+            
+            int kj =10;
+            int k=(ScreenWidth-kj*4)/3;
+            int g=k*52/148-10;
+            int gj=15;
+            if ([ToolClass isiPad]) {
+                kj =25;
+                k=(ScreenWidth-kj*5)/4;
+                g=k*52/148;
+                gj=15;
+            }
             for (int i =0; i<array.count; i++) {
                 UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
+                 button.sd_cornerRadius=@(15);
                 button.titleLabel.font=[UIFont systemFontOfSize:13];
                 [button setTitle:array[i] forState:0];
-                [button setTitleColor:[UIColor blackColor] forState:0];
+                [button setTitleColor:[UIColor lightGrayColor] forState:0];
+                [button setBackgroundImage:[UIImage imageNamed:@"btnNomol"] forState:0];
+                [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+                [button setBackgroundImage:[UIImage imageNamed:@"btnSelete"] forState:UIControlStateSelected];
                 [bgHeadView sd_addSubviews:@[button]];
-//                if (i==array.count-1) {
-//                    [button setTitleColor:MAIN_COLOR forState:0];
-//                }
-//                button.layer.borderColor=[UIColor blackColor].CGColor;
-//                button.layer.borderWidth=1;
-                button.backgroundColor=BG_COLOR;
+
                 button.tag=i;
                 button.sd_layout
-                .leftSpaceToView(bgHeadView,kj+(kj+k)*(i%4))
-                .topSpaceToView(nameLabel,gj+(gj+g)*(i/4))
+                .leftSpaceToView(bgHeadView,kj+(k+kj)*(i%3))
+                .topSpaceToView(nameLabel,gj+(g+gj)*(i/3))
                 .widthIs(k)
                 .heightIs(g);
+                
+                if (i==0) {
+                    button.selected=YES;
+                    _lastBtn=button;
+                }
+                
+                if ([ToolClass isiPad]) {
+                    button.sd_layout
+                    .leftSpaceToView(bgHeadView,kj+(k+kj)*(i%4))
+                    .topSpaceToView(nameLabel,gj+(g+gj)*(i/4))
+                    .widthIs(k)
+                    .heightIs(g);
+                    ;
+                }
+
+//                button.sd_layout
+//                .leftSpaceToView(bgHeadView,kj+(kj+k)*(i%4))
+//                .topSpaceToView(nameLabel,gj+(gj+g)*(i/4))
+//                .widthIs(k)
+//                .heightIs(g);
+                
+                
                 [button addTarget:self action:@selector(buttonClinck:) forControlEvents:UIControlEventTouchUpInside];
                 [bgHeadView setupAutoHeightWithBottomView:button bottomMargin:10];
                 
@@ -214,6 +247,9 @@
 //        MoreClassVC * vc =[MoreClassVC new];
 //        [self.navigationController pushViewController:vc animated:YES];
 //    }else{
+    _lastBtn.selected=NO;
+    btn.selected=YES;
+    _lastBtn=btn;
         YaoFangTopXQVC * vc =[YaoFangTopXQVC new];
         vc.classID=_topClassID[btn.tag];
         vc.titlename=_topArray[btn.tag];

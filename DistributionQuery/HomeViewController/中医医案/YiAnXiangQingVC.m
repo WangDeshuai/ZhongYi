@@ -87,7 +87,14 @@
     .leftSpaceToView(_tableView,0)
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
-    .heightIs(316*(ScreenWidth-20)/640+35+25);
+    .heightIs(370/2);
+    if ([ToolClass isiPad]) {
+        headview.sd_layout
+        .leftSpaceToView(_tableView,0)
+        .rightSpaceToView(_tableView,0)
+        .topSpaceToView(_tableView,0)
+        .heightIs(ScreenWidth*568/1536);
+    }
     
     UILabel * nameLable =[UILabel new];
     nameLable.text=@"理气和胃，化痰清热食管麻痹";
@@ -107,9 +114,15 @@
     imageview.sd_layout
     .leftSpaceToView(headview,0)
     .rightSpaceToView(headview,0)
-    .topSpaceToView(headview,5)
+    .topSpaceToView(headview,0)
     .heightIs(370/2);
-    
+    if ([ToolClass isiPad]) {
+        imageview.sd_layout
+        .leftSpaceToView(headview,0)
+        .rightSpaceToView(headview,0)
+        .topSpaceToView(headview,0)
+        .heightIs(ScreenWidth*568/1536);
+    }
     
     
     [LCProgressHUD showLoading:@"请稍后..."];

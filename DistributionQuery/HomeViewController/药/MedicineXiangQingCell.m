@@ -77,7 +77,13 @@
    // paragraphStyle.firstLineHeadIndent = 30;//首行缩进
 //    paragraphStyle.headIndent = 30;
     UIColor *color = [UIColor blackColor];
-    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSParagraphStyleAttributeName: paragraphStyle}];
+     UIFont *fount;
+    if ([ToolClass isiPad]) {
+        fount =[UIFont systemFontOfSize:17];
+    }else{
+        fount =[UIFont systemFontOfSize:15];
+    }
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color,NSFontAttributeName: fount, NSParagraphStyleAttributeName: paragraphStyle}];
     _contentlabel.attributedText = string;
     _contentlabel.isAttributedContent = YES;
 }

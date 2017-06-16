@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "RegisterVC.h"
+#import "ForGetPassWordVC.h"
 @interface LoginViewController ()
 @property(nonatomic,strong)UITextField * phoneText;
 @property(nonatomic,strong)UITextField * passwordText;
@@ -226,7 +227,8 @@
 }
 #pragma mark --忘记密码
 -(void)forgetBtnClink{
-    
+    ForGetPassWordVC * vc =[ForGetPassWordVC new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark --手机号注册
 -(void)zhuCeBtnClink{

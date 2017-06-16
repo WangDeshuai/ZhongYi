@@ -98,6 +98,13 @@
         // NSLog(@">>>>>  %ld", (long)index);
         
     };
+//   //轮播图
+//    [Engine shouYiFirstLunBosuccess:^(NSDictionary *dic) {
+//        
+//    } error:^(NSError *error) {
+//        
+//    }];
+    
     
    //创建搜索框
     UIButton * seaarchBtn =[UIButton buttonWithType:UIButtonTypeCustom];

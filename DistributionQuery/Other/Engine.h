@@ -89,7 +89,7 @@ typedef void (^ErrorBlock)(NSError*error);
 
 
 #pragma mark --29.保存我的意见反馈信息(带有图片)
-//+(void)messageFanKuiVipID:(NSString*)vipID Content:(NSString*)content ImageArr:(NSString*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)messageFanKuiContent:(NSString*)content ImageArr:(UIImage*)image success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 
 #pragma mark --30.分页加载我的收藏信息
@@ -122,6 +122,10 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --38.会员修改密码
 +(void)XiuGaiPassWordYuan:(NSString*)oldWord NewWord:(NSString*)newword success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --39.会员重置密码
++(void)forGetPassWordCode:(NSString*)code Phone:(NSString*)phone Password:(NSString*)psw1 PassWordTwo:(NSString*)psw2 success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
 #pragma mark --40.加载所有的病种分类信息（适用于药方页加载病种分类的接口）
 +(void)yaoFangClassFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
@@ -134,5 +138,8 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --43.首页全局搜索
 +(void)searchFirstKeyWord:(NSString*)name success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --44.发送短信验证码
++(void)sendCodePhone:(NSString*)phone Type:(NSString*)type success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 @end

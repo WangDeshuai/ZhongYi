@@ -75,8 +75,8 @@
 
 -(void)imageData{
     _zhuSuIDArr=[NSMutableArray new];
-    NSArray * imageArr1=@[@"sbhz_lx",@"sbhz_admin"];//
-    NSArray * imageArr2 =@[@"sbhz_bm",@"sbhz_bl",@"sbhz_fq",@"sbhz_mx",@"sbhz_st"];
+    NSArray * imageArr1=@[@"sbhz_lx",@"sbhz_admin"];//@"sbhz_bl"
+    NSArray * imageArr2 =@[@"sbhz_bm",@"sbhz_fq",@"sbhz_mx",@"sbhz_st"];
     _image2=[[NSMutableArray alloc]initWithObjects:@"sbhz_zs", nil];
     NSArray * imageArr3=@[@"sbhz_fl",@"sbhz_fl",@"sbhz_fl"];
     NSArray * imageArr4=@[@"sbhz_question"];
@@ -223,28 +223,30 @@
     }else if(indexPath.section==1){
         if (indexPath.row==0) {
             //病名(2级)
-//            [self ShowAlerViewTwoTag:1];
-            if (self.isSelect == false) {
-                self.isSelect = true;
-                [self performSelector:@selector(repeatDelay) withObject:nil afterDelay:1];
-                // 在下面实现点击cell需要实现的逻辑就可以了
-                [self huoQuBingMingMessageDataID:@""];
-            }
-        }else if (indexPath.row==1){
-            //病理
-            if (self.isSelect == false) {
-                self.isSelect = true;
-                [self performSelector:@selector(repeatDelay) withObject:nil afterDelay:1];
-                // 在下面实现点击cell需要实现的逻辑就可以了
-                 [self BingLiData];
-            }
+            [self ShowAlerViewTwoTag:1];
+//            if (self.isSelect == false) {
+//                self.isSelect = true;
+//                [self performSelector:@selector(repeatDelay) withObject:nil afterDelay:1];
+//                // 在下面实现点击cell需要实现的逻辑就可以了
+//                [self huoQuBingMingMessageDataID:@""];
+//            }
+        }
+        //else if (indexPath.row==1){
+//            //病理
+//            if (self.isSelect == false) {
+//                self.isSelect = true;
+//                [self performSelector:@selector(repeatDelay) withObject:nil afterDelay:1];
+//                // 在下面实现点击cell需要实现的逻辑就可以了
+//                 [self BingLiData];
+//            }
 
             
           
-        }else if (indexPath.row==2){
+        //}
+    else if (indexPath.row==1){
             //TNM分期
             [self alevrViewTNMTitle:@"TNM分期"];
-        }else if (indexPath.row==3){
+        }else if (indexPath.row==2){
             //脉象
             if (self.isSelect == false) {
                 self.isSelect = true;
@@ -253,7 +255,7 @@
                  [self maiXiangData];
             }
             
-        }else if (indexPath.row==4){
+        }else if (indexPath.row==3){
             //舌苔 舌质(2级)
              [self ShowAlerViewTwoTag:2];;
         }
@@ -392,7 +394,7 @@
      */
     NSString * str =@"";
     if (tag==1) {
-        str=@"诊断";
+        str=@"诊断及病理";
     }else if (tag==2){
         str=@"舌苔舌质";
     }
@@ -617,22 +619,24 @@
             //诊断
             if([_bingMing isEqualToString:@""] || _bingMing==nil){
                  cell.textfield.text=nil;
-                cell.textfield.placeholder=@"诊断";
+                cell.textfield.placeholder=@"诊断及病理";
             }else{
                  cell.textfield.text=[NSString stringWithFormat:@"诊断:%@",_bingMing];
             }
            
-        }else if (indexPath.row==1){
-           //病理
-            if([_bingLi isEqualToString:@""] || _bingLi==nil){
-                 cell.textfield.text=nil;
-                 cell.textfield.placeholder=@"病理";
-            }else{
-                cell.textfield.text=[NSString stringWithFormat:@"病理:%@",_bingLi];//;
-            }
+        }
+        //else if (indexPath.row==1){
+//           //病理
+//            if([_bingLi isEqualToString:@""] || _bingLi==nil){
+//                 cell.textfield.text=nil;
+//                 cell.textfield.placeholder=@"病理";
+//            }else{
+//                cell.textfield.text=[NSString stringWithFormat:@"病理:%@",_bingLi];//;
+//            }
             
             
-        }else if (indexPath.row==2){
+        //}
+    else if (indexPath.row==1){
             //TNM分期
             if([_tnmStr isEqualToString:@""] || _tnmStr==nil){
                  cell.textfield.text=nil;
@@ -640,7 +644,7 @@
             }else{
                 cell.textfield.text=_tnmStr;
             }
-        }else if (indexPath.row==3){
+        }else if (indexPath.row==2){
             //脉象
             if([_maiXiang isEqualToString:@""] || _maiXiang==nil){
                  cell.textfield.text=nil;
@@ -650,7 +654,7 @@
                 cell.textfield.text=[NSString stringWithFormat:@"脉象:%@",_maiXiang];
             }
             
-        }else if (indexPath.row==4){
+        }else if (indexPath.row==3){
             //舌苔
             if([_sheTaiZhi isEqualToString:@""] || _sheTaiZhi==nil){
                  cell.textfield.text=nil;
@@ -810,8 +814,12 @@
     if (indexPath.section==4) {
         return 120;
     }else{
-
-        return 50;
+        if ([ToolClass isiPad]) {
+            return 60;
+        }else{
+          return 50;  
+        }
+        
     }
 }
 - (void)didReceiveMemoryWarning {

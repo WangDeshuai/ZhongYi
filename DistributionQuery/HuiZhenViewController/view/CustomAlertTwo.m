@@ -7,6 +7,8 @@
 //
 
 #import "CustomAlertTwo.h"
+#import "LeftMyAdressCell.h"
+#import "RightMyAddressCell.h"
 @interface CustomAlertTwo()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * rightTableView;
 @property(nonatomic,strong)UITableView * leftTableView;
@@ -30,7 +32,7 @@
         _dataArr2=[NSMutableArray new];
         //设置中心点
         self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
-        self.backgroundColor=[UIColor whiteColor];
+        self.backgroundColor=BG_COLOR;//[UIColor whiteColor];
         //标题
         UILabel * titlable =[UILabel new];
        
@@ -82,6 +84,13 @@
         .rightSpaceToView(self,0)
         .topSpaceToView(titlable,15)
         .heightIs(2);
+        
+        
+        if ([ToolClass isiPad]) {
+            titlable.font=[UIFont systemFontOfSize:20];
+            canBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+            achiveBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+        }
         
         
        
@@ -138,12 +147,16 @@
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _leftTableView.rowHeight=60;
+    }else{
+        _leftTableView.rowHeight=44;
+    }
     [self sd_addSubviews:@[_leftTableView]];
     _leftTableView.sd_layout
     .leftSpaceToView(self,0)
     .widthIs(ScreenWidth/2)
-    .topSpaceToView(_titlable,17)
+    .topSpaceToView(_titlable,0)
     .bottomSpaceToView(self,0);
     
 }
@@ -235,12 +248,17 @@
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _rightTableView.rowHeight=60;
+    }else{
+        _rightTableView.rowHeight=44;
+    }
+
     [self sd_addSubviews:@[_rightTableView]];
     _rightTableView.sd_layout
     .leftSpaceToView(self,ScreenWidth/2)
     .widthIs(ScreenWidth/2)
-    .topSpaceToView(_titlable,17)
+    .topSpaceToView(_titlable,0)
     .bottomSpaceToView(self,0);
     
 }
@@ -265,62 +283,68 @@
 {
     
     if (tableView==_leftTableView) {
-        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
-        
-        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
-        if (!cell) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
-            UILabel * nameLable =[UILabel new];
-            nameLable.textAlignment=1;
-            nameLable.alpha=.6;
-            nameLable.tag=1;
-            nameLable.font=[UIFont systemFontOfSize:15];
-            [cell sd_addSubviews:@[nameLable]];
-        }
-        UILabel * nameLable =(UILabel*)[cell viewWithTag:1];
-        nameLable.sd_layout
-        .leftSpaceToView(cell,15)
-        .rightSpaceToView(cell,15)
-        .centerYEqualToView(cell)
-        .heightIs(20);
+//        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
+//        
+//        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
+//        if (!cell) {
+//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
+//            UILabel * nameLable =[UILabel new];
+//            nameLable.textAlignment=1;
+//            nameLable.alpha=.6;
+//            nameLable.tag=1;
+//            nameLable.font=[UIFont systemFontOfSize:15];
+//            [cell sd_addSubviews:@[nameLable]];
+//        }
+//        UILabel * nameLable =(UILabel*)[cell viewWithTag:1];
+//        nameLable.sd_layout
+//        .leftSpaceToView(cell,15)
+//        .rightSpaceToView(cell,15)
+//        .centerYEqualToView(cell)
+//        .heightIs(20);
+        LeftMyAdressCell * cell =[LeftMyAdressCell cellWithTableView:tableView];
         if (_tagg==1) {
             ScanCodeModel * md =_dataArr[indexPath.row];
-            nameLable.text=md.bingMingName;
+//            nameLable.text=md.bingMingName;
+            cell.name=md.bingMingName;
         }else if(_tagg==2){
             ScanCodeModel * md =_dataArr[indexPath.row];
-            nameLable.text=md.sheZhiName;
+//            nameLable.text=md.sheZhiName;
+            cell.name=md.sheZhiName;
         }
        
 
         return cell;
     }else{
-        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
-        
-        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
-        if (!cell) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
-            UILabel * nameLable2 =[UILabel new];
-            nameLable2.textAlignment=1;
-            nameLable2.alpha=.6;
-            nameLable2.tag=2;
-            nameLable2.font=[UIFont systemFontOfSize:15];
-            [cell sd_addSubviews:@[nameLable2]];
-        }
-        // 
-        UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
-        nameLable.sd_layout
-        .leftSpaceToView(cell,15)
-        .rightSpaceToView(cell,15)
-        .centerYEqualToView(cell)
-        .heightIs(20);
-        cell.accessoryType=UITableViewCellAccessoryNone;
+        RightMyAddressCell * cell =[RightMyAddressCell cellWithTableView:tableView];
+//        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
+//        
+//        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
+//        if (!cell) {
+//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
+//            UILabel * nameLable2 =[UILabel new];
+//            nameLable2.textAlignment=1;
+//            nameLable2.alpha=.6;
+//            nameLable2.tag=2;
+//            nameLable2.font=[UIFont systemFontOfSize:15];
+//            [cell sd_addSubviews:@[nameLable2]];
+//        }
+//        // 
+//        UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
+//        nameLable.sd_layout
+//        .leftSpaceToView(cell,15)
+//        .rightSpaceToView(cell,15)
+//        .centerYEqualToView(cell)
+//        .heightIs(20);
+//        cell.accessoryType=UITableViewCellAccessoryNone;
        //
         if (_tagg==1) {
             ScanCodeModel * md =_dataArr2[indexPath.row];
-            nameLable.text=md.bingMingName;
+//            nameLable.text=md.bingMingName;
+            cell.name=md.bingMingName;
         }else if(_tagg==2){
              ScanCodeModel * md =_dataArr2[indexPath.row];
-             nameLable.text=md.sheTaiName;
+//             nameLable.text=md.sheTaiName;
+            cell.name=md.sheTaiName;
         }
         return cell;
         

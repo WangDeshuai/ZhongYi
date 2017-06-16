@@ -15,6 +15,7 @@
 #import "YiJianFanKuiVC.h"//意见反馈
 #import "MyZhuYeVC.h"//我的主页
 #import "SheZhiViewController.h"//设置
+#import "ShengJiVIPVC.h"//升级会员
 @interface MyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArray;
@@ -249,6 +250,11 @@
             vc.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:vc animated:YES];
 
+        }else if (indexPath.row==4){
+            //我要升级
+            ShengJiVIPVC * vc =[ShengJiVIPVC new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }else{
         if (indexPath.row==0) {

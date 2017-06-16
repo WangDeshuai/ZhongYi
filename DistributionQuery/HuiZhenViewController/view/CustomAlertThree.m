@@ -99,12 +99,16 @@
     _leftTableView.delegate=self;
     _leftTableView.dataSource=self;
     _leftTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _leftTableView.rowHeight=60;
+    }else{
+        _leftTableView.rowHeight=44;
+    }
     [self sd_addSubviews:@[_leftTableView]];
     _leftTableView.sd_layout
     .leftSpaceToView(self,0)
     .widthIs(ScreenWidth/2)
-    .topSpaceToView(_titlable,17)
+    .topSpaceToView(_titlable,0)
     .bottomSpaceToView(self,0);
     
 }
@@ -118,12 +122,17 @@
     _rightTableView.delegate=self;
     _rightTableView.dataSource=self;
     _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
+    if ([ToolClass isiPad]) {
+        _rightTableView.rowHeight=60;
+    }else{
+        _rightTableView.rowHeight=44;
+    }
+
     [self sd_addSubviews:@[_rightTableView]];
     _rightTableView.sd_layout
     .leftSpaceToView(self,ScreenWidth/2)
     .widthIs(ScreenWidth/2)
-    .topSpaceToView(_titlable,17)
+    .topSpaceToView(_titlable,0)
     .bottomSpaceToView(self,0);
     
 }

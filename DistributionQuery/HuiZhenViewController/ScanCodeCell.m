@@ -56,6 +56,7 @@
     .rightSpaceToView(self.contentView,15)
     .heightIs(20);
     
+    _textview.font=[UIFont systemFontOfSize:15];
     _textview.sd_layout
     .leftSpaceToView(self.contentView,30)
     .topSpaceToView(_textfield,5)

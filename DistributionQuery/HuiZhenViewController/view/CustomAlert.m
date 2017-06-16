@@ -103,6 +103,11 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     _tableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
+    if ([ToolClass isiPad]) {
+        _tableView.rowHeight=60;
+    }else{
+        _tableView.rowHeight=44;
+    }
     
     [self sd_addSubviews:@[_tableView]];
     _tableView.sd_layout
@@ -127,7 +132,12 @@
         nameLable.textAlignment=1;
         nameLable.alpha=.6;
         nameLable.tag=1;
-        nameLable.font=[UIFont systemFontOfSize:15];
+        if ([ToolClass isiPad]) {
+            nameLable.font=[UIFont systemFontOfSize:FOUNT_IPAD];
+        }else{
+            nameLable.font=[UIFont systemFontOfSize:15];
+        }
+       
         [cell sd_addSubviews:@[nameLable]];
     }
     UILabel * nameLable =(UILabel*)[cell viewWithTag:1];

@@ -48,7 +48,7 @@
     _titleLabel.font=[UIFont systemFontOfSize:16];
     _titleLabel.alpha=.7;
     _contentLabel.textColor=JXColor(34, 34, 34, 1);
-    _contentLabel.font=[UIFont systemFontOfSize:14];
+    
     _image1.backgroundColor=MAIN_COLOR;
     
     _image1.sd_layout
@@ -133,8 +133,17 @@
     _text=text;
     NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:5];
+
     UIColor *color = [UIColor blackColor];
-    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSParagraphStyleAttributeName: paragraphStyle}];
+    UIFont *fount;
+    if ([ToolClass isiPad]) {
+        fount =[UIFont systemFontOfSize:17];
+    }else{
+       fount =[UIFont systemFontOfSize:15];
+    }
+    CGFloat emptylen = self.contentLabel.font.pointSize * 2;
+    paragraphStyle.firstLineHeadIndent = emptylen;//首行缩进
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSFontAttributeName: fount, NSParagraphStyleAttributeName: paragraphStyle}];
     _contentLabel.attributedText = string;
     _contentLabel.isAttributedContent = YES;
     

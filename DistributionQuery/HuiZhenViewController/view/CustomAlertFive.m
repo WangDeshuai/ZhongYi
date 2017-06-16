@@ -7,7 +7,8 @@
 //
 
 #import "CustomAlertFive.h"
-
+#import "LeftMyAdressCell.h"
+#import "RightMyAddressCell.h"
 @interface CustomAlertFive()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * leftTableView;
 @property(nonatomic,strong)UITableView * centerTableView;
@@ -30,7 +31,7 @@
     if (self) {
         //设置中心点
         self.frame=CGRectMake(0, 1000, ScreenWidth, ScreenHeight/2);
-        self.backgroundColor=[UIColor whiteColor];
+        self.backgroundColor=BG_COLOR;//[UIColor whiteColor];
         _dataArray1=[NSMutableArray new];
         _dataArray2=[NSMutableArray new];
         _dataArray3=[NSMutableArray new];
@@ -42,6 +43,9 @@
         [self sd_addSubviews:@[titlable,canBtn,achiveBtn]];
         
         titlable.font=[UIFont systemFontOfSize:16];
+        if ([ToolClass isiPad]) {
+          titlable.font=[UIFont systemFontOfSize:20];
+        }
         titlable.alpha=.7;
         titlable.textAlignment=1;
         titlable.text=title;
@@ -56,6 +60,14 @@
         [achiveBtn setTitleColor:[UIColor blackColor] forState:0];
         [achiveBtn setTitle:btnName2 forState:0];
         [achiveBtn addTarget:self action:@selector(achiveBtnClink) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        if ([ToolClass isiPad]) {
+            titlable.font=[UIFont systemFontOfSize:20];
+            canBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+            achiveBtn.titleLabel.font=[UIFont systemFontOfSize:20];
+        }
+        
         
         titlable.sd_layout
         .centerXEqualToView(self)
@@ -88,7 +100,7 @@
        
         [self CreatLeftTabelView];
         [self CreatCenterTableview];
-        [self CreatTabelView];
+//        [self CreatTabelView];
         [self CreatDataID:@""];
         
     }
@@ -111,8 +123,8 @@
     [self sd_addSubviews:@[_leftTableView]];
     _leftTableView.sd_layout
     .leftSpaceToView(self,0)
-    .widthIs(ScreenWidth/3)
-    .topSpaceToView(_titlable,17)
+    .widthIs(ScreenWidth/2)
+    .topSpaceToView(_titlable,0)
     .bottomSpaceToView(self,0);
     
 }
@@ -129,9 +141,9 @@
     
     [self sd_addSubviews:@[_centerTableView]];
     _centerTableView.sd_layout
-    .leftSpaceToView(self,ScreenWidth/3)
-    .widthIs(ScreenWidth/3)
-    .topSpaceToView(_titlable,17)
+    .leftSpaceToView(self,ScreenWidth/2)
+    .widthIs(ScreenWidth/2)
+    .topSpaceToView(_titlable,0)
     .bottomSpaceToView(self,0);
 }
 //左边表格内容
@@ -174,133 +186,151 @@
         
     }];
 }
-//右边边表格内容
--(void)CreatRighrDataID:(NSString*)idd{
-    [_dataArray3 removeAllObjects];
-    [Engine jiaZaiZhuSuMessageID:idd success:^(NSDictionary *dic) {
-        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-        if ([code isEqualToString:@"200"]) {
-            NSArray * dataArr =[dic objectForKey:@"data"];
-            for (NSDictionary * dicc in dataArr) {
-                ScanCodeModel * md =[[ScanCodeModel alloc]initWithZhuSuDic:dicc];
-                [_dataArray3 addObject:md];
-            }
-            [_rightTableView reloadData];
-            
-        }else{
-            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
-        }
-    } error:^(NSError *error) {
-        
-    }];
-}
+////右边边表格内容
+//-(void)CreatRighrDataID:(NSString*)idd{
+//    [_dataArray3 removeAllObjects];
+//    [Engine jiaZaiZhuSuMessageID:idd success:^(NSDictionary *dic) {
+//        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+//        if ([code isEqualToString:@"200"]) {
+//            NSArray * dataArr =[dic objectForKey:@"data"];
+//            for (NSDictionary * dicc in dataArr) {
+//                ScanCodeModel * md =[[ScanCodeModel alloc]initWithZhuSuDic:dicc];
+//                [_dataArray3 addObject:md];
+//            }
+//            [_rightTableView reloadData];
+//            
+//        }else{
+//            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+//        }
+//    } error:^(NSError *error) {
+//        
+//    }];
+//}
 
 
-#pragma mark --创建表格
--(void)CreatTabelView{
-    if (!_rightTableView) {
-        _rightTableView=[[UITableView alloc]init];
-    }
-    _rightTableView.tableFooterView=[UIView new];
-    _rightTableView.backgroundColor=[UIColor whiteColor];
-    _rightTableView.delegate=self;
-    _rightTableView.dataSource=self;
-    _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
-    
-    [self sd_addSubviews:@[_rightTableView]];
-    _rightTableView.sd_layout
-    .rightSpaceToView(self,0)
-    .widthIs(ScreenWidth/3)
-    .topSpaceToView(_titlable,17)
-    .bottomSpaceToView(self,0);
-    
-}
+//#pragma mark --创建表格
+//-(void)CreatTabelView{
+//    if (!_rightTableView) {
+//        _rightTableView=[[UITableView alloc]init];
+//    }
+//    _rightTableView.tableFooterView=[UIView new];
+//    _rightTableView.backgroundColor=[UIColor whiteColor];
+//    _rightTableView.delegate=self;
+//    _rightTableView.dataSource=self;
+//    _rightTableView.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;
+//    
+//    [self sd_addSubviews:@[_rightTableView]];
+//    _rightTableView.sd_layout
+//    .rightSpaceToView(self,0)
+//    .widthIs(ScreenWidth/2)
+//    .topSpaceToView(_titlable,17)
+//    .bottomSpaceToView(self,0);
+//    
+//}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView==_leftTableView) {
         return _dataArray1.count;
-    }else if (tableView==_centerTableView){
+    }else {
         return _dataArray2.count;
-    }else{
-        return _dataArray3.count;
     }
+//    }else{
+//        return _dataArray3.count;
+//    }
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (tableView==_leftTableView) {
-        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
-        
-        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
-        if (!cell) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
-            UILabel * nameLable =[UILabel new];
-            nameLable.textAlignment=1;
-            nameLable.alpha=.6;
-            nameLable.tag=1;
-            nameLable.font=[UIFont systemFontOfSize:14];
-            [cell sd_addSubviews:@[nameLable]];
-        }
+        LeftMyAdressCell * cell =[LeftMyAdressCell cellWithTableView:tableView];
         ScanCodeModel * md =_dataArray1[indexPath.row];
-        UILabel * nameLable =(UILabel*)[cell viewWithTag:1];
-        nameLable.sd_layout
-        .leftSpaceToView(cell,15)
-        .rightSpaceToView(cell,15)
-        .centerYEqualToView(cell)
-        .autoHeightRatio(0);
-        nameLable.text=md.zhuSuName;
+        cell.name=md.zhuSuName;;
         return cell;
-    }else if (tableView==_centerTableView) {
-        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
-        
-        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
-        if (!cell) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
-            UILabel * nameLable2 =[UILabel new];
-            nameLable2.textAlignment=1;
-            nameLable2.alpha=.6;
-            nameLable2.tag=2;
-            nameLable2.font=[UIFont systemFontOfSize:14];
-            [cell sd_addSubviews:@[nameLable2]];
-        }
-        //
-        UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
-        nameLable.sd_layout
-        .leftSpaceToView(cell,15)
-        .rightSpaceToView(cell,15)
-        .centerYEqualToView(cell)
-        .autoHeightRatio(0);
-        cell.accessoryType=UITableViewCellAccessoryNone;
-        ScanCodeModel * md =_dataArray2[indexPath.row];
-        nameLable.text=md.zhuSuName;
-        return cell;
-        
     }else{
-        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
-        
-        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
-        if (!cell) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
-            UILabel * nameLable2 =[UILabel new];
-            nameLable2.textAlignment=1;
-            nameLable2.alpha=.6;
-            nameLable2.tag=2;
-            nameLable2.font=[UIFont systemFontOfSize:14];
-            [cell sd_addSubviews:@[nameLable2]];
-        }
-        //
-        UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
-        nameLable.sd_layout
-        .leftSpaceToView(cell,15)
-        .rightSpaceToView(cell,15)
-        .centerYEqualToView(cell)
-        .autoHeightRatio(0);
-        cell.accessoryType=UITableViewCellAccessoryNone;
-        ScanCodeModel * md =_dataArray3[indexPath.row];
-        nameLable.text=md.zhuSuName;
+        RightMyAddressCell * cell =[RightMyAddressCell cellWithTableView:tableView];
+        ScanCodeModel * md =_dataArray2[indexPath.row];
+         cell.name=md.zhuSuName;;
         return cell;
         
     }
+    
+    
+//    if (tableView==_leftTableView) {
+//        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
+//        
+//        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
+//        if (!cell) {
+//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
+//            UILabel * nameLable =[UILabel new];
+//            nameLable.textAlignment=1;
+//            nameLable.alpha=.6;
+//            nameLable.tag=1;
+//            nameLable.font=[UIFont systemFontOfSize:14];
+//            [cell sd_addSubviews:@[nameLable]];
+//        }
+//        ScanCodeModel * md =_dataArray1[indexPath.row];
+//        UILabel * nameLable =(UILabel*)[cell viewWithTag:1];
+//        nameLable.backgroundColor=[UIColor redColor];
+//        nameLable.sd_layout
+//        .leftSpaceToView(cell,15)
+//        .rightSpaceToView(cell,15)
+//        .centerYEqualToView(cell)
+//        .autoHeightRatio(0);
+//        nameLable.text=md.zhuSuName;
+//        return cell;
+//    }else  {
+//        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
+//        
+//        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
+//        if (!cell) {
+//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
+//            UILabel * nameLable2 =[UILabel new];
+//            nameLable2.textAlignment=1;
+//            nameLable2.alpha=.6;
+//            nameLable2.tag=2;
+//            nameLable2.font=[UIFont systemFontOfSize:14];
+//            [cell sd_addSubviews:@[nameLable2]];
+//        }
+//        //
+//        UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
+//        nameLable.backgroundColor=[UIColor redColor];
+//        nameLable.sd_layout
+//        .leftSpaceToView(cell,15)
+//        .rightSpaceToView(cell,15)
+//        .centerYEqualToView(cell)
+//        .autoHeightRatio(0);
+//        cell.accessoryType=UITableViewCellAccessoryNone;
+//        ScanCodeModel * md =_dataArray2[indexPath.row];
+//        nameLable.text=md.zhuSuName;
+//        return cell;
+//        
+//    }
+    
+//    else{
+//        NSString * idd =[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section];
+//        
+//        UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:idd];
+//        if (!cell) {
+//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:idd];
+//            UILabel * nameLable2 =[UILabel new];
+//            nameLable2.textAlignment=1;
+//            nameLable2.alpha=.6;
+//            nameLable2.tag=2;
+//            nameLable2.font=[UIFont systemFontOfSize:14];
+//            [cell sd_addSubviews:@[nameLable2]];
+//        }
+//        //
+//        UILabel * nameLable =(UILabel*)[cell viewWithTag:2];
+//        nameLable.sd_layout
+//        .leftSpaceToView(cell,15)
+//        .rightSpaceToView(cell,15)
+//        .centerYEqualToView(cell)
+//        .autoHeightRatio(0);
+//        cell.accessoryType=UITableViewCellAccessoryNone;
+//        ScanCodeModel * md =_dataArray3[indexPath.row];
+//        nameLable.text=md.zhuSuName;
+//        return cell;
+//        
+//    }
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -314,25 +344,40 @@
         ScanCodeModel * md =_dataArray2[indexPath.row];
          _str2=md.zhuSuName;
         _md2=md;
-        [self CreatRighrDataID:md.zhuSuID];
-    }else{
-         ScanCodeModel * md =_dataArray3[indexPath.row];
-         _str3=md.zhuSuName;
-        _md3=md;
+        //[self CreatRighrDataID:md.zhuSuID];
     }
+//    else{
+//         ScanCodeModel * md =_dataArray3[indexPath.row];
+//         _str3=md.zhuSuName;
+//        _md3=md;
+//    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_leftTableView==tableView) {
        ScanCodeModel * md = _dataArray1[indexPath.row];
-      return   [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20];
-    }else if (_centerTableView==tableView){
+        if ([ToolClass isiPad]) {
+            return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/2]+40;
+        }else{
+           return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/2]+20;
+        }
+        
+        //[_leftTableView cellHeightForIndexPath:indexPath model:md.zhuSuName keyPath:@"name" cellClass:[LeftMyAdressCell class] contentViewWidth:[ToolClass  cellContentViewWith]]+20;
+        
+    }else {
          ScanCodeModel * md = _dataArray2[indexPath.row];
-        return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20]+15;
-    }else{
-         ScanCodeModel * md = _dataArray3[indexPath.row];
-         return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20]+15;
+        if ([ToolClass isiPad]) {
+             return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/2]+40;
+        }else{
+            return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/2]+20;
+        }
+        
+       
     }
+//    else{
+//         ScanCodeModel * md = _dataArray3[indexPath.row];
+//         return [ToolClass HeightForText:md.zhuSuName withSizeOfLabelFont:18 withWidthOfContent:ScreenWidth/3-20]+50;
+//    }
 }
 
 #pragma mark --完成
