@@ -85,7 +85,7 @@
    // self.messageBlock(_textfield.text);
     NSLog(@"参数>>>%@  Value>>%@",_canShuArr[_number],_textfield.text);
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine myZhuYeSaveMessageCanShuName:_canShuArr[_number] ValueName:_textfield.text  success:^(NSDictionary *dic) {
+    [Engine1 myZhuYeSaveMessageCanShuName:_canShuArr[_number] ValueName:_textfield.text  success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
@@ -148,7 +148,7 @@
     if (indexPath.row==0) {
        
         [LCProgressHUD showLoading:@"请稍后..."];
-        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"M"  success:^(NSDictionary *dic) {
+        [Engine1 myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"M"  success:^(NSDictionary *dic) {
             NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {
                 [LCProgressHUD hide];
@@ -166,7 +166,7 @@
         
     }else if(indexPath.row==1){
         [LCProgressHUD showLoading:@"请稍后..."];
-        [Engine myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"Y"  success:^(NSDictionary *dic) {
+        [Engine1 myZhuYeSaveMessageCanShuName:@"sex" ValueName:@"Y"  success:^(NSDictionary *dic) {
             NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {
                 [LCProgressHUD hide];

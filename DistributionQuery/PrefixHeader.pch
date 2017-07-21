@@ -27,7 +27,7 @@
 #define FOUNT_IPAD  19
 //192.168.1.103 119.29.83 http://m.sszlyy.com:8080
 //http://192.168.1.111:8080/hospital  622848 0638834319276
-/*
+/*http://192.168.1.114:8080/hospital
  *   头文件
  */
 #import "HomeVC.h"
@@ -38,8 +38,9 @@
 /*
  * 工具类
  */
-#import "Engine.h"
+#import "Engine1.h"
 #import "ToolClass.h"
+#import "TanKuangView.h"
 
 /*
  *   第三方

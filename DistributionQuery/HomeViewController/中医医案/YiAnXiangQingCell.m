@@ -7,9 +7,9 @@
 //
 
 #import "YiAnXiangQingCell.h"
-@interface YiAnXiangQingCell()
+@interface YiAnXiangQingCell()<UIWebViewDelegate>
 @property(nonatomic,strong)UILabel * contentLabel;
-@property(nonatomic,strong)UILabel * bingAnLab;
+
 @end
 @implementation YiAnXiangQingCell
 
@@ -38,14 +38,14 @@
 -(void)CreatStar{
     _leftLabel=[UILabel new];
     _contentLabel=[UILabel new];
-    _bingAnLab=[UILabel new];
+    _bingAnLab=[UIWebView new];
     [self.contentView sd_addSubviews:@[_leftLabel,_contentLabel,_bingAnLab]];
     _leftLabel.alpha=.5;
     _leftLabel.font=[UIFont systemFontOfSize:15];
     _contentLabel.font=[UIFont systemFontOfSize:15];
     _contentLabel.alpha=.8;
-    _bingAnLab.font=[UIFont systemFontOfSize:15];
-    _bingAnLab.alpha=.8;
+//    _bingAnLab.font=[UIFont systemFontOfSize:15];
+//    _bingAnLab.alpha=.8;
     
     
     _leftLabel.sd_layout
@@ -66,7 +66,7 @@
     .rightSpaceToView(self.contentView,15)
     .topSpaceToView(_leftLabel,5)
     .leftEqualToView(_leftLabel)
-    .autoHeightRatio(0);
+    .bottomSpaceToView(self.contentView,0);
     
     [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:15];
     
@@ -86,12 +86,30 @@
 {
     _text1=text1;
     _bingAnLab.hidden=NO;
-    _bingAnLab.attributedText = [ToolClass HTML:text1];
+    _bingAnLab.delegate=self;
+//    _bingAnLab.attributedText = [ToolClass HTML:text1];
     NSLog(@">>>>>%@",[ToolClass HTML:text1]);
-    
+     [self.bingAnLab loadHTMLString:text1 baseURL:nil];
     
     
 }
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    
+    for (int i =0; i<20; i++) {
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByTagName('img')[%d].style.width = '100%%'", i];
+        [webView stringByEvaluatingJavaScriptFromString:meta];
+    }
+    CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] floatValue];
+    NSLog(@"输出高度%f",height);
+    
+    webView.frame = CGRectMake(0, 0, ScreenWidth, height+20);
+    UIScrollView *tempView = (UIScrollView *)[webView.subviews objectAtIndex:0];
+    tempView.scrollEnabled = NO;
+//    改变滚动试图的滑动
+//    self.tableView.contentSize = CGSizeMake(ScreenWidth, height+20);
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

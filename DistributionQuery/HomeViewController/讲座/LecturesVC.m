@@ -40,7 +40,7 @@
 }
 
 -(void)CreatDataPage:(int)page BingID:(NSString*)bingID {
-    [Engine jiangZuoBingZhongID:bingID Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+    [Engine1 jiangZuoBingZhongID:bingID Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         NSMutableArray * array2 =[NSMutableArray new];
         if ([code isEqualToString:@"200"]) {
@@ -165,7 +165,7 @@
     
     
     
-    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

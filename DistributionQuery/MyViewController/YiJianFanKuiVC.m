@@ -52,7 +52,7 @@
 -(void)rightBtnClink{
     [LCProgressHUD showLoading:@"请稍后..."];
     if (_photoArray.count==0) {
-        [Engine messageFanKuiContent:_textview.text ImageArr:nil success:^(NSDictionary *dic) {
+        [Engine1 messageFanKuiContent:_textview.text ImageArr:nil success:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {
@@ -63,7 +63,7 @@
         }];
     }else{
         UIImage * image =_photoArray[0];
-        [Engine messageFanKuiContent:_textview.text ImageArr:image success:^(NSDictionary *dic) {
+        [Engine1 messageFanKuiContent:_textview.text ImageArr:image success:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
             NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {

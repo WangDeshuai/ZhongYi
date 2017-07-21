@@ -15,6 +15,12 @@
 #import "CustomAlertFour.h"
 #import "CustomAlertFive.h"
 #import "ScanCodeModel.h"
+#import "APAuthV2Info.h"
+#import "RSADataSigner.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "WeiXinModel.h"
+#import "WXApi.h"
+#import "WXApiObject.h"
 @interface ScanCodeVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UITextViewDelegate>
 @property(nonatomic,strong)UIButton * sexBtn;
 @property(nonatomic,strong)NSMutableArray * image2;
@@ -57,6 +63,66 @@
 
 @implementation ScanCodeVC
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if ([ToolClass isLogin]==NO) {
+        [_tableView removeFromSuperview];
+        
+        TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:@"您还没有登录，请先登录在查看" achiveBtn:@"确定"];
+        view.buttonClinkBlock=^(UIButton*btn){
+            
+        };
+        [view show];
+    }else{
+        [Engine1 chaXunVipShengJiLoginPhonesuccess:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary * dataDic =[dic objectForKey:@"data"];
+                NSString * dengJi =[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"level"]];
+                int dengJI =[dengJi intValue]-1;
+            NSString*   vip=[NSString stringWithFormat:@"%d",dengJI];
+                [NSUSE_DEFO setObject:vip forKey:@"vip"];
+                [NSUSE_DEFO synchronize];
+                if ([vip intValue]>=3) {
+                        [self CreatTabelView];
+                     [self addFooterButton];
+                }else{
+                    [_tableView removeFromSuperview];
+                    NSString * content =[NSString stringWithFormat:@"此权限仅对VIP3以上开放\n您当前是VIP%@",vip];
+                    TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+                    view.buttonClinkBlock=^(UIButton*btn){
+                                    
+                    };
+                    [view show];
+                }
+            }
+        } error:^(NSError *error) {
+            
+        }];
+        
+//        NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+//        if ([vip intValue]>=3) {
+//            [self CreatTabelView];
+//        }else{
+//            [_tableView removeFromSuperview];
+//            NSString * content =[NSString stringWithFormat:@"此权限仅对VIP3以上开放\n您当前是VIP%@",vip];
+//            TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+//            view.buttonClinkBlock=^(UIButton*btn){
+//                
+//            };
+//            [view show];
+//        }
+
+        
+        
+    }
+    
+    
+    
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -67,10 +133,30 @@
         self.backHomeBtn.hidden=YES;
     }
     [self imageData];
-    [self CreatTabelView];
-    [self addFooterButton];
+//    [self CreatTabelView];
+//    [self addFooterButton];
+    NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(weiXin) name:@"WX_PaySuccess" object:nil];
 }
+#pragma mark --微信支付结果
+-(void)weiXin{
+    [Engine1 saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+        
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        if ([code isEqualToString:@"200"]) {
+            //清空信息
+            [self dissMissContent];
+        }else{
+        }
+        
+        
+    } error:^(NSError *error) {
+        
+    }];
 
+
+}
 
 
 -(void)imageData{
@@ -148,23 +234,139 @@
     NSLog(@"问题描述>>>%@",_wenTiMiaoShu);
     
    
-    
-    [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
-        
+    [Engine1 sanBianHuiZhenPaysuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-        [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         if ([code isEqualToString:@"200"]) {
-            //清空信息
-           
-            [self dissMissContent];
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            NSString * isPay =[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"isPay"]]];
+            NSString * ciShu =[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"freeExperienceCount"]]];
+            if ([isPay isEqualToString:@"N"]) {
+                //不支付
+                NSString * str =[NSString stringWithFormat:@"您当前可以免费生成3次报告单，超过3次后将会进行收费生成\n当前是第%@次",ciShu];
+                TanKuangView * vc =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:str achiveBtn:@"确定"];
+                vc.buttonClinkBlock=^(UIButton*btn){
+                    [LCProgressHUD showLoading:@"请稍后..."];
+                    [Engine1 saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+                        
+                        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+                        [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+                        if ([code isEqualToString:@"200"]) {
+                            //清空信息
+                            [self dissMissContent];
+                        }else{
+                        }
+                        
+                        
+                    } error:^(NSError *error) {
+                        
+                    }];
+
+                };
+                [vc show];
+                
+                
+            }else{
+                //支付
+                UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"此次生成报告单需要支付300元" message:@"是否确认支付" preferredStyle:UIAlertControllerStyleActionSheet];
+                UIAlertAction * action =[UIAlertAction actionWithTitle:@"支付宝支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [LCProgressHUD showLoading:@"请稍后..."];//
+                    [Engine1 huoQuDingDanHaoName:@"世舜中医生成报告单" Price:[NSString stringWithFormat:@"%.2d",300] Type:@"report"  success:^(NSDictionary *dic) {
+                        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+                        if ([code isEqualToString:@"200"]) {
+                            NSDictionary * dataDic =[dic objectForKey:@"data"];
+                            NSString * dingDan =[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"order_no"]]];//_priceNum
+                            [self doAlipayPayDingDanHao:dingDan ];
+                            [LCProgressHUD hide];
+                        }else{
+                            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+                        }
+                        
+                    } error:^(NSError *error) {
+                        
+                    }];
+
+                }];
+                UIAlertAction * action2 =[UIAlertAction actionWithTitle:@"微信支付" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                   
+                    [Engine1 weiXinYuZhiFuPrice:[NSString stringWithFormat:@"%d",300*100] Type:@"report" MiaoShu:@"世舜中医生成报告单" success:^(NSDictionary *dic) {
+                        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+                        if ([code isEqualToString:@"200"]) {
+                            NSDictionary * dataDic =[dic objectForKey:@"data"];
+                            WeiXinModel * md =[[WeiXinModel alloc]initWithWeiXinModelDic:dataDic];
+                            PayReq *request = [[PayReq alloc] init];
+                            request.partnerId = md.weiXinPartnerid;
+                            request.prepayId=  md.weiXinPrepayid;
+                            request.package = md.weiPackage;
+                            request.nonceStr=  md.weiNoncestr;
+                            request.timeStamp= md.weiXinTimestamp.intValue;
+                            request.sign= md.weiXinSign;
+                            [WXApi sendReq:request];
+                        }else{
+                            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+                        }
+                    } error:^(NSError *error) {
+                        
+                    }];
+
+                }];
+                
+                UIAlertAction * action3 =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [actionview addAction:action];
+                [actionview addAction:action2];
+                [actionview addAction:action3];
+                [self presentViewController:actionview animated:YES completion:nil];
+                
+                
+            }
+            
+            
         }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
-        
-        
     } error:^(NSError *error) {
         
     }];
+    
+    
+    
+    
+    
+}
+
+#pragma mark --支付宝支付
+- (void)doAlipayPayDingDanHao:(NSString*)dingDan
+{
+    //17733871852
+    NSString *appScheme = @"alisdkdemo";
+    [[AlipaySDK defaultService] payOrder:dingDan fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        ;
+        NSLog(@"支付结果 = %@>>>%@",resultDic,[resultDic objectForKey:@"memo"]);
+        NSString * str =[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"resultStatus"]];
+        if ([str isEqualToString:@"9000"]) {
+            //支付成功(调用报告单)
+            [Engine1 saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+                
+                NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+                [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+                if ([code isEqualToString:@"200"]) {
+                    //清空信息
+                    [self dissMissContent];
+                }else{
+                }
+                
+                
+            } error:^(NSError *error) {
+                
+            }];
+            
+        }else{
+            [LCProgressHUD showFailure:@"支付失败"];
+        }
+        
+    }];
+    
 }
 
 
@@ -288,7 +490,7 @@
 }
 //病理数据解析
 -(void)BingLiData{
-    [Engine jiaZaiBingLiMessagesuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiBingLiMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         NSMutableArray * dataTitle=[NSMutableArray new];
         if ([code isEqualToString:@"200"]) {
@@ -310,7 +512,7 @@
 }
 //脉象数据解析
 -(void)maiXiangData{
-    [Engine jiaZaiAllMaiXiangMessagesuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiAllMaiXiangMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         NSMutableArray * dataTitle=[NSMutableArray new];
         if ([code isEqualToString:@"200"]) {
@@ -331,7 +533,7 @@
 }
 //tag==1 (病名接口)
 -(void)huoQuBingMingMessageDataID:(NSString*)idd{
-    [Engine jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
+    [Engine1 jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -455,8 +657,13 @@
 }
 #pragma mark --显示弹框5(主诉)
 -(void)alevrViewZhuSuTag:(NSIndexPath*)tag{
+    NSLog(@">>>>病名ID=%@",_bingMingID);
+    if (_bingMingID==nil) {
+        [LCProgressHUD showMessage:@"请先选择诊断及病理"];
+        return;
+    }
     
-    CustomAlertFive * vc =[[CustomAlertFive alloc]initWithTitle:@"主诉" canCleBtn:@"取消" achiveBtn:@"完成" ];
+    CustomAlertFive * vc =[[CustomAlertFive alloc]initWithTitle:@"主诉" canCleBtn:@"取消" achiveBtn:@"完成" BingMingID:_bingMingID];
     __weak __typeof(vc)weakSelf = vc;
     vc.NameBlock=^(ScanCodeModel*name){
 
@@ -566,7 +773,7 @@
         }else{
              nianLingText.text=_age;
         }
-       
+        nianLingText.keyboardType=UIKeyboardTypeNamePhonePad;
         nianLingText.font=[UIFont systemFontOfSize:15];
         [headView sd_addSubviews:@[nianLingText]];
         nianLingText.sd_layout
@@ -908,7 +1115,7 @@
     if ([str isEqualToString:@"无"]) {
         youWu=@"N";
     }else if (str==nil || [str isEqualToString:@""]){
-        [LCProgressHUD showMessage:@"请重新选择有无放疗"];;
+//        [LCProgressHUD showMessage:@"请重新选择有无放疗"];;
     }else{
         youWu=@"Y";
     }

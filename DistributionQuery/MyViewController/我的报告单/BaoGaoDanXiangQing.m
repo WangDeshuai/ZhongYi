@@ -218,7 +218,7 @@
     
     NSMutableArray * array2=[NSMutableArray new];
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine baoGaiDanXiangQingMessageID:_messageID success:^(NSDictionary *dic) {
+    [Engine1 baoGaiDanXiangQingMessageID:_messageID success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];

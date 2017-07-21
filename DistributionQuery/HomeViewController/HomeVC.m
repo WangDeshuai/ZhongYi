@@ -16,37 +16,52 @@
 #import "ZhongYiModel.h"
 #import "YiAnXiangQingVC.h"
 #import "SearchViewController.h"//搜索
+#import "TanKuangView.h"
+#import "UITextField+ExtentRange.h"
+#import "YuYinView.h"
 @interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,assign)int AAA;
 @property (nonatomic,strong) MJRefreshComponent *myRefreshView;
 @property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,strong)UITextField * textView;
+@property(nonatomic,strong)YuYinView * yuYin;
 @end
-
+//0279426206
 @implementation HomeVC
 -(void)viewWillAppear:(BOOL)animated
 {
      self.navigationController.navigationBarHidden=YES;
+    _textView.text=nil;
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden=NO;
+    [_yuYin dissmiss];
+//    if (_voiceRecognizerView != nil) {
+//        [self.voiceRecognizerView cancel];
+//    }
+//    [super viewWillDisappear:animated];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.backHomeBtn.hidden=YES;
     self.title=@"";
+  
     _dataArray=[NSMutableArray new];
     self.automaticallyAdjustsScrollViewInsets=NO;
     [self CreatTabelView];
     
+    
 }
+
 
 
 #pragma mark --创建数据源
 -(void)CreatDataPage:(int)page{
-    [Engine FirstJiaZaiYiAnMessagePage:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+    [Engine1 FirstJiaZaiYiAnMessagePage:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr=[dic objectForKey:@"data"];
@@ -126,16 +141,20 @@
     .widthIs(26/2)
     .heightIs(27/2);
     //语音
-    UIImageView * yuYinImage =[UIImageView new];
-    yuYinImage.image=[UIImage imageNamed:@"home_yuyin"];
+    UIButton * yuYinImage =[UIButton new];
+//    yuYinImage.image=[UIImage imageNamed:@"home_yuyin"];
+    [yuYinImage setImage:[UIImage imageNamed:@"home_yuyin"] forState:0];
     [seaarchBtn sd_addSubviews:@[yuYinImage]];
+    [yuYinImage addTarget:self action:@selector(yuYinPublic) forControlEvents:UIControlEventTouchUpInside];
     yuYinImage.sd_layout
     .rightSpaceToView(seaarchBtn,10)
     .centerYEqualToView(seaarchBtn)
-    .widthIs(24/2)
-    .heightIs(34/2);
+    .widthIs(24)
+    .heightIs(34);
+    
     //搜索框
     UITextField * searchText =[UITextField new];
+    _textView=searchText;
     searchText.placeholder=@"搜索病种、方剂、中药等";
     [searchText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     searchText.font=[UIFont systemFontOfSize:15];
@@ -151,7 +170,7 @@
     
     
     
-//创建的6个按钮
+//创建的6个按钮  100238867741
     UIView * btnView =[UIView new];
     btnView.backgroundColor=[UIColor whiteColor];
     [headView sd_addSubviews:@[btnView]];
@@ -247,34 +266,146 @@
     
     
     
+    
+    
+    
+    
     return headView;
 }
+-(void)yuYinPublic{
+     [self.view endEditing:YES];
+    YuYinView * vc =[[YuYinView alloc]init];
+    _yuYin=vc;
+    //[weakSelf.textView deleteBackward];
+     __weak typeof(self) weakSelf = self;
+    vc.TextBlock=^(NSString*text,BOOL isLast){
+        //1.获取光标位置
+        NSRange selectedRange = weakSelf.textView.selectedRange;
+        //2.将光标所在位置的的字符串进行替换
+        weakSelf.textView.text = [weakSelf.textView.text stringByReplacingCharactersInRange:selectedRange withString:text];
+        //3.修改光标位置,光标放到新增加的文字的后面
+        weakSelf.textView.selectedRange = NSMakeRange((selectedRange.location + text.length), 0);
+        if (isLast==YES) {
+            SearchViewController * vc =[SearchViewController new];
+            vc.keyWord=weakSelf.textView.text;
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+
+    };
+    [vc  show];
+}
+
+
+
+
+
 
 #pragma mark --6个按钮btn点击状态
 -(void)btnImageClink:(UIButton*)btn{
 
+    
+   
+    
     if (btn.tag==0) {
-        //药
-        MedicineVC * vc =[MedicineVC new];
-        vc.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ( [ToolClass isLogin]==NO) {
+            LoginViewController * vc =[LoginViewController new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            //药
+            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+            if ([vip intValue]>=2) {
+                MedicineVC * vc =[MedicineVC new];
+                vc.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                NSString * content =[NSString stringWithFormat:@"此权限仅对VIP2以上开放\n您当前是VIP%@",vip];
+                TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+                view.buttonClinkBlock=^(UIButton*btn){
+                    
+                };
+                [view show];
+            }
+//
+           
+        }
+       
     }else if (btn.tag==1){
-        //药方
-        YaoFangVC * vc =[YaoFangVC new];
-        vc.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ( [ToolClass isLogin]==NO) {
+            LoginViewController * vc =[LoginViewController new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            //药方
+            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+            if ([vip intValue]>=1) {
+                YaoFangVC * vc =[YaoFangVC new];
+                vc.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:vc animated:YES];
 
+            }else{
+                NSString * content =[NSString stringWithFormat:@"此权限仅对VIP1以上开放\n您当前是VIP%@",vip];
+                TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+                view.buttonClinkBlock=^(UIButton*btn){
+                    
+                };
+                [view show];
+            }
+            
+           
+        }
+        
     }else if (btn.tag==2){
         //三辩会诊
-        ScanCodeVC * vc =[ScanCodeVC new];
-        vc.tagg=1;
-        vc.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ( [ToolClass isLogin]==NO) {
+            LoginViewController * vc =[LoginViewController new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            
+            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+            if ([vip isEqualToString:@"3"]) {
+                ScanCodeVC * vc =[ScanCodeVC new];
+                vc.tagg=1;
+                vc.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:vc animated:YES];
+                
+            }else{
+                NSString * content =[NSString stringWithFormat:@"此权限仅对VIP3以上开放\n您当前是VIP%@",vip];
+                TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+                view.buttonClinkBlock=^(UIButton*btn){
+                    
+                };
+                [view show];
+            }
+           
+        }
+        
+        
     }else if (btn.tag==3){
         //病名
-        BingMingVC * vc =[BingMingVC new];
-        vc.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        if ( [ToolClass isLogin]==NO) {
+            LoginViewController * vc =[LoginViewController new];
+            vc.hidesBottomBarWhenPushed=YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+            if ([vip intValue]>=2) {
+                BingMingVC * vc =[BingMingVC new];
+                vc.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                NSString * content =[NSString stringWithFormat:@"此权限仅对VIP2以上开放\n您当前是VIP%@",vip];
+                TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+                view.buttonClinkBlock=^(UIButton*btn){
+                    
+                };
+                [view show];
+            }
+            
+        }
+        
     }else if (btn.tag==4){
         //中医医案
         ZhongYiYiAnVC * vc =[ZhongYiYiAnVC new];
@@ -428,7 +559,9 @@
     [self.navigationController pushViewController:vc animated:YES];
     return YES;
 }
-
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+      [self.view endEditing:YES];
+}
 
 
 @end

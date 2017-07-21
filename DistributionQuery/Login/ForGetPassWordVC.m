@@ -139,7 +139,7 @@
     UITextField * text2 =[cell2 viewWithTag:2];
     UITextField * text3 =[cell3 viewWithTag:2];
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine forGetPassWordCode:text1.text Phone:text0.text Password:text2.text PassWordTwo:text3.text success:^(NSDictionary *dic) {
+    [Engine1 forGetPassWordCode:text1.text Phone:text0.text Password:text2.text PassWordTwo:text3.text success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
@@ -157,7 +157,7 @@
     UITableViewCell * cell0 =[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UITextField * text0 =[cell0 viewWithTag:2];
     NSLog(@"手机号》》》%@",text0.text);
-    [Engine sendCodePhone:text0.text Type:@"reset" success:^(NSDictionary *dic) {
+    [Engine1 sendCodePhone:text0.text Type:@"reset" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];

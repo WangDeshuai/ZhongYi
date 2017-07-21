@@ -105,7 +105,7 @@
     UITextField * text2 =[cell2 viewWithTag:2];
     UITextField * text3 =[cell3 viewWithTag:2];
     [LCProgressHUD showLoading:@"正在修改..."];
-    [Engine XiuGaiPassWordYuan:text1.text NewWord:text2.text success:^(NSDictionary *dic) {
+    [Engine1 XiuGaiPassWordYuan:text1.text NewWord:text2.text success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         if ([code isEqualToString:@"200"]) {

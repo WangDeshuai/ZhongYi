@@ -27,7 +27,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
    
-    [Engine chaXunMyZhuYesuccess:^(NSDictionary *dic) {
+    [Engine1 chaXunMyZhuYesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSDictionary * dataDic =[dic objectForKey:@"data"];
@@ -259,7 +259,7 @@
     _headImage=image;
     [self dismissViewControllerAnimated:YES completion:nil];
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine headImage:image success:^(NSDictionary *dic) {
+    [Engine1 headImage:image success:^(NSDictionary *dic) {
        
         [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
     } error:^(NSError *error) {

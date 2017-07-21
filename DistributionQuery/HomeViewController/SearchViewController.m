@@ -24,18 +24,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"搜索";
+    self.title=_keyWord;
+    
     _dataArray=[NSMutableArray new];
     [self shuJuData];
     [self CreatTabelView];
 }
 -(void)shuJuData{
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine searchFirstKeyWord:_keyWord success:^(NSDictionary *dic) {
+    [Engine1 searchFirstKeyWord:_keyWord success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
-            [LCProgressHUD hide];
+          
             NSArray * dataArr =[dic objectForKey:@"data"];
+            
+            if (dataArr.count==0) {
+                 self.title=[NSString stringWithFormat:@"%@(没有找到相关数据)",_keyWord];
+                [LCProgressHUD showFailure:@"没有搜索到相关数据"];
+                return ;
+            }
+            self.title=[NSString stringWithFormat:@"%@(找到%lu条相关数据)",_keyWord,dataArr.count];
+              [LCProgressHUD hide];
             for (NSDictionary * dicc in dataArr) {
                  searchModel * md =[[searchModel alloc]initWithSearchDic:dicc];
                 [_dataArray addObject:md];
@@ -81,23 +90,61 @@
 {
     
     searchModel * md =_dataArray[indexPath.row];
+      NSString * vip =[NSUSE_DEFO objectForKey:@"vip"];
+    int vipNum =[vip intValue];
     if ([md.type isEqualToString:@"1"]) {
         //药
-        MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
-        vc.yaoID=md.idd;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (vipNum>=2) {
+            MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
+            vc.yaoID=md.idd;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            NSString * str =[NSString stringWithFormat:@"您当前的等级是VIP%d,并无此权限!",vipNum];
+            TanKuangView * vc =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:str achiveBtn:@"确定"];
+            vc.buttonClinkBlock=^(UIButton*btn){
+                
+            };
+            [vc show];
+        }
+        
+       
         
     }else if ([md.type isEqualToString:@"2"]){
         //方剂
-        YaoFangContentXQVC * vc =[YaoFangContentXQVC new];
-        vc.yaoID=md.idd;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        if (vipNum>=2) {
+            YaoFangContentXQVC * vc =[YaoFangContentXQVC new];
+            vc.yaoID=md.idd;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            NSString * str =[NSString stringWithFormat:@"您当前的等级是VIP%d,并无此权限!",vipNum];
+            TanKuangView * vc =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:str achiveBtn:@"确定"];
+            vc.buttonClinkBlock=^(UIButton*btn){
+                
+            };
+            [vc show];
+        }
+        
+
+        
+        
+        
+        
     }
     else if ([md.type isEqualToString:@"3"]){
         //病
-        BingMingXiangQingVC * vc =[BingMingXiangQingVC new];
-        vc.bingID=md.idd;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (vipNum>=2) {
+            BingMingXiangQingVC * vc =[BingMingXiangQingVC new];
+            vc.bingID=md.idd;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            NSString * str =[NSString stringWithFormat:@"您当前的等级是VIP%d,并无此权限!",vipNum];
+            TanKuangView * vc =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:str achiveBtn:@"确定"];
+            vc.buttonClinkBlock=^(UIButton*btn){
+                
+            };
+            [vc show];
+        }
     }else if ([md.type isEqualToString:@"5"]){
         //讲座
         JiangZuoXiangQingVC * vc =[JiangZuoXiangQingVC new];

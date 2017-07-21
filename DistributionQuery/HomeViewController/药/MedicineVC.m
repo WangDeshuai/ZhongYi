@@ -11,6 +11,8 @@
 #import "MedicineCell.h"
 #import "MedicineModel.h"
 #import "MedicineXiangQingVC.h"//详情页
+#import "YuYinView.h"
+#import "UITextField+ExtentRange.h"
 @interface MedicineVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)UITextField * textfield;//文本框
@@ -38,7 +40,7 @@
 
 -(void)dataArrSearZi:(NSString*)zifu{
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine allYaoPinMessage:zifu success:^(NSDictionary *dic) {
+    [Engine1 allYaoPinMessage:zifu success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         
         if ([code isEqualToString:@"200"]) {
@@ -115,6 +117,7 @@
     //语音
     UIButton * yuYinBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     [yuYinBtn setImage:[UIImage imageNamed:@"yao_yuyin"] forState:0];
+    [yuYinBtn addTarget:self action:@selector(yuYinClink) forControlEvents:UIControlEventTouchUpInside];
     [textfield sd_addSubviews:@[yuYinBtn]];
     yuYinBtn.sd_layout
     .rightSpaceToView(textfield,10)
@@ -135,6 +138,31 @@
     .topSpaceToView(textfield,10)
     .heightIs(45);
 
+}
+
+-(void)yuYinClink{
+     [self.view endEditing:YES];
+    //语音
+    YuYinView * vc =[[YuYinView alloc]init];
+    
+    //[weakSelf.textView deleteBackward];
+    __weak typeof(self) weakSelf = self;
+     __weak typeof(vc) weakSelfVC = vc;
+    vc.TextBlock=^(NSString*text,BOOL isLast){
+        //1.获取光标位置
+        NSRange selectedRange = weakSelf.textfield.selectedRange;
+        //2.将光标所在位置的的字符串进行替换
+        weakSelf.textfield.text = [weakSelf.textfield.text stringByReplacingCharactersInRange:selectedRange withString:text];
+        //3.修改光标位置,光标放到新增加的文字的后面
+        weakSelf.textfield.selectedRange = NSMakeRange((selectedRange.location + text.length), 0);
+        if (isLast==YES) {
+            NSLog(@">>>>%@",_textfield.text);
+            [weakSelfVC dissmiss];
+            [self dataArrSearZi:_textfield.text];
+        }
+        
+    };
+    [vc  show];
 }
 
 #pragma mark --搜索按钮

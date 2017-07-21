@@ -26,6 +26,33 @@
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden=YES;
      _tableView.tableHeaderView=[self CreatTabeleViewHead];
+    
+    if ([ToolClass isLogin]) {
+        [Engine1 chaXunVipShengJiLoginPhonesuccess:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary * dataDic =[dic objectForKey:@"data"];
+                NSString * dengJi =[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"level"]];
+                int dengJI =[dengJi intValue]-1;
+                dengJi=[NSString stringWithFormat:@"%d",dengJI];
+                NSString * str =[NSUSE_DEFO objectForKey:@"vip"];
+                if ([dengJi isEqualToString:str]) {
+                }else{
+                    [NSUSE_DEFO setObject:dengJi forKey:@"vip"];
+                    [NSUSE_DEFO synchronize];
+                    NSString * strDj =[NSString stringWithFormat:@"您的VIP状态发生了更改\n当前您是VIP%@",dengJi];
+                    TanKuangView * vc =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:strDj achiveBtn:@"确定"];
+                    vc.buttonClinkBlock=^(UIButton*btn){
+                        
+                    };
+                    [vc show];
+                }
+            }
+        } error:^(NSError *error) {
+            
+        }];
+
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -79,7 +106,7 @@
     .widthIs(71)
     .heightIs(71);
     
-    [Engine chaXunMyZhuYesuccess:^(NSDictionary *dic) {
+    [Engine1 chaXunMyZhuYesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSDictionary * dataDic =[dic objectForKey:@"data"];

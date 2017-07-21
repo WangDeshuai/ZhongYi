@@ -28,7 +28,7 @@
 #pragma mark --创建数据源
 -(void)CreatDataArr{
     _dataArray=[NSMutableArray new];
-    [Engine bingZhongFenLeiXiangXiID:_classID success:^(NSDictionary *dic) {
+    [Engine1 bingZhongFenLeiXiangXiID:_classID success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

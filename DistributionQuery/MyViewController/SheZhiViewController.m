@@ -88,6 +88,8 @@
         //退出登录
         //1.清空token
         [NSUSE_DEFO removeObjectForKey:@"token"];
+        [NSUSE_DEFO removeObjectForKey:@"phone"];
+        [NSUSE_DEFO removeObjectForKey:@"vip"];
         [NSUSE_DEFO synchronize];
         //2.清空登录的.plist
         [ToolClass deleagtePlistName:@"Login"];

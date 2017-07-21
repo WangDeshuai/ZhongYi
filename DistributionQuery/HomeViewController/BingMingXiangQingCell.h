@@ -12,7 +12,7 @@
 +(instancetype)cellWithTableView:(UITableView*)tableView IndexPath:(NSIndexPath *)indexPath;
 @property(nonatomic,strong)UILabel * titleLabel;
 @property(nonatomic,copy)NSString * text;
-
+@property(nonatomic,copy)NSString * text1;
 
 @property(nonatomic,strong)UILabel * junLabel;
 @property(nonatomic,strong)UILabel * chenLabel;

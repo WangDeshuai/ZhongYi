@@ -7,12 +7,28 @@
 //
 
 #import "ShengJiVIPVC.h"
+#import "Order.h"
+#import "APAuthV2Info.h"
+#import "RSADataSigner.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "WeiXinModel.h"
+#import "WXApi.h"
+#import "WXApiObject.h"
+#define ALI_DEMO_BUTTON_WIDTH  (([UIScreen mainScreen].bounds.size.width) - 40.0f)
+#define ALI_DEMO_BUTTON_HEIGHT (60.0f)
+#define ALI_DEMO_BUTTON_GAP    (30.0f)
 
+
+#define ALI_DEMO_INFO_HEIGHT (200.0f)
 @interface ShengJiVIPVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * imageArray;
 @property(nonatomic,strong)NSArray * nameArray;
 @property(nonatomic,assign)NSInteger  seleRow;
+@property(nonatomic,copy)NSString * price;
+@property(nonatomic,assign)float priceNum;
+@property(nonatomic,copy)NSString * miaoShu;
+@property(nonatomic,assign)NSInteger seletetag;
 @end
 
 @implementation ShengJiVIPVC
@@ -23,7 +39,32 @@
     self.title=@"我要升级";
     [self CreatDataArray];
     [self CreatTabelView];
+    [self addFooterButton];
+    NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(weiXin) name:@"WX_PaySuccess" object:nil];
+
 }
+
+#pragma mark --微信支付结果
+-(void)weiXin{
+    //支付成功(重新登录)
+    UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"支付成功" message:@"请重新登录!" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action =[UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [NSUSE_DEFO removeObjectForKey:@"token"];
+        [NSUSE_DEFO removeObjectForKey:@"phone"];
+        [NSUSE_DEFO removeObjectForKey:@"vip"];
+        [NSUSE_DEFO synchronize];
+        //2.清空登录的.plist
+        [ToolClass deleagtePlistName:@"Login"];
+        LoginViewController * vc =[LoginViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [actionview addAction:action];
+    [self presentViewController:actionview animated:YES completion:nil];
+}
+
+
 -(void)CreatDataArray{
     _imageArray=@[@"sj_zf",@"sj_wx"];
     _nameArray=@[@"支付宝支付",@"微信支付"];
@@ -82,6 +123,9 @@
     .topSpaceToView(accountLab,5)
     .heightIs(20);
     [dengJiLab setSingleLineAutoResizeWithMaxWidth:200];
+   
+    
+    
     //vipImage
     UIImageView * vipImage =[UIImageView new];
     vipImage.image=[UIImage imageNamed:@"sj_v0"];
@@ -92,6 +136,28 @@
     .widthIs(52/2)
     .heightIs(24/2);
 
+    [Engine1 chaXunVipShengJiLoginPhonesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            NSString * dengJi =[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"level"]];
+            int dengJI =[dengJi intValue]-1;
+            dengJi=[NSString stringWithFormat:@"%d",dengJI];
+            
+            //VIP1游客 VIP2刚注册  VIP3   VIP4
+            if ([dengJi isEqualToString:@"1"]) {
+                vipImage.image=[UIImage imageNamed:@"sj_v1"];
+            }else if ([dengJi isEqualToString:@"2"]){
+                vipImage.image=[UIImage imageNamed:@"sj_v2"];
+            }else if ([dengJi isEqualToString:@"3"]){
+                vipImage.image=[UIImage imageNamed:@"sj_v3"];
+            }
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+    
     //VIEW2(会员特权)
     UIView * view2 =[UIView new];
     view2.backgroundColor=[UIColor whiteColor];
@@ -134,7 +200,7 @@
     .heightIs(20);
     
     UILabel * vcontent0=[UILabel new];
-    vcontent0.text=@"无需注册 开放内容：讲座和病案";
+    vcontent0.text=@"无需注册 开放：中医医案、讲座";
     vcontent0.font=[UIFont systemFontOfSize:12];
     vcontent0.alpha=.4;
     [view2 sd_addSubviews:@[vcontent0]];
@@ -165,7 +231,7 @@
     .heightIs(20);
     
     UILabel * vcontent1=[UILabel new];
-    vcontent1.text=@"需要注册 开放内容：包括V0所有开发内容及疾病诊";
+    vcontent1.text=@"需要注册 开放：中医医案、讲座、名医名方";
     vcontent1.font=[UIFont systemFontOfSize:12];
     vcontent1.alpha=.4;
     [view2 sd_addSubviews:@[vcontent1]];
@@ -197,7 +263,7 @@
     .heightIs(20);
     
     UILabel * vcontent2=[UILabel new];
-    vcontent2.text=@"需要注册 开放内容：包括所有可视内容但不可以使用三辩会诊";
+    vcontent2.text=@"需要注册 开放：中药(除现代药理研究)、方剂(除方解)、病种、中医医案、讲座";
     vcontent2.font=[UIFont systemFontOfSize:12];
     vcontent2.alpha=.4;
     [view2 sd_addSubviews:@[vcontent2]];
@@ -228,7 +294,7 @@
     .heightIs(20);
     
     UILabel * vcontent3=[UILabel new];
-    vcontent3.text=@"需要注册 开放所有权限";
+    vcontent3.text=@"需要注册 开放：中药、方剂、病种、中医医案、讲座、三辨会诊";
     vcontent3.font=[UIFont systemFontOfSize:12];
     vcontent3.alpha=.4;
     [view2 sd_addSubviews:@[vcontent3]];
@@ -247,7 +313,7 @@
     .leftSpaceToView(headView,0)
     .rightSpaceToView(headView,0)
     .topSpaceToView(view2,15)
-    .heightIs(120);
+    .heightIs(140);
     
     UILabel * namelabel2 =[UILabel new];
     namelabel2.text=@"我要升级";
@@ -260,42 +326,59 @@
     .heightIs(20);
     [namelabel2 setSingleLineAutoResizeWithMaxWidth:120];
     
-    int kj =20;
-    int k =(ScreenWidth-kj*3)/2;
-    int g =43+20;
-    NSArray * imageArr =@[@"sj_bt_v2",@"sj_btt_v33"];
-    NSArray * topArr =@[@"sj_btt_v2",@"sj_btt_v3"];
-    for (int i =0; i<imageArr.count; i++) {
-        UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
-        btn.sd_cornerRadius=@(10);
-        btn.backgroundColor=[UIColor whiteColor];
-        [view3 sd_addSubviews:@[btn]];
-        btn.sd_layout
-        .leftSpaceToView(view3,kj+(kj+k)*i)
-        .topSpaceToView(namelabel2,20)
-        .widthIs(k)
-        .heightIs(g);
+  
+   
+   
+   
+    [Engine1 chaXunVipShengJiLoginPhonesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            NSString * dengJi =[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"level"]];
+            NSArray * imageArr =@[@"sj_bt_v2",@"sj_btt_v33"];;//钱image
+            NSMutableArray * priceArr=[NSMutableArray new];//价格
+            NSMutableArray * topArray =[NSMutableArray new];//顶头v1iamge
+            int dengJI =[dengJi intValue]-1;
+            dengJi=[NSString stringWithFormat:@"%d",dengJI];
+            
+            if ([dengJi isEqualToString:@"1"]) {
+//
+                [topArray addObject:@"sj_btt_v2"];
+                [topArray addObject:@"sj_btt_v3"];
+                [priceArr addObject:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V2"]]];
+                [priceArr addObject:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V3"]]];
+                _price=[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V2"]];
+                _priceNum=[[dataDic objectForKey:@"V2"]  floatValue];
+                _miaoShu=@"世舜中医升级VIP2";
+            }else if ([dengJi isEqualToString:@"2"]){
+                [topArray addObject:@"sj_bt_v2whf"];
+                [topArray addObject:@"sj_btt_v3"];
+                [priceArr addObject:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V2Up"]]];
+                _price=[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V2Up"]];
+                [priceArr addObject:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V3Up"]]];
+                _priceNum=[[dataDic objectForKey:@"V2Up"]  floatValue];
+                _miaoShu=@"世舜中医VIP2维护费用";
+            }else if ([dengJi isEqualToString:@"3"]){
+                [topArray addObject:@"sj_bt_whf"];
+                [priceArr addObject:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"V3Up"]]];
+            }else if([dengJi isEqualToString:@"0"]){
+                [LCProgressHUD showMessage:@"VIP0是不能进入该界面的"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            
+            
+            [self CreatImageView:view3 NameLable:namelabel2 Btn:imageArr TopArr:topArray Price:priceArr];
+            
+            
+            
+            
+        }
+    } error:^(NSError *error) {
         
-        UIImageView * MleftImage =[UIImageView new];
-        MleftImage.image=[UIImage imageNamed:imageArr[i]];
-        [btn sd_addSubviews:@[MleftImage]];
-        MleftImage.sd_layout
-        .leftSpaceToView(btn,5)
-        .centerYEqualToView(btn)
-        .widthIs(75)
-        .heightIs(47);
-        
-        UIImageView * topImage =[UIImageView new];
-        topImage.image=[UIImage imageNamed:topArr[i]];
-        [btn sd_addSubviews:@[topImage]];
-        topImage.sd_layout
-        .rightSpaceToView(btn,5)
-        .topSpaceToView(btn,5)
-        .widthIs(16)
-        .heightIs(9);
-        
-        
-    }
+    }];
+    
+    
+    
     
     
     
@@ -305,8 +388,139 @@
 }
 
 
+-(void)CreatImageView:(UIView*)view3 NameLable:(UILabel*)namelabel2 Btn:(NSArray*)imageArr TopArr:(NSMutableArray*)topArr Price:(NSMutableArray*)priceArr{
+    
+    if (priceArr.count==1) {
+        
+        
+        UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
+        btn.sd_cornerRadius=@(10);
+        //        btn.backgroundColor=[UIColor redColor];
+        btn.layer.borderWidth=.5;
+        btn.layer.borderColor=MAIN_COLOR.CGColor;
+        
+        
+        [view3 sd_addSubviews:@[btn]];
+        btn.sd_layout
+        .centerXEqualToView(view3)
+        .topSpaceToView(namelabel2,20)
+        .widthIs(ScreenWidth-180)
+        .heightIs(75);
+        
+        //钱袋
+        UIImageView * MleftImage =[UIImageView new];
+        MleftImage.image=[UIImage imageNamed:imageArr[0]];
+        [btn sd_addSubviews:@[MleftImage]];
+        MleftImage.sd_layout
+        .leftSpaceToView(btn,5)
+        .centerYEqualToView(btn)
+        .widthIs(75)
+        .heightIs(47);
+        //v2 v3图片
+        UIButton * topImage =[UIButton new];
+        //        topImage.image=[UIImage imageNamed:topArr[i]];
+        topImage.adjustsImageWhenHighlighted=NO;
+        [topImage setImage:[UIImage imageNamed:topArr[0]] forState:0];
+        [btn sd_addSubviews:@[topImage]];
+        topImage.sd_layout
+        .rightSpaceToView(btn,10)
+        .topSpaceToView(btn,15)
+        .widthIs(87)
+        .heightIs(12);
+        
+        //价格
+        UILabel * pricelabel =[UILabel new];
+        pricelabel.alpha=.6;
+        pricelabel.font=[UIFont systemFontOfSize:15];
+        pricelabel.text=[NSString stringWithFormat:@"%@元/1年",priceArr[0]];
+        [btn sd_addSubviews:@[pricelabel]];
+        pricelabel.sd_layout
+        .rightSpaceToView(btn,10)
+        .topSpaceToView(topImage,15)
+        .heightIs(15);
+        [pricelabel setSingleLineAutoResizeWithMaxWidth:100];
+        
+        [view3 setupAutoHeightWithBottomView:btn bottomMargin:20];
+        return;
+    }
+    
+    int kj =10;
+    int k =(ScreenWidth-kj*3)/2;
+    int g =43+30;
+    for (int i =0; i<priceArr.count; i++) {
+        UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
+        btn.sd_cornerRadius=@(10);
+        //        btn.backgroundColor=[UIColor redColor];
+        btn.layer.borderWidth=.5;
+        btn.layer.borderColor=MAIN_COLOR.CGColor;
+        btn.tag=i;
+        [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
+        [view3 sd_addSubviews:@[btn]];
+        btn.sd_layout
+        .leftSpaceToView(view3,kj+(kj+k)*i)
+        .topSpaceToView(namelabel2,20)
+        .widthIs(k)
+        .heightIs(g);
+        //钱袋
+        UIImageView * MleftImage =[UIImageView new];
+        MleftImage.image=[UIImage imageNamed:imageArr[i]];
+        [btn sd_addSubviews:@[MleftImage]];
+        MleftImage.sd_layout
+        .leftSpaceToView(btn,5)
+        .centerYEqualToView(btn)
+        .widthIs(75)
+        .heightIs(47);
+        //v2 v3图片
+        UIButton * topImage =[UIButton new];
+//        topImage.image=[UIImage imageNamed:topArr[i]];
+        topImage.adjustsImageWhenHighlighted=NO;
+        [topImage setImage:[UIImage imageNamed:topArr[i]] forState:0];
+        [btn sd_addSubviews:@[topImage]];
+        topImage.sd_layout
+        .rightSpaceToView(btn,10)
+        .topSpaceToView(btn,15)
+        .widthIs(87)
+        .heightIs(12);
+        
+        //价格
+        UILabel * pricelabel =[UILabel new];
+        pricelabel.alpha=.6;
+        pricelabel.font=[UIFont systemFontOfSize:15];
+        pricelabel.text=[NSString stringWithFormat:@"%@元/1年",priceArr[i]];
+        [btn sd_addSubviews:@[pricelabel]];
+        pricelabel.sd_layout
+        .rightSpaceToView(btn,10)
+        .topSpaceToView(topImage,15)
+        .heightIs(15);
+        [pricelabel setSingleLineAutoResizeWithMaxWidth:100];
+        
+        [view3 setupAutoHeightWithBottomView:btn bottomMargin:20];
+        
+    }
 
-
+    
+}
+#pragma mark --2个按钮点击
+-(void)btnClink:(UIButton*)btn{
+    if (btn.tag==1) {
+        //点击的V3
+        UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"温馨提示" message:@"升级V3请进行人工联系" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action =[UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [ToolClass tellPhone:@"4000311123"];
+            
+            
+            
+        }];
+        UIAlertAction * action2 =[UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [actionview addAction:action];
+        [actionview addAction:action2];
+        [self presentViewController:actionview animated:YES completion:nil];
+    }else{
+        //v1
+    }
+}
 #pragma mark --创建表格
 -(void)CreatTabelView{
     if (!_tableView) {
@@ -382,6 +596,158 @@
     _seleRow=indexPath.row;
     [_tableView reloadData];
 }
+
+
+
+-(void)addFooterButton
+{
+    
+    UIView * footView =[UIView new];
+    footView.backgroundColor=BG_COLOR;
+    footView.frame=CGRectMake(0, 10, ScreenWidth, 100);
+    
+    // 1.初始化Button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    //2.设置文字和文字颜色
+    [button setTitle:@"立即充值" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //    //3.设置圆角幅度
+    button.layer.cornerRadius = 10.0;
+    //
+    [button addTarget:self action:@selector(buttonClink) forControlEvents:UIControlEventTouchUpInside];
+    //    //4.设置frame
+    button.frame =CGRectMake(30, 30, ScreenWidth-60, 40);;
+    //
+    //    //5.设置背景色
+    button.backgroundColor = MAIN_COLOR;
+    
+    [footView addSubview:button];
+    self.tableView.tableFooterView = footView;
+}
+#pragma mark --立即充值
+-(void)buttonClink{
+    
+    
+    NSLog(@"输出价格%f",_priceNum);
+    NSLog(@"描述>>>%@",_miaoShu);
+    if (_seleRow==0) {
+        //支付宝支付
+        [LCProgressHUD showLoading:@"请稍后..."];//
+        [Engine1 huoQuDingDanHaoName:_miaoShu Price:[NSString stringWithFormat:@"%.2f",_priceNum] Type:@"level"  success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary * dataDic =[dic objectForKey:@"data"];
+                NSString * dingDan =[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"order_no"]]];//_priceNum
+                [self doAlipayPayDingDanHao:dingDan ];
+                [LCProgressHUD hide];
+            }else{
+                [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            }
+            
+        } error:^(NSError *error) {
+            
+        }];
+
+        
+       
+    }else{
+        //微信支付
+        int price =(int)_priceNum;
+        [Engine1 weiXinYuZhiFuPrice:[NSString stringWithFormat:@"%d",price*100] Type:@"level" MiaoShu:_miaoShu success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary * dataDic =[dic objectForKey:@"data"];
+                WeiXinModel * md =[[WeiXinModel alloc]initWithWeiXinModelDic:dataDic];
+                PayReq *request = [[PayReq alloc] init];
+                request.partnerId = md.weiXinPartnerid;
+                request.prepayId=  md.weiXinPrepayid;
+                request.package = md.weiPackage;
+                request.nonceStr=  md.weiNoncestr;
+                request.timeStamp= md.weiXinTimestamp.intValue;
+                request.sign= md.weiXinSign;
+                [WXApi sendReq:request];
+            }else{
+                [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }
+    
+    
+}
+
+
+#pragma mark --支付宝支付
+- (void)doAlipayPayDingDanHao:(NSString*)dingDan
+{
+    //17733871852
+    NSString *appScheme = @"zhongyi";
+    [[AlipaySDK defaultService] payOrder:dingDan fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        ;
+        NSLog(@"支付结果 = %@>>>%@",resultDic,[resultDic objectForKey:@"memo"]);
+        NSString * str =[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"resultStatus"]];
+        if ([str isEqualToString:@"9000"]) {
+            //支付成功(重新登录)
+            UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"支付成功" message:@"请重新登录!" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action =[UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [NSUSE_DEFO removeObjectForKey:@"token"];
+                [NSUSE_DEFO removeObjectForKey:@"phone"];
+                [NSUSE_DEFO removeObjectForKey:@"vip"];
+                [NSUSE_DEFO synchronize];
+                //2.清空登录的.plist
+                [ToolClass deleagtePlistName:@"Login"];
+                LoginViewController * vc =[LoginViewController new];
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+           
+            [actionview addAction:action];
+            [self presentViewController:actionview animated:YES completion:nil];
+            
+            
+        }else{
+            [LCProgressHUD showFailure:@"支付失败"];
+        }
+        
+    }];
+    
+}
+
+
+
+#pragma mark --微信支付
+-(void)weiXinZhiFu:(NSString*)price {
+    
+   
+    
+}
+
+/*
+ 
+ #pragma mark --微信支付
+ -(void)WeiXinPayVipModel:(VIPModel*)model {
+ [Engine weiXinPayAccount:[NSUSE_DEFO objectForKey:@"username"] YanXinNum:@"" VIPID:model.vipID Price:[NSString stringWithFormat:@"%d",[model.vipPrice intValue]*100] Body:[NSString stringWithFormat:@"充值vip%@",model.vipDengJi] success:^(NSDictionary *dic) {
+ NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+ if ([code isEqualToString:@"1"]) {
+ NSDictionary * contentDic =[dic objectForKey:@"content"];
+ 
+ }else
+ {
+ [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+ }
+ 
+ } error:^(NSError *error) {
+ 
+ }];
+ }
+
+ 
+ 
+ */
+
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

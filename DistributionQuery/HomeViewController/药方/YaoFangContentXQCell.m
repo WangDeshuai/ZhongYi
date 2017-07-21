@@ -7,8 +7,9 @@
 //
 
 #import "YaoFangContentXQCell.h"
+#import "UILabel+YBAttributeTextTapAction.h"
 @interface YaoFangContentXQCell()
-@property(nonatomic,strong)UILabel * contentlabel;
+
 @end
 @implementation YaoFangContentXQCell
 
@@ -39,7 +40,8 @@
     _contentlabel =[UILabel new];
     _namelabel =[UILabel new];
     [self.contentView sd_addSubviews:@[_namelabel,_contentlabel]];
-    _namelabel.alpha=.4;
+    _namelabel.alpha=.8;
+    _namelabel.textColor=MAIN_COLOR;
     _namelabel.font=[UIFont systemFontOfSize:15];
     _namelabel.textAlignment=0;
     _contentlabel.font=[UIFont systemFontOfSize:15];
@@ -68,18 +70,15 @@
 -(void)setText:(NSString *)text
 {
     _text=text;
-    //  _contentlabel.text=text;
-    //    _contentlabel.backgroundColor=[UIColor redColor];
     NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:5];
-    //    CGFloat emptylen = self.contentlabel.font.pointSize * 2;
-    // paragraphStyle.firstLineHeadIndent = 30;//首行缩进
-    //    paragraphStyle.headIndent = 30;
     UIColor *color = [UIColor blackColor];
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSParagraphStyleAttributeName: paragraphStyle}];
     _contentlabel.attributedText = string;
     _contentlabel.isAttributedContent = YES;
 }
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

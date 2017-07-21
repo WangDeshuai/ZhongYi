@@ -34,7 +34,7 @@
     backHomeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
     backHomeBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
     [backHomeBtn addTarget:self action:@selector(rightBtnClink:) forControlEvents:UIControlEventTouchUpInside];
-    [Engine YanZhengMyShouCangMessageID:_messageID Type:@"4" success:^(NSDictionary *dic) {
+    [Engine1 YanZhengMyShouCangMessageID:_messageID Type:@"4" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             //收藏
@@ -54,7 +54,7 @@
     if (btn.selected==NO) {
         //取消
         NSLog(@"取消");
-        [Engine shouCangSaveStype:@"4" MessageID:_messageID uccess:^(NSDictionary *dic) {
+        [Engine1 shouCangSaveStype:@"4" MessageID:_messageID uccess:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         } error:^(NSError *error) {
             
@@ -62,7 +62,7 @@
     }else{
         //选中（药=1，病=2，讲座=3，医案=4）
         NSLog(@"收藏");
-        [Engine shouCangSaveStype:@"4" MessageID:_messageID uccess:^(NSDictionary *dic) {
+        [Engine1 shouCangSaveStype:@"4" MessageID:_messageID uccess:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         } error:^(NSError *error) {
             
@@ -126,7 +126,7 @@
     
     
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine YiAnXiangQingMessageID:_messageID success:^(NSDictionary *dic) {
+    [Engine1 YiAnXiangQingMessageID:_messageID success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
@@ -187,6 +187,7 @@
     cell.leftLabel.text=_leftArray[indexPath.row];
     return cell;
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * str =[NSString stringWithFormat:@"                   %@",_dataArray[indexPath.row]];
@@ -195,7 +196,7 @@
     if (indexPath.row==2) {
          CGFloat ggg =[tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text1" cellClass:[YiAnXiangQingCell class] contentViewWidth:[ToolClass cellContentViewWith]];
         
-        return ggg;
+        return ggg+100;
     }
     
     return gg;

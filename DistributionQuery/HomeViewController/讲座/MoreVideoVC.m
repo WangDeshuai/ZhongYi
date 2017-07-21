@@ -31,7 +31,7 @@
 
 -(void)CreatDataPage:(int)page{
     
-    [Engine jiaZaiJiangZuoAllMessagePage:[NSString stringWithFormat:@"%d",page] success:^(NSDictionary *dic) {
+    [Engine1 jiaZaiJiangZuoAllMessagePage:[NSString stringWithFormat:@"%d",page] success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         NSMutableArray * array2 =[NSMutableArray new];
         if ([code isEqualToString:@"200"]) {

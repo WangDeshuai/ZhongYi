@@ -243,7 +243,7 @@
 //    [LCProgressHUD showMessage:@"获取验证码成功"];
 //
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine sendCodePhone:_phoneText.text Type:@"register" success:^(NSDictionary *dic) {
+    [Engine1 sendCodePhone:_phoneText.text Type:@"register" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
@@ -308,7 +308,7 @@
 //    NSLog(@"密码>>>%@",_pswText.text);
 //    NSLog(@"推广码>>>%@",_tuiGuangCode.text);
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine registerMessagePhone:_phoneText.text Password:_pswText.text ResPassword:_pswTwoText.text YaoQingMa:_tuiGuangCode.text YanZhengMa:_codeText.text success:^(NSDictionary *dic) {
+    [Engine1 registerMessagePhone:_phoneText.text Password:_pswText.text ResPassword:_pswTwoText.text YaoQingMa:_tuiGuangCode.text YanZhengMa:_codeText.text success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];

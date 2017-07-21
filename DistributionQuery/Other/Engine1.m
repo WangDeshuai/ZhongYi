@@ -1,16 +1,18 @@
 //
-//  Engine.m
+//  Engine1.m
 //  DistributionQuery
 //
-//  Created by Macx on 16/10/8.
-//  Copyright © 2016年 Macx. All rights reserved.
+//  Created by Macx on 17/6/23.
+//  Copyright © 2017年 Macx. All rights reserved.
 //
 
-#import "Engine.h"
-@implementation Engine
+#import "Engine1.h"
+
+@implementation Engine1
+
 #pragma mark --1.加载所有药品信息
 +(void)allYaoPinMessage:(NSString*)nameStr success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
-   
+    
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/drug/list",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
@@ -28,7 +30,7 @@
         aError(error);
         
     }];
-
+    
 }
 
 
@@ -52,7 +54,7 @@
         aError(error);
         
     }];
-
+    
     
 }
 #pragma mark --3加载所有药方信息
@@ -76,7 +78,7 @@
         aError(error);
         
     }];
-
+    
     
 }
 
@@ -85,7 +87,7 @@
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/list",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-
+    
     [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -119,7 +121,7 @@
         aError(error);
         
     }];
-
+    
 }
 
 #pragma mark --6病种分类详情页
@@ -129,8 +131,8 @@
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",bzid]] forKey:@"categoryId"];
-     [dic setObject:@"" forKey:@"pageSize"];
-     [dic setObject:@"" forKey:@"pageIndex"];
+    [dic setObject:@"" forKey:@"pageSize"];
+    [dic setObject:@"" forKey:@"pageIndex"];
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -150,9 +152,9 @@
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/view?categoryId=%@",SERVICE,idd];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-//    NSMutableDictionary * dic =[NSMutableDictionary new];
-//    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
-   
+    //    NSMutableDictionary * dic =[NSMutableDictionary new];
+    //    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
+    
     [manager GET:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -173,7 +175,7 @@
     //urlStr= [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
-        [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",pagesize]] forKey:@"pageSize"];
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -242,7 +244,7 @@
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@"10"]] forKey:@"pageSize"];
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -337,7 +339,7 @@
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/queryCoatedTongues",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-   
+    
     
     [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -432,10 +434,10 @@
 #pragma mark --22.加载所有的主诉信息
 +(void)jiaZaiZhuSuMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
-    NSString * urlStr =[NSString stringWithFormat:@"%@/api/symptom/list",SERVICE];
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/symptom/queryByCategoryId",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
-    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"parentId"];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"categoryId"];
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -450,7 +452,25 @@
     }];
     
 }
-
++(void)jiaZaiZhuSuErJiMeesageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/symptom/queryByParentId",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"parentId"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"22.加载所有的主诉（二级）信息%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"22.加载所有的主诉二级）信息%@",error);
+        [LCProgressHUD showMessage:@"22.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
 #pragma mark --23.加载所有的地区（省、市、区县）信息
 +(void)shengShiXianDiQu:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
@@ -534,7 +554,7 @@
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];
-   
+    
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -586,24 +606,24 @@
     
     
     NSMutableDictionary * dic =[NSMutableDictionary new];
-//     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];//1.idd
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",leiXing]] forKey:@"type"];//2.报告单类型
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",name]] forKey:@"name"];//3.姓名
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",sex]] forKey:@"sex"];//4.性别
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",age]] forKey:@"age"];//5.年龄
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",bingMing]] forKey:@"categoryId"];//6.病名
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhusu]] forKey:@"symptomIds"];//7.主诉
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@""]] forKey:@"pathologyId"];//8.病理
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",maixiang]] forKey:@"pulseConditionId"];//9.脉象
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shezhi]] forKey:@"tongueNatureId"];//10.舌质
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shetai]] forKey:@"coatedTongueId"];//11.舌苔
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",yn]] forKey:@"isRadiotherapy"];//12.有无放疗
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhouqi]] forKey:@"radiotherapyCycle"];//13.放疗周期
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",ynn]] forKey:@"isChemotherapy"];//14.有无化疗
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhouq]] forKey:@"chemotherapyCycle"];//15.化疗周期
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shoushu]] forKey:@"isOperation"];//16.手术
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",tnm]] forKey:@"TNM"];//17.TNM分期
-     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",pro]] forKey:@"problem"];//18.主要会诊问题
+    //     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];//1.idd
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",leiXing]] forKey:@"type"];//2.报告单类型
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",name]] forKey:@"name"];//3.姓名
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",sex]] forKey:@"sex"];//4.性别
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",age]] forKey:@"age"];//5.年龄
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",bingMing]] forKey:@"categoryId"];//6.病名
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhusu]] forKey:@"symptomIds"];//7.主诉
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",@""]] forKey:@"pathologyId"];//8.病理
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",maixiang]] forKey:@"pulseConditionId"];//9.脉象
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shezhi]] forKey:@"tongueNatureId"];//10.舌质
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shetai]] forKey:@"coatedTongueId"];//11.舌苔
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",yn]] forKey:@"isRadiotherapy"];//12.有无放疗
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhouqi]] forKey:@"radiotherapyCycle"];//13.放疗周期
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",ynn]] forKey:@"isChemotherapy"];//14.有无化疗
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",zhouq]] forKey:@"chemotherapyCycle"];//15.化疗周期
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",shoushu]] forKey:@"isOperation"];//16.手术
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",tnm]] forKey:@"TNM"];//17.TNM分期
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",pro]] forKey:@"problem"];//18.主要会诊问题
     
     
     
@@ -646,7 +666,7 @@
         aError(error);
         
     }];
-
+    
     
 }
 #pragma mark --29.保存我的意见反馈信息(带有图片)
@@ -693,7 +713,7 @@
     }
     
     
-  
+    
 }
 #pragma mark --30.分页加载我的收藏信息
 +(void)shouCangPage:(NSString*)page  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
@@ -900,13 +920,13 @@
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/member/save",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-   
+    
     NSString * token =[NSUSE_DEFO objectForKey:@"token"];
     if (token==nil) {
         [LCProgressHUD showMessage:@"36请登录"];
         return;
     }
-   
+    
     
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",value]] forKey:name];
@@ -936,7 +956,7 @@
         [LCProgressHUD showMessage:@"37请登录"];
         return;
     }
-
+    
     
     NSData *data = UIImageJPEGRepresentation(image, 0);
     NSMutableDictionary * dic =[NSMutableDictionary new];
@@ -945,7 +965,7 @@
     [manager POST:urlStr parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
         [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
-         NSString *imagetype=@"jpg";
+        NSString *imagetype=@"jpg";
         [formData appendPartWithFileData:data name:@"head" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -954,7 +974,7 @@
         aSuccess(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"上传失败%@>>>",error);
-         aError(error);
+        aError(error);
     }];
     
     
@@ -1035,7 +1055,7 @@
         aError(error);
         
     }];
-
+    
 }
 #pragma mark --41.加载所有的病种分类信息（适用于病名页加载病种分类的接口）
 +(void)bingMingFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
@@ -1073,7 +1093,7 @@
         aError(error);
         
     }];
-
+    
 }
 #pragma mark --43.首页全局搜索
 +(void)searchFirstKeyWord:(NSString*)name success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
@@ -1118,4 +1138,140 @@
         
     }];
 }
+#pragma mark --48.查询会员升级以及续费所需支付金额
++(void)chaXunVipShengJiLoginPhonesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/pay/queryTotalFee",SERVICE];
+   
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"48请登录"];
+        return;
+    }
+    
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+  
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"48.查询会员升级以及续费所需支付金额%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"48.查询会员升级以及续费所需支付金额%@",error);
+        [LCProgressHUD showMessage:@"50.网络超时"];
+        aError(error);
+        
+    }];
+
+    
+}
+#pragma mark --46.生成支付宝预付定单
++(void)huoQuDingDanHaoName:(NSString*)dingDanName Price:(NSString*)price Type:(NSString*)type  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/pay/alipay",SERVICE];
+    
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"46请登录"];
+        return;
+    }
+    
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",dingDanName]] forKey:@"subject"];
+//    level是升级   report是生成报告单
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",type]] forKey:@"order_type"];
+
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",price]] forKey:@"total_fee"];
+    
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"46.生成支付宝预付定单%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"46.生成支付宝预付定单%@",error);
+        [LCProgressHUD showMessage:@"46.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
+#pragma mark --47.生成微信预支付订单
++(void)weiXinYuZhiFuPrice:(NSString*)price Type:(NSString*)type MiaoShu:(NSString*)ms success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/pay/wxpay",SERVICE];
+    
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"46请登录"];
+        return;
+    }
+    
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",ms]] forKey:@"body"];
+    //    level是升级   report是生成报告单
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",type]] forKey:@"order_type"];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",price]] forKey:@"total_fee"];
+    
+    
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"46.生成支付宝预付定单%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"46.生成支付宝预付定单%@",error);
+        [LCProgressHUD showMessage:@"46.网络超时"];
+        aError(error);
+        
+    }];
+    
+    
+}
+
+#pragma mark --50.加载会员信息并跳转三辩会诊页面
++(void)sanBianHuiZhenPaysuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/report/toReportIndex",SERVICE];
+    
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+    if (token==nil) {
+        [LCProgressHUD showMessage:@"50请登录"];
+        return;
+    }
+    
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"50.加载会员信息并跳转三辩会诊页面%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"50.加载会员信息并跳转三辩会诊页面%@",error);
+        [LCProgressHUD showMessage:@"50.网络超时"];
+        aError(error);
+        
+    }];
+
+}
+
+
 @end

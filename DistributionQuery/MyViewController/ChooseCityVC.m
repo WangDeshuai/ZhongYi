@@ -40,7 +40,7 @@
 
 #pragma mark --解析省
 -(void)jieXiSheng{
-    [Engine shengShiXianDiQu:@"1" success:^(NSDictionary *dic) {
+    [Engine1 shengShiXianDiQu:@"1" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -60,7 +60,7 @@
 
 #pragma mark --根据省解析市
 -(void)jieXiCityID:(NSString*)idd{
-    [Engine CityID:idd success:^(NSDictionary *dic) {
+    [Engine1 CityID:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -80,7 +80,7 @@
 
 #pragma mark --根据市解析县
 -(void)jieXiXianID:(NSString*)idd{
-    [Engine shengShiXianDiQu:idd success:^(NSDictionary *dic) {
+    [Engine1 shengShiXianDiQu:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -209,7 +209,7 @@
          CityModel * md=_dataArray3[indexPath.row];
          NSLog(@"shengName%@,cityName%@,xianName%@",_shengName,_shiName,md.xianName);
         [LCProgressHUD showLoading:@"请稍后..."];
-        [Engine myZhuYeSaveMessageCanShuName:@"address_code" ValueName:md.xianCode  success:^(NSDictionary *dic) {
+        [Engine1 myZhuYeSaveMessageCanShuName:@"address_code" ValueName:md.xianCode  success:^(NSDictionary *dic) {
             NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
             if ([code isEqualToString:@"200"]) {
                 [LCProgressHUD hide];

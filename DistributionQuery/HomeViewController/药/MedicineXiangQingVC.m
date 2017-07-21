@@ -13,6 +13,7 @@
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,strong)NSArray * titleArr;
 @property(nonatomic,strong)NSMutableArray * dataArray;
+@property(nonatomic,strong)UIImageView * imageview;
 @end
 
 @implementation MedicineXiangQingVC
@@ -31,7 +32,7 @@
     UIButton*  backHomeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     [backHomeBtn setImage:[UIImage imageNamed:@"xq_sc"] forState:0];
     [backHomeBtn setImage:[UIImage imageNamed:@"xq_sc_click"] forState:UIControlStateSelected];
-    [Engine YanZhengMyShouCangMessageID:_yaoID Type:@"1" success:^(NSDictionary *dic) {
+    [Engine1 YanZhengMyShouCangMessageID:_yaoID Type:@"1" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             //收藏
@@ -58,7 +59,7 @@
     if (btn.selected==NO) {
         //取消
         NSLog(@"取消");
-        [Engine shouCangSaveStype:@"1" MessageID:_yaoID uccess:^(NSDictionary *dic) {
+        [Engine1 shouCangSaveStype:@"1" MessageID:_yaoID uccess:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         } error:^(NSError *error) {
             
@@ -66,7 +67,7 @@
     }else{
         //选中（药=1，病=2，讲座=3，医案=4）
         NSLog(@"收藏");
-        [Engine shouCangSaveStype:@"1" MessageID:_yaoID uccess:^(NSDictionary *dic) {
+        [Engine1 shouCangSaveStype:@"1" MessageID:_yaoID uccess:^(NSDictionary *dic) {
              [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         } error:^(NSError *error) {
             
@@ -78,7 +79,7 @@
 
 -(void)dataArrayJieXi{
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine yaoPinXiangQingMessageYaoID:_yaoID success:^(NSDictionary *dic)
+    [Engine1 yaoPinXiangQingMessageYaoID:_yaoID success:^(NSDictionary *dic)
     {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
@@ -97,8 +98,15 @@
             [_dataArray addObject:model.xqKangLiPu];
             [_dataArray addObject:model.xqYongFa];
             [_dataArray addObject:model.xqPeiWuXiaoYong];
-            [_dataArray addObject:model.xqxianDaiYaoLi];
+//            [_dataArray addObject:model.xqxianDaiYaoLi];
+            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+            if ([vip intValue]>=3) {
+                [_dataArray addObject:model.xqxianDaiYaoLi];
+            }else{
+                [_dataArray addObject:@"此权限仅对VIP3开放"];
+            }
              self.title=model.xqYaoName;
+            [_imageview setImageWithURL:[NSURL URLWithString:model.xqimageName] placeholderImage:[UIImage imageNamed:@"yao_xq_banner"]];
             [LCProgressHUD hide];
             [_tableView reloadData];
         }else{
@@ -131,6 +139,7 @@
     UIImageView * imageview =[UIImageView new];
     imageview.image=[UIImage imageNamed:@"yao_xq_banner"];
     [headView sd_addSubviews:@[imageview]];
+    _imageview=imageview;
     imageview.sd_layout
     .leftSpaceToView(headView,15)
     .rightSpaceToView(headView,15)

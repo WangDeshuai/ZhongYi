@@ -38,11 +38,12 @@
 
 #pragma mark --创建数据源
 -(void)CreatDataArrayMessageID:(int)idd Page:(int)page{
-    [Engine ZhongYiYiAnMessageID:[NSString stringWithFormat:@"%d",idd] Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+    [Engine1 ZhongYiYiAnMessageID:[NSString stringWithFormat:@"%d",idd] Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr=[dic objectForKey:@"data"];
             NSMutableArray * array2 =[NSMutableArray new];
+            
             for (NSDictionary * dicc in dataArr) {
                 ZhongYiModel * md =[[ZhongYiModel alloc]initWithZhongYiDic:dicc];
                 [array2 addObject:md];
@@ -64,7 +65,35 @@
          [_myRefreshView  endRefreshing];
     }];
 }
-
+-(void)CreatDataArrayMessageID2:(int)idd Page:(int)page{
+    [Engine1 ZhongYiYiAnMessageID:[NSString stringWithFormat:@"%d",idd] Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr=[dic objectForKey:@"data"];
+            NSMutableArray * array2 =[NSMutableArray new];
+            [array2 removeAllObjects];
+            [_dataArray removeAllObjects];
+            for (NSDictionary * dicc in dataArr) {
+                ZhongYiModel * md =[[ZhongYiModel alloc]initWithZhongYiDic:dicc];
+                [array2 addObject:md];
+            }
+            
+            if (self.myRefreshView ==_tableView.header) {
+                _dataArray=array2;
+                _tableView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _tableView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_tableView reloadData];
+            [_myRefreshView  endRefreshing];
+            
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+    } error:^(NSError *error) {
+        [_myRefreshView  endRefreshing];
+    }];
+}
 
 
 -(UIView*)CreatTableViewHead{
@@ -74,7 +103,8 @@
     .leftSpaceToView(_tableView,0)
     .rightSpaceToView(_tableView,0)
     .topSpaceToView(_tableView,0)
-    .heightIs(347);
+    .heightIs(300);
+    
     
     //创建选择病名
     UIView * view1=[UIView new];
@@ -123,7 +153,7 @@
     
     
     
-    [Engine jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiBingZhongClasssuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -185,29 +215,32 @@
             }
             
             [headview setupAutoHeightWithBottomView:view2 bottomMargin:5];
-             __weak __typeof(headview)weakSelf = headview;
-            headview.didFinishAutoLayoutBlock=^(CGRect rect){
-                NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
-                weakSelf.sd_layout
-                .leftSpaceToView(_tableView,0)
-                .rightSpaceToView(_tableView,0)
-                .topSpaceToView(_tableView,0)
-                .heightIs(rect.size.height);
-
-                
-            };
-            
-            
-            
-            
+//            headview.didFinishAutoLayoutBlock=^(CGRect rect){
+//                NSLog(@"输出%f>>>%f", rect.size.height,rect.origin.y);
+//               
+//                
+//            };
+           
         }
     } error:^(NSError *error) {
         
     }];
     
-    
+     __weak __typeof(headview)weakSelf = headview;
+    headview.didFinishAutoLayoutBlock=^(CGRect rect){
+            NSLog(@"输出%f", rect.size.height);
+        weakSelf.sd_layout
+        .heightIs(rect.size.height);
+        [self.tableView beginUpdates];
+        [self.tableView setTableHeaderView:weakSelf];
+        [self.tableView endUpdates];
+        };
+   
     
 
+    
+    
+//100233823099
     
     return headview;
 }
@@ -219,7 +252,8 @@
     _lastBtn=button;
     NSLog(@"idd>>%@",_classID[button.tag]);
     _yaoIdd=[_classID[button.tag] intValue];
-    [self CreatDataArrayMessageID:_yaoIdd Page:_AAA];
+//    NSLog(@"AAA>>>%d",_AAA);
+    [self CreatDataArrayMessageID2:_yaoIdd Page:1];
 }
 
 #pragma mark --创建表格

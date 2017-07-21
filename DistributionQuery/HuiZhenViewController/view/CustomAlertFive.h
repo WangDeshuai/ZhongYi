@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ScanCodeModel.h"
 @interface CustomAlertFive : UIView
--(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 ;
+-(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 BingMingID:(NSString*)idd ;
 @property(nonatomic,copy)void(^NameBlock)(ScanCodeModel*name);
+
 -(void)show;
 -(void)dissmiss;
 @end

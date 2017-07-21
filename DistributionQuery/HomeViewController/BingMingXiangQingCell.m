@@ -128,6 +128,25 @@
     
     
 }
+-(void)setText1:(NSString *)text1
+{
+    _text1=text1;
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:5];
+    
+    UIColor *color = [UIColor blackColor];
+    UIFont *fount;
+    if ([ToolClass isiPad]) {
+        fount =[UIFont systemFontOfSize:17];
+    }else{
+        fount =[UIFont systemFontOfSize:15];
+    }
+   
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:text1 attributes:@{NSForegroundColorAttributeName : color, NSFontAttributeName: fount, NSParagraphStyleAttributeName: paragraphStyle}];
+    _contentLabel.attributedText = string;
+    _contentLabel.isAttributedContent = YES;
+
+}
 -(void)setText:(NSString *)text
 {
     _text=text;

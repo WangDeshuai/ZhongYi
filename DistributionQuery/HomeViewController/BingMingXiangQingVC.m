@@ -55,7 +55,7 @@
     backHomeBtn.titleLabel.font=[UIFont systemFontOfSize:15];
     backHomeBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
     [backHomeBtn addTarget:self action:@selector(rightBtnClink:) forControlEvents:UIControlEventTouchUpInside];
-    [Engine YanZhengMyShouCangMessageID:_bingID Type:@"2" success:^(NSDictionary *dic) {
+    [Engine1 YanZhengMyShouCangMessageID:_bingID Type:@"2" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             //收藏
@@ -74,14 +74,14 @@
     btn.selected=!btn.selected;
     if (btn.selected==NO) {
         //取消
-        [Engine shouCangSaveStype:@"2" MessageID:_bingID uccess:^(NSDictionary *dic) {
+        [Engine1 shouCangSaveStype:@"2" MessageID:_bingID uccess:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         } error:^(NSError *error) {
             
         }];
     }else{
         //选中（药=1，病=2，讲座=3，医案=4）
-        [Engine shouCangSaveStype:@"2" MessageID:_bingID uccess:^(NSDictionary *dic) {
+        [Engine1 shouCangSaveStype:@"2" MessageID:_bingID uccess:^(NSDictionary *dic) {
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         } error:^(NSError *error) {
             
@@ -99,7 +99,7 @@
 -(void)CreatData{
     [LCProgressHUD showLoading:@"请稍后..."];
     NSLog(@">>>%@",_bingID);
-    [Engine BingZhongXiangQingClassID:_bingID success:^(NSDictionary *dic) {
+    [Engine1 BingZhongXiangQingClassID:_bingID success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             
@@ -194,7 +194,11 @@
 {
     BingMingXiangQingCell * cell =[BingMingXiangQingCell cellWithTableView:tableView IndexPath:indexPath];
     cell.titleLabel.text=_titleArray[indexPath.row];
-    cell.text=_dataArray[indexPath.row];
+    if (indexPath.row==4) {
+        cell.text=_dataArray[indexPath.row];
+    }else{
+        cell.text1=_dataArray[indexPath.row];
+    }
     if (indexPath.row==2) {
         cell.junLabel.hidden=NO;
         cell.chenLabel.hidden=NO;
@@ -213,6 +217,12 @@
 //君药
 -(void)juYaoCell:(BingMingXiangQingCell*)cell{
     NSString * label_text2 =[NSString stringWithFormat:@"【君药】%@",[_junYaoArray componentsJoinedByString:@"、"]];
+    
+//    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//    [paragraphStyle setLineSpacing:1];
+//    NSDictionary *attribs = @{NSParagraphStyleAttributeName: paragraphStyle};
+    
+    
     NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc]initWithString:label_text2];
 
      [attributedString2 addAttribute:NSForegroundColorAttributeName value:JXColor(153, 153, 153, 1) range:NSMakeRange(0, 4)];
@@ -294,7 +304,7 @@
         CGFloat g3 =[ToolClass HeightForText:label_text3 withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
         CGFloat g4 =[ToolClass HeightForText:label_text4 withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
         
-        CGFloat g11 =[self isPanDuanHeight:g1];
+         CGFloat g11 =[self isPanDuanHeight:g1];
          CGFloat g22 =[self isPanDuanHeight:g2];
          CGFloat g33 =[self isPanDuanHeight:g3];
          CGFloat g44 =[self isPanDuanHeight:g4];
@@ -302,7 +312,7 @@
 //        NSLog(@"高度>>%f>>>%f>>%f>>%f",g1,g2,g3,g4);
 //        
 //       NSLog(@"过滤后高度>>%f>>>%f>>%f>>%f",g11,g22,g33,g44);
-        return g11+g22+g33+g44+30;
+        return g11+g22+g33+g44+35;
     }else{
       return  [_tableView cellHeightForIndexPath:indexPath model:str keyPath:@"text" cellClass:[BingMingXiangQingCell class] contentViewWidth:[ToolClass  cellContentViewWith]]+10;
     }

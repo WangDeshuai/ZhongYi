@@ -27,7 +27,7 @@
 
 -(void)dataJieXiePage:(int)page
 {
-    [Engine shangPinJiaZaiMessage:[NSString stringWithFormat:@"%d",page] success:^(NSDictionary *dic) {
+    [Engine1 shangPinJiaZaiMessage:[NSString stringWithFormat:@"%d",page] success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

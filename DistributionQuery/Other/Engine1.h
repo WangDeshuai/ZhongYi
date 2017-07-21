@@ -1,15 +1,15 @@
 //
-//  Engine.h
+//  Engine1.h
 //  DistributionQuery
 //
-//  Created by Macx on 16/10/8.
-//  Copyright © 2016年 Macx. All rights reserved.
+//  Created by Macx on 17/6/23.
+//  Copyright © 2017年 Macx. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 typedef void (^SuccessBlock)(NSDictionary*dic);
 typedef void (^ErrorBlock)(NSError*error);
-@interface Engine : NSObject
+@interface Engine1 : NSObject
 //**********************************首页**********************//
 #pragma mark --1.加载所有药品信息
 +(void)allYaoPinMessage:(NSString*)nameStr success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
@@ -67,6 +67,9 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --22.加载所有的主诉信息
 +(void)jiaZaiZhuSuMessageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)jiaZaiZhuSuErJiMeesageID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+
 #pragma mark --23.加载所有的地区（省、市、区县）信息
 +(void)shengShiXianDiQu:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 #pragma mark --加载市
@@ -141,5 +144,17 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --44.发送短信验证码
 +(void)sendCodePhone:(NSString*)phone Type:(NSString*)type success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --46.生成支付宝预付定单
++(void)huoQuDingDanHaoName:(NSString*)dingDanName Price:(NSString*)price Type:(NSString*)type  success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --47.生成微信预支付订单
++(void)weiXinYuZhiFuPrice:(NSString*)price Type:(NSString*)type MiaoShu:(NSString*)ms success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --48.查询会员升级以及续费所需支付金额
++(void)chaXunVipShengJiLoginPhonesuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
+
+#pragma mark --50.加载会员信息并跳转三辩会诊页面
++(void)sanBianHuiZhenPaysuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 @end

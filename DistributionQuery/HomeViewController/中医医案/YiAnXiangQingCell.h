@@ -13,4 +13,5 @@
 @property(nonatomic,strong)UILabel * leftLabel;
 @property(nonatomic,copy)NSString * text;//其它label
 @property(nonatomic,copy)NSString * text1;//病案详情
+@property(nonatomic,strong)UIWebView * bingAnLab;
 @end

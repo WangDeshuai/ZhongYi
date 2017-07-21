@@ -163,7 +163,7 @@
 
 //tag==1 (病名接口)
 -(void)huoQuBingMingMessageDataID:(NSString*)idd{
-    [Engine jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
+    [Engine1 jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -183,7 +183,7 @@
 -(void)huoQuBingMingMessageTwoDataID:(NSString*)idd{
     [_dataArr2 removeAllObjects];
     
-    [Engine jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
+    [Engine1 jiaZaiBingMingAllMessageID:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -203,7 +203,7 @@
 
 //tagg==2舌苔 舌质
 -(void)sheTaiData{
-    [Engine jiaZaiAllSheMessagesuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiAllSheMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -221,7 +221,7 @@
 }
 //舌质
 -(void)sheZhiData{
-    [Engine jiaZaiAllSheZhiMessagesuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiAllSheZhiMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

@@ -23,10 +23,11 @@
 @property(nonatomic,strong)ScanCodeModel * md1;
 @property(nonatomic,strong)ScanCodeModel * md2;
 @property(nonatomic,strong)ScanCodeModel * md3;
+@property(nonatomic,copy)NSString * bingMingID;
 @end
 @implementation CustomAlertFive
 
--(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 {
+-(id)initWithTitle:(NSString*)title  canCleBtn:(NSString*)btnName1 achiveBtn:(NSString*)btnName2 BingMingID:(NSString*)idd {
     self=[super init];
     if (self) {
         //设置中心点
@@ -35,6 +36,7 @@
         _dataArray1=[NSMutableArray new];
         _dataArray2=[NSMutableArray new];
         _dataArray3=[NSMutableArray new];
+        _bingMingID=idd;
         //标题
         UILabel * titlable =[UILabel new];
         
@@ -148,7 +150,11 @@
 }
 //左边表格内容
 -(void)CreatDataID:(NSString*)idd{
-    [Engine jiaZaiZhuSuMessageID:idd success:^(NSDictionary *dic) {
+    if (_bingMingID==nil) {
+        [LCProgressHUD showMessage:@"请先选择诊断及病理"];
+        return;
+    }
+    [Engine1 jiaZaiZhuSuMessageID:_bingMingID success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -169,7 +175,7 @@
 -(void)CreatCenterDataID:(NSString*)idd{
     [_dataArray2 removeAllObjects];
     [_dataArray3 removeAllObjects];
-    [Engine jiaZaiZhuSuMessageID:idd success:^(NSDictionary *dic) {
+    [Engine1 jiaZaiZhuSuErJiMeesageID:idd success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

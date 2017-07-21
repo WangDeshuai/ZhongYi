@@ -28,7 +28,7 @@
 }
 
 -(void)bianJiBaoGaoDan{
-    [Engine bianJiMyBaoGaoDanMessage:_baoGaoID success:^(NSDictionary *dic)
+    [Engine1 bianJiMyBaoGaoDanMessage:_baoGaoID success:^(NSDictionary *dic)
     {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
@@ -140,7 +140,7 @@
     NSLog(@">>>%@",text2.text);
     NSLog(@">>>%@",text3.text);
     [LCProgressHUD showLoading:@"请稍后..."];
-    [Engine saveGengXinBaoGaoDanMessageID:_baoGaoID MessageName:text1.text MessageSex:[self stingMorYTwo:text2.text] Age:text3.text success:^(NSDictionary *dic) {
+    [Engine1 saveGengXinBaoGaoDanMessageID:_baoGaoID MessageName:text1.text MessageSex:[self stingMorYTwo:text2.text] Age:text3.text success:^(NSDictionary *dic) {
         [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {

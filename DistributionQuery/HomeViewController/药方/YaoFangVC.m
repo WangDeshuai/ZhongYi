@@ -11,6 +11,8 @@
 #import "MoreClassVC.h"//更多分类
 #import "YaoFangContentXQVC.h"//药方详情
 #import "YaoFangModel.h"
+#import "YuYinView.h"
+#import "UITextField+ExtentRange.h"
 @interface YaoFangVC ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)NSMutableArray * dataArray;
 @property(nonatomic,strong) UITextField * textfield;
@@ -34,8 +36,8 @@
     
 }
 
--(void)CreatDataInterNetPage:(int)page {
-    [Engine yaoFangJiaZaiAllPage:[NSString stringWithFormat:@"%d",page] SearchStr:_textfield.text success:^(NSDictionary *dic) {
+-(void)CreatDataInterNetPage:(int)page KeyWord:(NSString*)key {
+    [Engine1 yaoFangJiaZaiAllPage:[NSString stringWithFormat:@"%d",page] SearchStr:key success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];
@@ -101,6 +103,7 @@
     .heightIs(35);
     //语音
     UIButton * yuYinBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [yuYinBtn addTarget:self action:@selector(yuYinClink) forControlEvents:UIControlEventTouchUpInside];
     [yuYinBtn setImage:[UIImage imageNamed:@"yao_yuyin"] forState:0];
     [textfield sd_addSubviews:@[yuYinBtn]];
     yuYinBtn.sd_layout
@@ -111,9 +114,37 @@
     
     
 }
+
+
+
+
+-(void)yuYinClink{
+    [self.view endEditing:YES];
+    //语音
+    YuYinView * vc =[[YuYinView alloc]init];
+    
+    //[weakSelf.textView deleteBackward];
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(vc) weakSelfVC = vc;
+    vc.TextBlock=^(NSString*text,BOOL isLast){
+        //1.获取光标位置
+        NSRange selectedRange = weakSelf.textfield.selectedRange;
+        //2.将光标所在位置的的字符串进行替换
+        weakSelf.textfield.text = [weakSelf.textfield.text stringByReplacingCharactersInRange:selectedRange withString:text];
+        //3.修改光标位置,光标放到新增加的文字的后面
+        weakSelf.textfield.selectedRange = NSMakeRange((selectedRange.location + text.length), 0);
+        if (isLast==YES) {
+            NSLog(@">>>>%@",_textfield.text);
+            [weakSelfVC dissmiss];
+             [self CreatDataInterNetPage:0 KeyWord:_textfield.text];
+        }
+        
+    };
+    [vc  show];
+}
 -(void)searchBtnClink2{
     [_dataArray removeAllObjects];
-    [self CreatDataInterNetPage:0];
+    [self CreatDataInterNetPage:0 KeyWord:_textfield.text];
 }
 
 
@@ -148,7 +179,7 @@
     .widthIs(150);
     
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine yaoFangClassFenLeisuccess:^(NSDictionary *dic) {
+    [Engine1 yaoFangClassFenLeisuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
              [LCProgressHUD hide];
@@ -208,22 +239,12 @@
                     .heightIs(g);
                     ;
                 }
-
-//                button.sd_layout
-//                .leftSpaceToView(bgHeadView,kj+(kj+k)*(i%4))
-//                .topSpaceToView(nameLabel,gj+(gj+g)*(i/4))
-//                .widthIs(k)
-//                .heightIs(g);
-                
                 
                 [button addTarget:self action:@selector(buttonClinck:) forControlEvents:UIControlEventTouchUpInside];
                 [bgHeadView setupAutoHeightWithBottomView:button bottomMargin:10];
                 
             }
-            bgHeadView.didFinishAutoLayoutBlock=^(CGRect rect){
-                NSLog(@">>>%f",rect.size.height);
-                
-            };
+          
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
@@ -232,9 +253,16 @@
     }];
     
     
-    
-    
-    
+    __weak __typeof(bgHeadView)weakSelf = bgHeadView;
+    bgHeadView.didFinishAutoLayoutBlock=^(CGRect rect){
+        weakSelf.sd_layout
+        .heightIs(rect.size.height);
+        
+        [self.tableView beginUpdates];
+        [self.tableView setTableHeaderView:weakSelf];
+        [self.tableView endUpdates];
+
+    };
     
     
     
@@ -250,12 +278,25 @@
     _lastBtn.selected=NO;
     btn.selected=YES;
     _lastBtn=btn;
+    NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+    if ([vip intValue]>=2) {
         YaoFangTopXQVC * vc =[YaoFangTopXQVC new];
         vc.classID=_topClassID[btn.tag];
         vc.titlename=_topArray[btn.tag];
         [self.navigationController pushViewController:vc animated:YES];
-//    }
+    }else{
+        NSString * content =[NSString stringWithFormat:@"此权限仅对VIP2以上开放\n您当前是VIP%@",vip];
+        TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
+        view.buttonClinkBlock=^(UIButton*btn){
+            
+        };
+        [view show];
+    }
+
     
+    
+    
+
 }
 #pragma mark --创建表格
 -(void)CreatTabelView{
@@ -275,7 +316,7 @@
     _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.myRefreshView = weakSelf.tableView.header;
         _AAA=1;
-        [self CreatDataInterNetPage:_AAA];
+        [self CreatDataInterNetPage:_AAA KeyWord:_textfield.text];
     }];
     
     [_tableView.header beginRefreshing];
@@ -283,7 +324,7 @@
     _tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         weakSelf.myRefreshView = weakSelf.tableView.footer;
         _AAA=_AAA+1;
-        [self CreatDataInterNetPage:_AAA];
+        [self CreatDataInterNetPage:_AAA KeyWord:_textfield.text];
     }];
     
     _tableView.footer.hidden = YES;

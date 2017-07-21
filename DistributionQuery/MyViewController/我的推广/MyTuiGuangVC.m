@@ -97,7 +97,7 @@
     [tuiGuangMalab setSingleLineAutoResizeWithMaxWidth:ScreenWidth-100];
     
     [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine jiaZaiTuiGuangMessagesuccess:^(NSDictionary *dic) {
+    [Engine1 jiaZaiTuiGuangMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSDictionary * dataDic =[dic objectForKey:@"data"];

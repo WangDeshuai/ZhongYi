@@ -205,13 +205,17 @@
 #pragma mark --登录点击状态
 -(void)loginBtnn{
     [LCProgressHUD showLoading:@"正在登陆..."];
-    [Engine loginAppPhone:_phoneText.text Password:_passwordText.text success:^(NSDictionary *dic) {
+    [Engine1 loginAppPhone:_phoneText.text Password:_passwordText.text success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             [LCProgressHUD hide];
             NSDictionary * dataDic =[dic objectForKey:@"data"];
             //存储手机号,用来判断登录状态
+            NSString * level =[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"level"]];
+            int level1 =[level intValue]-1;
+            
             [NSUSE_DEFO setObject:[dataDic objectForKey:@"phone"] forKey:@"token"];
+            [NSUSE_DEFO setObject:[NSString stringWithFormat:@"%d",level1] forKey:@"vip"];
             [NSUSE_DEFO synchronize];
             
             //存储登录的plist文件

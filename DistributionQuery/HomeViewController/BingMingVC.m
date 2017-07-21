@@ -139,7 +139,7 @@
     
     //
     
-    [Engine bingMingFenLeisuccess:^(NSDictionary *dic) {
+    [Engine1 bingMingFenLeisuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
             NSArray * dataArr =[dic objectForKey:@"data"];

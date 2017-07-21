@@ -12,3 +12,6 @@
 +(instancetype)cellWithTableView:(UITableView*)tableView IndexPath:(NSIndexPath *)indexPath;
 @property(nonatomic,strong)ZhongYiModel * model;
 @end
+/*
+
+ */
