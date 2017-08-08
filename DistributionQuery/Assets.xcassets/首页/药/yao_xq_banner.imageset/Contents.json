@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "yao_xq_banner.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "yao_xq_banner@2x.png",
+      "filename" : "xq_zw.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "yao_xq_banner@3x.png",
       "scale" : "3x"
     },
     {
@@ -21,7 +19,7 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "yao_xq_pic.png",
+      "filename" : "xq_zw_ipad(1).png",
       "scale" : "2x"
     }
   ],

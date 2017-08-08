@@ -9,11 +9,13 @@
 #import "JiangZuoXiangQingVC.h"
 #import "XjAVPlayerSDK.h"
 #import "AppDelegate.h"
+#define WS(weakSelf) __unsafe_unretained __typeof(&*self)weakSelf = self;
 @interface JiangZuoXiangQingVC ()<XjAVPlayerSDKDelegate>
 {
     XjAVPlayerSDK *myPlayer;
 }
 @property(nonatomic,strong)UIView * navView;
+@property(nonatomic,strong)UILabel * contentLabel;
 @end
 
 @implementation JiangZuoXiangQingVC
@@ -37,7 +39,10 @@
     [self moNiDaoHang];
     [self CreatLabel];
     [self CreatRightBtn];
-
+    
+//    if ([[UIScreenmainScreen] applicationFrame].size.height==1024) {
+//        
+//    }
 }
 
 
@@ -131,6 +136,7 @@
 
 
 -(void)CreatLabel{
+    WS(weakSelf);
     UILabel * titlabel =[UILabel new];
     titlabel.text=@"周乐--古医脉诊、预防肺癌系列精品讲座";
     titlabel.font=[UIFont systemFontOfSize:15];
@@ -140,18 +146,19 @@
     CGFloat g =[ToolClass HeightForText: titlabel.text withSizeOfLabelFont:15 withWidthOfContent:ScreenWidth-30];
     titlabel.frame=CGRectMake(15, 64+20, ScreenWidth-30, g);
     [self.view addSubview:titlabel];
-
+   
     
     myPlayer= [[XjAVPlayerSDK alloc] initWithFrame:CGRectMake(0, titlabel.frame.origin.y+titlabel.frame.size.height+20, self.view.frame.size.width, self.view.frame.size.width/2)];
    
     myPlayer.xjAutoOrient = YES;
     myPlayer.XjAVPlayerSDKDelegate = self;
-    myPlayer.xjLastTime = 0;
+    
     [self.view addSubview:myPlayer];
     
     
     
     UILabel * contentlabel =[UILabel new];
+    _contentLabel=contentlabel;
     contentlabel.font=[UIFont systemFontOfSize:16];
     contentlabel.alpha=.7;
     [self.view sd_addSubviews:@[contentlabel]];
@@ -173,6 +180,17 @@
             myPlayer.xjPlayerUrl = [ToolClass isString:[dataDic objectForKey:@"videoPath"]];//@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
             myPlayer.xjPlayerTitle = [ToolClass isString:[dataDic objectForKey:@"title"]];
             contentlabel.text=[ToolClass isString:[dataDic objectForKey:@"content"]];
+             myPlayer.xjLastTime = 2;
+            myPlayer.HengPingBlock=^(int isHp){
+                if (isHp==1) {
+                   weakSelf.contentLabel.hidden=YES;
+                    
+                }else{
+                    weakSelf.contentLabel.hidden=NO;
+                }
+            };
+
+            
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }
@@ -186,8 +204,8 @@
 }
 
 - (void)xjNextPlayer{
-    myPlayer.xjPlayerUrl = @"http://www.jxgbwlxy.gov.cn/tm/course/041629011/sco1/1.mp4";
-    myPlayer.xjPlayerTitle = @"谢大大的自传";
+//    myPlayer.xjPlayerUrl = @"http://www.jxgbwlxy.gov.cn/tm/course/041629011/sco1/1.mp4";
+//    myPlayer.xjPlayerTitle = @"谢大大的自传";
 }
 - (void)xjGoBack{
         [myPlayer xjStopPlayer];

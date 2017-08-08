@@ -155,9 +155,9 @@
             [_dataArray addObject:md.xqBingYin];
             [_dataArray addObject:md.xqLinChuang];
             [_dataArray addObject:md.xqZhenDuan];
-            [_dataArray addObject:md.xqJianBie];
+           
             [_dataArray addObject:md.xqChangGui];
-            
+             [_dataArray addObject:md.xqJianBie];
             self.title=md.xqBingName;
             [_tableView reloadData];
             

@@ -30,6 +30,9 @@
  *  视屏标题
  */
 @property (nonatomic, strong)NSString *xjPlayerTitle;
+
+
+@property(nonatomic,copy)void(^HengPingBlock)(int isHeng);
 /**
  *  定位上次播放时间
  */
@@ -55,5 +58,7 @@
  *  @return
  */
 - (CGFloat)xjTotalTime;
+
+
 
 @end

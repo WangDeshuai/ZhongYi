@@ -67,6 +67,7 @@
         .widthIs(100)
         .heightIs(40);
       namelabel.font=[UIFont systemFontOfSize:25];
+          namelabel.textAlignment=1;
     }
     
     //创建文本框(手机号)
@@ -221,6 +222,7 @@
             //存储登录的plist文件
             [ToolClass savePlist:[ToolClass isDictionary:dataDic] name:@"Login"];
             [self.navigationController popViewControllerAnimated:YES];
+            
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }

@@ -160,8 +160,8 @@
     }else{
        fount =[UIFont systemFontOfSize:15];
     }
-    CGFloat emptylen = self.contentLabel.font.pointSize * 2;
-    paragraphStyle.firstLineHeadIndent = emptylen;//首行缩进
+//    CGFloat emptylen = self.contentLabel.font.pointSize * 2;
+//    paragraphStyle.firstLineHeadIndent = emptylen;//首行缩进
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName : color, NSFontAttributeName: fount, NSParagraphStyleAttributeName: paragraphStyle}];
     _contentLabel.attributedText = string;
     _contentLabel.isAttributedContent = YES;

@@ -7,7 +7,7 @@
 //
 
 #import "ChineseString.h"
-
+#import "MedicineModel.h"
 @implementation ChineseString
 @synthesize string;
 @synthesize pinYin;
@@ -32,11 +32,37 @@
     }
         return A_Result;
 }
-
-#pragma mark - 返回联系人
-+(NSMutableArray*)LetterSortArray:(NSArray*)stringArr
-{
++(NSMutableArray*)LetterSortArray:(NSArray*)stringArr{
     NSMutableArray *tempArray = [self ReturnSortChineseArrar:stringArr];
+    NSMutableArray *LetterResult=[NSMutableArray array];
+    NSMutableArray *item = [NSMutableArray array];
+    NSString *tempString ;
+    //拼音分组
+    for (NSString* object in tempArray) {
+        
+        NSString *pinyin = [((ChineseString*)object).pinYin substringToIndex:1];
+        NSString *string = ((ChineseString*)object).string;
+        
+        
+        //不同
+        if(![tempString isEqualToString:pinyin])
+        {
+           
+            [item  addObject:string];
+            [LetterResult addObject:item];
+            //遍历
+            tempString = pinyin;
+        }else//相同
+        {
+           [item  addObject:string];
+        }
+    }
+ return LetterResult;
+}
+#pragma mark - 返回联系人
++(NSMutableArray*)LetterSortArray:(NSArray*)stringArr  NsArr:(NSMutableArray*)mdArray
+{
+    NSMutableArray *tempArray = [self ReturnSortChineseArrar2:stringArr];
     NSMutableArray *LetterResult=[NSMutableArray array];
     NSMutableArray *item = [NSMutableArray array];
     NSString *tempString ;
@@ -45,18 +71,33 @@
 
          NSString *pinyin = [((ChineseString*)object).pinYin substringToIndex:1];
          NSString *string = ((ChineseString*)object).string;
+        
+        
         //不同
         if(![tempString isEqualToString:pinyin])
         {
             //分组
             item = [NSMutableArray array];
-             [item  addObject:string];
+            for (int i =0; i<mdArray.count; i++) {
+                MedicineModel * md =mdArray[i];
+                if ([md.yaoDexName isEqualToString:string]) {
+                    [item  addObject:md];
+                }
+            }
+//             [item  addObject:string];
             [LetterResult addObject:item];
             //遍历
             tempString = pinyin;
         }else//相同
         {
-            [item  addObject:string];
+            for (int i =0; i<mdArray.count; i++) {
+                MedicineModel * md =mdArray[i];
+                if ([md.yaoDexName isEqualToString:string]) {
+                    [item  addObject:md];
+                }else{
+                }
+            }
+           // [item  addObject:string];
         }
     }
     return LetterResult;

@@ -114,9 +114,13 @@
             if (orient == UIDeviceOrientationPortrait) {
                 weakSelf.frame = weakSelf.firstFrame;
                 weakSelf.bottomMenu.xjFull = NO;
+//                NSLog(@"竖屏");
+                weakSelf.HengPingBlock(0);
             }else if(orient == UIDeviceOrientationLandscapeLeft||orient == UIDeviceOrientationLandscapeRight){
                 weakSelf.frame = weakSelf.window.bounds;
                 weakSelf.bottomMenu.xjFull = YES;
+//                NSLog(@"横屏");
+                weakSelf.HengPingBlock(1);
             }
         }
     };
@@ -128,6 +132,7 @@
             [weakSelf.loadingView stopAnimating];
             [weakSelf.loadingView setHidesWhenStopped:YES];
         }
+        
     };
 }
 #pragma mark - **************************** XJGestureButton方法 **********************
@@ -253,6 +258,7 @@
     if (_topMenu == nil) {
         _topMenu = [[XJTopMenu alloc] init];
         _topMenu.backgroundColor = [UIColor colorWithRed:50.0/255.0 green:50.0/255.0 blue:50.0/255.0 alpha:1.0];
+//        _topMenu.backgroundColor=[UIColor redColor];
         _topMenu.hidden = YES;
         [self xjTopMenuBlock];
     }

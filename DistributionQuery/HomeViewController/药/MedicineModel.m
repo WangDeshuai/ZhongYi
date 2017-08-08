@@ -13,13 +13,24 @@
 -(id)initWithYaoDic:(NSDictionary*)dic{
     self=[super init];
     if (self) {
+        
+        ;
+        
+        NSString * str =[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"spelling"]]];
+        if ([str isEqualToString:@""] || [str isEqualToString:@"null"] || str==nil ||[str isEqualToString:@"(null)" ]  ) {
+             _yaoDexName=@"zongLvTan";
+        }else{
+            _yaoDexName=str;
+        }
+        
+        
+        
          _yaoTitleName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"drugName"]]];
-        _yaoDexName=[ToolClass isString:[NSString stringWithFormat:@"%@%@",_yaoTitleName,[dic objectForKey:@"spelling"]]];//[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"spelling"]]];
+       
         
+        _yaoImageName=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"filePath"]]];
         
-        _yaoImageName=[ToolClass isString:[NSString stringWithFormat:@"%@%@",_yaoTitleName,[dic objectForKey:@"filePath"]]];
-        
-        _yaoID=[ToolClass isString:[NSString stringWithFormat:@"%@%@",_yaoTitleName,[dic objectForKey:@"id"]]];
+        _yaoID=[ToolClass isString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]]];
     }
     
     return self;

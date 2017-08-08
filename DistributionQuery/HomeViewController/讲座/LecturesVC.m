@@ -20,6 +20,7 @@
 @property(nonatomic,copy)NSString * bingMingID;
 @property(nonatomic,strong)NSMutableArray * dataArray;
 @property(nonatomic,assign)int AAA;
+@property(nonatomic,assign)int rectHeight;
 @property (nonatomic,strong) MJRefreshComponent *myRefreshView;
 
 @end
@@ -40,6 +41,8 @@
 }
 
 -(void)CreatDataPage:(int)page BingID:(NSString*)bingID {
+  
+    NSLog(@">>>>%d>>>>%@",page,bingID);
     [Engine1 jiangZuoBingZhongID:bingID Page:[NSString stringWithFormat:@"%d",page] PageSize:@"10" success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         NSMutableArray * array2 =[NSMutableArray new];
@@ -65,9 +68,42 @@
     } error:^(NSError *error) {
         
     }];
+    
+    
+   
+
+    
 }
 
-
+-(void)chaXunAllPage:(int)page{
+    [Engine1 jiaZaiJiangZuoAllMessagePage:[NSString stringWithFormat:@"%d",page] success:^(NSDictionary *dic) {
+        
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        NSMutableArray * array2 =[NSMutableArray new];
+        if ([code isEqualToString:@"200"]) {
+            NSArray * dataArr =[dic objectForKey:@"data"];
+            for (NSDictionary * dicc in dataArr) {
+                LecturesModel * md =[[LecturesModel alloc]initWithJiangZuoDic:dicc];
+                [array2 addObject:md];
+            }
+            
+            if (self.myRefreshView ==_collectionView.header) {
+                _dataArray=array2;
+                _collectionView.footer.hidden=_dataArray.count==0?YES:NO;
+            }else if (self.myRefreshView == _collectionView.footer){
+                [_dataArray addObjectsFromArray:array2];
+            }
+            [_collectionView reloadData];
+            [_myRefreshView  endRefreshing];
+            
+        }else{
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+        }
+        
+    } error:^(NSError *error) {
+        
+    }];
+}
 
 #pragma mark --创建搜索按钮
 -(void)searchView{
@@ -312,6 +348,9 @@
     _lastBtn=button;
     NSLog(@"病种ID=%@",_classID[button.tag]);
     _bingMingID=_classID[button.tag];
+    [_dataArray removeAllObjects];
+    [_collectionView reloadData];
+    _AAA=1;
      [self CreatDataPage:_AAA BingID:_bingMingID];
     
 }
@@ -328,7 +367,8 @@
     flowLawyou.itemSize = CGSizeMake((ScreenWidth-30)/2, (ScreenWidth-30)/2.5);
     flowLawyou.minimumLineSpacing=20;//行间距
     flowLawyou.minimumInteritemSpacing=10;//列间距
-    flowLawyou.sectionInset = UIEdgeInsetsMake(283+20, 10, 56, 10);
+    NSLog(@">>>%d",_rectHeight);
+    flowLawyou.sectionInset = UIEdgeInsetsMake(399+20, 10, 56, 10);
     
     if ([ToolClass isiPad]) {
         flowLawyou.minimumInteritemSpacing=15;//列间距
@@ -353,8 +393,8 @@
     _collectionView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         weakSelf.myRefreshView = weakSelf.collectionView.header;
         _AAA=1;
-        [self CreatDataPage:_AAA BingID:_bingMingID];
-        
+//        [self CreatDataPage:_AAA BingID:_bingMingID];
+        [self chaXunAllPage:_AAA];
     }];
     
     [_collectionView.header beginRefreshing];
@@ -362,7 +402,8 @@
     _collectionView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         weakSelf.myRefreshView = weakSelf.collectionView.footer;
         _AAA=_AAA+1;
-         [self CreatDataPage:_AAA BingID:_bingMingID];
+//         [self CreatDataPage:_AAA BingID:_bingMingID];
+         [self chaXunAllPage:_AAA];
     }];
     
     _collectionView.footer.hidden = YES;
@@ -405,11 +446,13 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LecturesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     cell.model=_dataArray[indexPath.row];
+    
+    cell.backgroundColor=[UIColor whiteColor];
+    
     //  cell.backgroundColor = [UIColor whiteColor];
     //    cell.image1.image=[UIImage imageNamed:@"pic"];
     //    cell.lab.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     
-    cell.backgroundColor=[UIColor whiteColor];
     return cell;
     
 }

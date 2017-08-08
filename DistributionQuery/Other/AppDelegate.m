@@ -14,6 +14,7 @@
 #import "WXApiObject.h"
 #import "WXApiManager.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "LZQStratViewController_25.h"
 @interface AppDelegate ()<WXApiDelegate>
 
 @end
@@ -160,6 +161,21 @@
 
 - (void)setupNavBar
 {
+   
+    
+    NSString * str =[[NSUserDefaults standardUserDefaults]objectForKey:@"str"];
+    if (str==nil) {
+        LZQStratViewController_25 *lzqStartViewController = [[LZQStratViewController_25 alloc] init];
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.window.rootViewController = lzqStartViewController;
+        [self.window makeKeyAndVisible];
+        [[NSUserDefaults standardUserDefaults]setObject:@"str" forKey:@"str"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }else{
+        
+    }
+    
+    
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
     UINavigationBar *bar = [UINavigationBar appearance];

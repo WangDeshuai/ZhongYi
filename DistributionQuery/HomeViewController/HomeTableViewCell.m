@@ -54,6 +54,9 @@
     _timelabel.alpha=.5;
     
     
+    
+    
+    
     _titleLable.text=@"更年期综合征";
     _contentlabel.text=@"病案详情:异常汗出4月，情绪容易激动，脾气暴躁，情绪容易激动，脾气暴躁，";
     _timelabel.text=@"2017-03-11";
@@ -75,7 +78,16 @@
     .rightSpaceToView(self.contentView,15)
     .topSpaceToView(_titleLable,5)
     .heightIs(40);
-    
+    if ([ToolClass isiPad]) {
+        _titleLable.font=[UIFont systemFontOfSize:18];
+        _contentlabel.font=[UIFont systemFontOfSize:17];
+        _timelabel.font=[UIFont systemFontOfSize:16];
+        
+        _titleLable.sd_layout
+        .topSpaceToView(self.contentView,15);
+        _contentlabel.sd_layout
+        .topSpaceToView(_titleLable,10);
+    }
 }
 -(void)setModel:(ZhongYiModel *)model
 {

@@ -20,8 +20,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"关于我们";
-    _titleArr=@[@"联系电话",@"QQ邮箱",@"版本号"];
-    _dexArr=@[@"400-1254-893",@"254129572@qq.com",@"v1.0"];
+    _titleArr=@[@"联系电话",@"邮箱",@"版本号"];
+    _dexArr=@[@"400-0311-039",@"286160740@qq.com",@"v1.0"];
     [self CreatTabelView];
 }
 

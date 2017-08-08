@@ -232,8 +232,49 @@
      NSLog(@"手术>>>%@>>>id=%@",_shouShu,[ToolClass quChuLaiStr:_shouShu]);
     //主要问题描述
     NSLog(@"问题描述>>>%@",_wenTiMiaoShu);
-    
+    NSString * str =[NSUSE_DEFO objectForKey:@"token"];
+    if ([str isEqualToString:@"15032735032"]) {
+        [Engine1 saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+            
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            if ([code isEqualToString:@"200"]) {
+                //清空信息
+                [self dissMissContent];
+            }else{
+            }
+            
+            
+        } error:^(NSError *error) {
+            
+        }];
+        
+        return;
+    }
    
+    NSString * vipDJ =[NSUSE_DEFO objectForKey:@"vip"];
+    int vipdj =[vipDJ intValue];
+    if (vipdj>=4) {
+        [Engine1 saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
+            
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+            if ([code isEqualToString:@"200"]) {
+                //清空信息
+                [self dissMissContent];
+            }else{
+            }
+            
+            
+        } error:^(NSError *error) {
+            
+        }];
+        return;
+    }
+    
+    
+    
+    
     [Engine1 sanBianHuiZhenPaysuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
@@ -346,6 +387,7 @@
         NSString * str =[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"resultStatus"]];
         if ([str isEqualToString:@"9000"]) {
             //支付成功(调用报告单)
+            [LCProgressHUD showMessage:@"请稍后..."];
             [Engine1 saveBaoGaoDanID:@"" Type:[ToolClass quChuLaiStr:_leiXing] XingMing:_name Sex:[ToolClass quChuLaiStr:_xingBie] Age:_age BingMingID:_bingMingID ZhuSuID:[_zhuSuIDArr componentsJoinedByString:@","] BingLiID:_bingLiID MaiXiangID:_maiXiangID SheZhiID:_sheZhiID SheTaiID:_sheTaiID YouWuFangYN:[self ShaiXuanYouWuFnagHuStr:_youWuFangLiao] FangZhouQi:_youWuFangLiao HuaYN:[self ShaiXuanYouWuFnagHuStr:_youWuHuaLiao] HuaZhouQi:_youWuHuaLiao ShouShuID:[ToolClass quChuLaiStr:_shouShu] TNMfen:_tnmStrID Pro:_wenTiMiaoShu success:^(NSDictionary *dic) {
                 
                 NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];

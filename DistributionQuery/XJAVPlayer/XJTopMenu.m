@@ -72,9 +72,9 @@
         self.backButton.frame = CGRectMake(10, 5, 30, 30);
     }
     if (self.xjHidenBackBtn) {
-        self.titleLabel.frame = CGRectMake(10, 5 , 200, 30);
+        self.titleLabel.frame = CGRectMake(10, 5 , ScreenWidth-20, 30);
     }else{
-        self.titleLabel.frame = CGRectMake(50, 5 , 200, 30);
+        self.titleLabel.frame = CGRectMake(50, 5 , ScreenWidth-20, 30);
     }
     
     

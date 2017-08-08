@@ -137,7 +137,7 @@ typedef void (^ErrorBlock)(NSError*error);
 +(void)bingMingFenLeisuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 #pragma mark --42.加载首页轮播图
-+(void)shouYiFirstLunBosuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
++(void)shouYiFirstLunBoisIPad:(NSString*)Yn   success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 
 #pragma mark --43.首页全局搜索
 +(void)searchFirstKeyWord:(NSString*)name success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
@@ -156,5 +156,6 @@ typedef void (^ErrorBlock)(NSError*error);
 
 #pragma mark --50.加载会员信息并跳转三辩会诊页面
 +(void)sanBianHuiZhenPaysuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
-
+#pragma mark --51轮播图跳转
++(void)lunBoTuTiaoZhuanID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError;
 @end

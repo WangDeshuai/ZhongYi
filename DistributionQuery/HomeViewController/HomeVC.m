@@ -19,6 +19,7 @@
 #import "TanKuangView.h"
 #import "UITextField+ExtentRange.h"
 #import "YuYinView.h"
+#import "LuoBoTiaoZhuanVC.h"
 @interface HomeVC ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @property(nonatomic,assign)int AAA;
@@ -49,7 +50,6 @@
     // Do any additional setup after loading the view.
     self.backHomeBtn.hidden=YES;
     self.title=@"";
-  
     _dataArray=[NSMutableArray new];
     self.automaticallyAdjustsScrollViewInsets=NO;
     [self CreatTabelView];
@@ -70,7 +70,7 @@
                 ZhongYiModel * md =[[ZhongYiModel alloc]initWithZhongYiDic:dicc];
                 [array2 addObject:md];
             }
-            
+        
             if (self.myRefreshView ==_tableView.header) {
                 _dataArray=array2;
                 _tableView.footer.hidden=_dataArray.count==0?YES:NO;
@@ -101,7 +101,7 @@
     .topSpaceToView(_tableView,0);
     //轮播图
     NSArray * arr =@[@"home_index"];//
-   SDCycleScrollView* cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, 370/2) delegate:self placeholderImage:[UIImage imageNamed:@"home_index"]];
+   SDCycleScrollView* cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, 185*ScreenWidth/375) delegate:self placeholderImage:[UIImage imageNamed:@"home_index"]];
     
     cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
     cycleScrollView2.currentPageDotColor = [UIColor whiteColor];
@@ -109,16 +109,41 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         cycleScrollView2.imageURLStringsGroup = arr;
     });
-    cycleScrollView2.clickItemOperationBlock = ^(NSInteger index) {
-        // NSLog(@">>>>>  %ld", (long)index);
-        
-    };
+    
 //   //轮播图
-//    [Engine shouYiFirstLunBosuccess:^(NSDictionary *dic) {
-//        
-//    } error:^(NSError *error) {
-//        
-//    }];
+    
+    if ([ToolClass isiPad]==NO) {
+        [Engine1 shouYiFirstLunBoisIPad:@"N" success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                NSArray * dataArr =[dic objectForKey:@"data"];
+                NSMutableArray * array =[NSMutableArray new];
+                NSMutableArray * iddStrArr =[NSMutableArray new];
+                for (NSDictionary * dicc in dataArr) {
+                    NSString * urlStr=[ToolClass isString:[NSString stringWithFormat:@"%@",[dicc objectForKey:@"filePath"]]];
+                    NSString * idd =[ToolClass isString:[NSString stringWithFormat:@"%@",[dicc objectForKey:@"id"]]];
+                    [array addObject:urlStr];
+                    [iddStrArr addObject:idd];
+                }
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    cycleScrollView2.imageURLStringsGroup = array;
+                });
+           
+                cycleScrollView2.clickItemOperationBlock = ^(NSInteger index) {
+                    LuoBoTiaoZhuanVC * vc =[LuoBoTiaoZhuanVC new];
+                    vc.hidesBottomBarWhenPushed=YES;
+                    vc.idd=iddStrArr[index];
+                    [self.navigationController pushViewController:vc animated:YES];
+                };
+            
+            
+            }
+        } error:^(NSError *error) {
+            
+        }];
+
+    }
+    
     
     
    //创建搜索框
@@ -177,9 +202,8 @@
     btnView.sd_layout
     .leftSpaceToView(headView,0)
     .rightSpaceToView(headView,0)
-    .topSpaceToView(cycleScrollView2,0)
-    .bottomSpaceToView(headView,5);
-    NSArray * imageNameArr =@[@"home_bt1",@"home_bt2",@"home_bt3",@"home_bt4",@"home_bt5",@"home_bt6"];
+    .topSpaceToView(cycleScrollView2,0);
+        NSArray * imageNameArr =@[@"home_bt1",@"home_bt2",@"home_bt3",@"home_bt4",@"home_bt5",@"home_bt6"];
     NSArray * nameLabelArr =@[@"中药",@"方剂",@"三辨会诊",@"病种",@"中医医案",@"讲座"];
     int k =70;
     int g =70;
@@ -239,15 +263,42 @@
             .widthIs(k)
             .heightIs(g);
         }
-        
+        [btnView setupAutoHeightWithBottomView:btnImage bottomMargin:10];
     }
     //平板专用坐标
     if ([ToolClass isiPad]) {
-        headView.sd_layout
-        .heightIs(580);
-        cycleScrollView2.frame=CGRectMake(0, 0, ScreenWidth, 580/2);
+
+        cycleScrollView2.frame=CGRectMake(0, 0, ScreenWidth, 570*ScreenWidth/1536);
         btnView.sd_layout
         .topSpaceToView(cycleScrollView2,0);
+        [Engine1 shouYiFirstLunBoisIPad:@"Y" success:^(NSDictionary *dic) {
+            NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+            if ([code isEqualToString:@"200"]) {
+                NSArray * dataArr =[dic objectForKey:@"data"];
+                NSMutableArray * array =[NSMutableArray new];
+                NSMutableArray * iddStrArr =[NSMutableArray new];
+                for (NSDictionary * dicc in dataArr) {
+                    NSString * urlStr=[ToolClass isString:[NSString stringWithFormat:@"%@",[dicc objectForKey:@"filePath"]]];
+                    NSString * idd =[ToolClass isString:[NSString stringWithFormat:@"%@",[dicc objectForKey:@"id"]]];
+                    [array addObject:urlStr];
+                    [iddStrArr addObject:idd];
+                }
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    cycleScrollView2.imageURLStringsGroup = array;
+                });
+                
+                cycleScrollView2.clickItemOperationBlock = ^(NSInteger index) {
+                    LuoBoTiaoZhuanVC * vc =[LuoBoTiaoZhuanVC new];
+                    vc.hidesBottomBarWhenPushed=YES;
+                    vc.idd=iddStrArr[index];
+                    [self.navigationController pushViewController:vc animated:YES];
+                };
+                
+                
+            }
+        } error:^(NSError *error) {
+            
+        }];
         
         
         seaarchBtn.sd_layout
@@ -264,8 +315,17 @@
     }
     
     
-    
-    
+    [headView setupAutoHeightWithBottomView:btnView bottomMargin:10];
+    __weak __typeof(headView)weakSelf = headView;
+    headView.didFinishAutoLayoutBlock=^(CGRect rect){
+        weakSelf.sd_layout
+        .heightIs(rect.size.height);
+        
+        [self.tableView beginUpdates];
+        [self.tableView setTableHeaderView:weakSelf];
+        [self.tableView endUpdates];
+        
+    };
     
     
     
@@ -365,7 +425,7 @@
         }else{
             
             NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
-            if ([vip isEqualToString:@"3"]) {
+            if ([vip intValue]>3) {
                 ScanCodeVC * vc =[ScanCodeVC new];
                 vc.tagg=1;
                 vc.hidesBottomBarWhenPushed=YES;
@@ -430,6 +490,9 @@
     _tableView.tableFooterView=[UIView new];
     _tableView.tableHeaderView=[self CcreatTabeViewHead];
     _tableView.rowHeight=80;
+    if ([ToolClass isiPad]) {
+        _tableView.rowHeight=100;
+    }
     [self.view sd_addSubviews:@[_tableView]];
     
     __weak typeof (self) weakSelf =self;

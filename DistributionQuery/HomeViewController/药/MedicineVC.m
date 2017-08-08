@@ -39,7 +39,7 @@
 
 
 -(void)dataArrSearZi:(NSString*)zifu{
-    [LCProgressHUD showMessage:@"请稍后..."];
+    [LCProgressHUD showLoading:@"请稍后..."];
     [Engine1 allYaoPinMessage:zifu success:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         
@@ -54,17 +54,77 @@
                 NSDictionary * dicc =dataArr[i];
                 MedicineModel * md =[[MedicineModel alloc]initWithYaoDic:dicc];
                 [_dataArray addObject:md];
-                [titleArr addObject:md.yaoTitleName];
                 [dexArr addObject:md.yaoDexName];
+                [titleArr addObject:md.yaoTitleName];
                 [imageArr addObject:md.yaoImageName];
                 [iddArr addObject:md.yaoID];
             }
             
-            _rightIndexArr=[ChineseString IndexArray:titleArr];//索引
-            _contentArr=[ChineseString LetterSortArray:titleArr];//标题
-            _dexcontentArr=[ChineseString LetterSortArray:dexArr];//副标题(去前缀)
-            _imageArr=[ChineseString LetterSortArray2:imageArr];//图片(注意去掉前缀)
-            _contentIDArr=[ChineseString LetterSortArray2:iddArr];//ID(注意去前缀)
+            _rightIndexArr=[ChineseString IndexArray:dexArr];//索引
+            _dexcontentArr=[ChineseString LetterSortArray:dexArr NsArr:_dataArray];//拼音(以它为准)
+            
+           
+           
+//            for (NSString * mdd in arr) {
+//                NSLog(@">>>%@",mdd);
+//            }
+//            _contentArr=[ChineseString LetterSortArray:titleArr];//标题
+//            
+//            _imageArr=[ChineseString LetterSortArray2:imageArr];//图片(注意去掉前缀)//LetterSortArray2是去掉过滤符号了
+//            _contentIDArr=[ChineseString LetterSortArray2:iddArr];//ID(注意去前缀)
+//            NSLog(@">>>%lu>>>%lu>>>%lu>>>>%lu",_dexcontentArr.count,_contentArr.count,_imageArr.count,_contentIDArr.count);
+//            NSArray * a =_dexcontentArr[0];
+//            for (NSString * str in a) {
+//                NSLog(@"拼音>>>%@",str);
+//            }
+////            
+//            for (NSString * str in _contentArr) {
+//                NSLog(@"全部标题>>>%@",str);
+//            }
+
+            
+//            //不知道为什么，特么 百合 和壁虎位置不对，，，（图片，和拼音的不对），需要调换
+//            NSMutableArray *pinyin =_contentArr[1];
+//            int j = 0;
+//            for (int i =0; i<pinyin.count; i++) {
+//                NSString * str =pinyin[i];
+//                if ([str isEqualToString:@"百合"]) {
+//                   // NSLog(@"输出百合的i=%d",i);
+//                    j=i;
+//                }
+//                if ([str isEqualToString:@"壁虎"]) {
+//                    // NSLog(@"输出壁虎的i=%d",i);
+//                    if (j<i) {
+//                         [pinyin exchangeObjectAtIndex:j withObjectAtIndex:i];
+//                    }
+//                }
+//
+//            
+//            }
+//           
+//            NSMutableArray *iddAray =_contentIDArr[1];
+//            int jj = 0;
+//            for (int ii =0; ii<iddAray.count; ii++) {
+//                NSString * str =iddAray[ii];
+//                
+//                if ([str isEqualToString:@"百合129"]) {
+//                    NSLog(@"输出百合的i=%d",ii);
+//                    jj=ii;
+//                }
+//                
+//                if ([str isEqualToString:@"壁虎108"]) {
+//                    NSLog(@"输出壁虎的i=%d",ii);
+//                    if(jj<ii){
+//                        NSLog(@"换了");
+//                        [iddAray exchangeObjectAtIndex:jj withObjectAtIndex:ii];
+//                    }
+//                }
+            
+                
+                
+//            }
+
+                        
             [_tableView reloadData];
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
@@ -158,6 +218,7 @@
         if (isLast==YES) {
             NSLog(@">>>>%@",_textfield.text);
             [weakSelfVC dissmiss];
+            [_dataArray removeAllObjects];
             [self dataArrSearZi:_textfield.text];
         }
         
@@ -167,6 +228,7 @@
 
 #pragma mark --搜索按钮
 -(void)searchBtnClink{
+    [_dataArray removeAllObjects];
     [self dataArrSearZi:_textfield.text];
 }
 #pragma mark --搜索
@@ -174,6 +236,7 @@
 
 {
     [self.view endEditing:YES];
+     [_dataArray removeAllObjects];
     [self dataArrSearZi:_textfield.text];
     return YES;
 }
@@ -226,39 +289,35 @@
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _contentArr.count;
+    return _dexcontentArr.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_contentArr[section] count];
+    return [_dexcontentArr[section] count];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MedicineCell * cell =[MedicineCell cellWithTableView:tableView IndexPath:indexPath];
-    NSString * title =_contentArr[indexPath.section][indexPath.row];
-    NSString * imageName2 =_imageArr[indexPath.section][indexPath.row];
-    cell.titleLabel.text=title;
-    //拼音
-    NSString * pinYin =_dexcontentArr[indexPath.section][indexPath.row];
-    //去前缀
-    NSString * pinYinStr =[pinYin substringFromIndex:title.length];
-    cell.dexLabel.text=pinYinStr;
+    
+    MedicineModel * md =_dexcontentArr[indexPath.section][indexPath.row];
+    [cell.imageview setImageWithURL:[NSURL URLWithString:md.yaoImageName] placeholderImage:[UIImage imageNamed:@"yao_zw"]];
+    cell.dexLabel.text=md.yaoDexName;
+    cell.titleLabel.text=md.yaoTitleName;
     
     
-    [cell.imageview setImageWithURL:[NSURL URLWithString:[imageName2 substringFromIndex:title.length]] placeholderImage:[UIImage imageNamed:@"yao_zw"]];
+    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //药名(用去判断前缀长度)
-    NSString * name =_contentArr[indexPath.section][indexPath.row];
     //idd(包涵前缀)
-    NSString * idd =_contentIDArr[indexPath.section][indexPath.row];
+    MedicineModel * md =_dexcontentArr[indexPath.section][indexPath.row];
     MedicineXiangQingVC * vc =[MedicineXiangQingVC new];
     //去掉前缀
-    vc.yaoID=[idd substringFromIndex:name.length];
+    NSLog(@">>>%@",md.yaoID);
+    vc.yaoID=md.yaoID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

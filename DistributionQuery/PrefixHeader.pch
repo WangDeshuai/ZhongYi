@@ -25,6 +25,10 @@
 #define MAIN_COLOR  [UIColor colorWithRed:237/255.0 green:93/255.0 blue:43/255.0 alpha:1]
 #define SERVICE  @"http://m.sszlyy.com:8080"
 #define FOUNT_IPAD  19
+//#define UIDeviceOrientationIsPortrait(orientation)  ((orientation) == UIDeviceOrientationPortrait || (orientation) == UIDeviceOrientationPortraitUpsideDown)
+//#define UIDeviceOrientationIsLandscape(orientation) ((orientation) == UIDeviceOrientationLandscapeLeft || (orientation) == UIDeviceOrientationLandscapeRight)
+#define NSLog(...) printf(" %s\n",[[NSString stringWithFormat:__VA_ARGS__]UTF8String]);
+
 //192.168.1.103 119.29.83 http://m.sszlyy.com:8080
 //http://192.168.1.111:8080/hospital  622848 0638834319276
 /*http://192.168.1.114:8080/hospital

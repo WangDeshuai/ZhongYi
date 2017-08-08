@@ -67,11 +67,19 @@
     [self CreatTabelView];
 }
 -(void)CreatData{
-    NSArray * ar1 =@[@"我的主页",@"我生成的报告单",@"我的收藏",@"我的推广",@"我要升级"];
-    NSArray * ar2 =@[@"关于我们",@"意见反馈",@"检测更新"];
+    NSString * str =[NSUSE_DEFO objectForKey:@"token"];
+    NSString * strr;
+    if ([str isEqualToString:@"15032735032"]) {
+        strr=@"我要分享";
+    }else{
+        strr=@"我要升级";
+    }
+    
+    NSArray * ar1 =@[@"我的主页",@"我生成的报告单",@"我的收藏",@"我的推广",strr];
+    NSArray * ar2 =@[@"关于我们",@"意见反馈"];
      _titleArray=@[ar1,ar2];
     NSArray * imageArr1=@[@"my_home",@"my_bgd",@"my_sc",@"my_tg",@"my_sj"];
-    NSArray * imageArr2=@[@"my_us",@"my_fk",@"my_gx"];
+    NSArray * imageArr2=@[@"my_us",@"my_fk"];
     _imageArray=@[imageArr1,imageArr2];
     
 }
@@ -136,8 +144,8 @@
     namelabel.sd_layout
     .centerXEqualToView(headBtn)
     .topSpaceToView(headBtn,10)
-    .heightIs(20);
-    [namelabel setSingleLineAutoResizeWithMaxWidth:200];
+    .heightIs(20)
+    .widthIs(ScreenWidth);
     //设置
     UIButton * setBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [setBtn setImage:[UIImage imageNamed:@"my_set"] forState:0];
@@ -162,11 +170,15 @@
         .topSpaceToView(bgImage,50)
         .widthIs(219/2)
         .heightIs(219/2);
-        //姓名
+//        //姓名
         namelabel.font=[UIFont systemFontOfSize:20];
+//         namelabel.textAlignment=NSTextAlignmentCenter;
+//        namelabel.backgroundColor=[UIColor redColor];
         namelabel.sd_layout
-        .widthIs(219/2)
-        .heightIs(40);
+//        .centerXEqualToView(bgImage)
+        .topSpaceToView(headBtn,20);
+//        .widthIs(219/2)
+//        .heightIs(219/2);
     }
     
     
@@ -236,7 +248,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    MyTableViewCell * cell =[MyTableViewCell cellWithTableView:tableView CellID:[NSString stringWithFormat:@"%lu%lu",indexPath.row,indexPath.section]];
+    MyTableViewCell * cell =[MyTableViewCell cellWithTableView:tableView CellID:[NSString stringWithFormat:@"%lu%lu",(long)indexPath.row,(long)indexPath.section]];
     cell.namelabel.text=_titleArray[indexPath.section][indexPath.row];
     [cell.imageview setImage:[UIImage imageNamed:_imageArray[indexPath.section][indexPath.row]] forState:0];
     return cell;
@@ -279,9 +291,15 @@
 
         }else if (indexPath.row==4){
             //我要升级
-            ShengJiVIPVC * vc =[ShengJiVIPVC new];
-            vc.hidesBottomBarWhenPushed=YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            NSString * str =[NSUSE_DEFO objectForKey:@"token"];
+            if ([str isEqualToString:@"15032735032"]) {
+                [LCProgressHUD showMessage:@"正在开发哦☺"];
+            }else{
+                ShengJiVIPVC * vc =[ShengJiVIPVC new];
+                vc.hidesBottomBarWhenPushed=YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+           
         }
     }else{
         if (indexPath.row==0) {

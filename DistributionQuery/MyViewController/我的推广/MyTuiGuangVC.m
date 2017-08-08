@@ -96,7 +96,7 @@
     
     [tuiGuangMalab setSingleLineAutoResizeWithMaxWidth:ScreenWidth-100];
     
-    [LCProgressHUD showMessage:@"请稍后..."];
+    [LCProgressHUD showLoading:@"请稍后..."];
     [Engine1 jiaZaiTuiGuangMessagesuccess:^(NSDictionary *dic) {
         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
         if ([code isEqualToString:@"200"]) {
@@ -113,6 +113,7 @@
         }else if ([code isEqualToString:@"400"]){
             NSDictionary * dataDic =[dic objectForKey:@"data"];
              numlab.text=[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"spreadCode"]]];
+             [LCProgressHUD hide];
         }else{
             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
         }

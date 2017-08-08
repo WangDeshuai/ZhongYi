@@ -78,43 +78,44 @@
 
 
 -(void)dataArrayJieXi{
-    [LCProgressHUD showMessage:@"请稍后..."];
-    [Engine1 yaoPinXiangQingMessageYaoID:_yaoID success:^(NSDictionary *dic)
-    {
-        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
-        if ([code isEqualToString:@"200"]) {
-            
-            NSDictionary * dataDic =[dic objectForKey:@"data"];
-            MedicineModel * model =[[MedicineModel alloc]initWithYaoXiangQingDic:dataDic];
-            [_dataArray addObject:model.xqYaoName];
-            [_dataArray addObject:model.xqYaoBieName];
-            [_dataArray addObject:model.xqXingWei];
-            [_dataArray addObject:model.xqGuiJing];
-            [_dataArray addObject:model.xqGongXiao];
-            [_dataArray addObject:model.xqZhuZhi];
-            [_dataArray addObject:model.xqChengFen];
-            [_dataArray addObject:model.xqJinJi];
-            [_dataArray addObject:model.xqDuXing];
-            [_dataArray addObject:model.xqKangLiPu];
-            [_dataArray addObject:model.xqYongFa];
-            [_dataArray addObject:model.xqPeiWuXiaoYong];
-//            [_dataArray addObject:model.xqxianDaiYaoLi];
-            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
-            if ([vip intValue]>=3) {
-                [_dataArray addObject:model.xqxianDaiYaoLi];
-            }else{
-                [_dataArray addObject:@"此权限仅对VIP3开放"];
-            }
-             self.title=model.xqYaoName;
-            [_imageview setImageWithURL:[NSURL URLWithString:model.xqimageName] placeholderImage:[UIImage imageNamed:@"yao_xq_banner"]];
-            [LCProgressHUD hide];
-            [_tableView reloadData];
-        }else{
-            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
-        }
-    } error:^(NSError *error) {
-        
-    }];
+   // [LCProgressHUD showLoading:@"请稍后..."];
+//    [Engine1 yaoPinXiangQingMessageYaoID:_yaoID success:^(NSDictionary *dic)
+//    {
+//        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+//        if ([code isEqualToString:@"200"]) {
+//            
+//            NSDictionary * dataDic =[dic objectForKey:@"data"];
+//            MedicineModel * model =[[MedicineModel alloc]initWithYaoXiangQingDic:dataDic];
+//             [_imageview setImageWithURL:[NSURL URLWithString:model.xqimageName] placeholderImage:[UIImage imageNamed:@"yao_xq_banner"]];
+//            [_dataArray addObject:model.xqYaoName];
+//            [_dataArray addObject:model.xqYaoBieName];
+//            [_dataArray addObject:model.xqXingWei];
+//            [_dataArray addObject:model.xqGuiJing];
+//            [_dataArray addObject:model.xqGongXiao];
+//            [_dataArray addObject:model.xqZhuZhi];
+//            [_dataArray addObject:model.xqChengFen];
+//            [_dataArray addObject:model.xqJinJi];
+//            [_dataArray addObject:model.xqDuXing];
+//            [_dataArray addObject:model.xqKangLiPu];
+//            [_dataArray addObject:model.xqYongFa];
+//            [_dataArray addObject:model.xqPeiWuXiaoYong];
+////            [_dataArray addObject:model.xqxianDaiYaoLi];
+//            NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+//            if ([vip intValue]>=3) {
+//                [_dataArray addObject:model.xqxianDaiYaoLi];
+//            }else{
+//                [_dataArray addObject:@"此权限仅对VIP3开放"];
+//            }
+//             self.title=model.xqYaoName;
+//           
+//            [LCProgressHUD hide];
+//            [_tableView reloadData];
+//        }else{
+//            [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+//        }
+//    } error:^(NSError *error) {
+//        
+//    }];
     _titleArr=@[@"【药名】",@"【别名】",@"【性味】",@"【归经】",@"【功效】",@"【主治】",@"【成份】",@"【禁忌】",@"【毒性】",@"【抗瘤谱】",@"【用法用量】",@"【配伍效用】",@"【现代药理研究】"];
 }
 
@@ -139,13 +140,17 @@
     UIImageView * imageview =[UIImageView new];
     imageview.image=[UIImage imageNamed:@"yao_xq_banner"];
     [headView sd_addSubviews:@[imageview]];
+   
     _imageview=imageview;
     imageview.sd_layout
     .leftSpaceToView(headView,15)
     .rightSpaceToView(headView,15)
     .topSpaceToView(headView,15)
     .heightIs(220*(ScreenWidth-30)/346);//
-   
+    
+    imageview.contentMode = UIViewContentModeScaleAspectFit;
+    imageview.clipsToBounds = YES;
+    
     if ([ToolClass isiPad]) {
         imageview.sd_layout
         .leftSpaceToView(headView,15)
@@ -153,8 +158,47 @@
         .topSpaceToView(headView,15)
         .heightIs((ScreenWidth-30)*676/1425);//
     }
-    
-    
+    [LCProgressHUD showLoading:@"请稍后..."];
+    [Engine1 yaoPinXiangQingMessageYaoID:_yaoID success:^(NSDictionary *dic)
+     {
+         NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+         if ([code isEqualToString:@"200"]) {
+             
+             NSDictionary * dataDic =[dic objectForKey:@"data"];
+             NSString * urlStr =[ToolClass isString:[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"filePath"]]];
+             [_imageview setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"yao_xq_banner"]];
+             
+             MedicineModel * model =[[MedicineModel alloc]initWithYaoXiangQingDic:dataDic];
+            
+             [_dataArray addObject:model.xqYaoName];
+             [_dataArray addObject:model.xqYaoBieName];
+             [_dataArray addObject:model.xqXingWei];
+             [_dataArray addObject:model.xqGuiJing];
+             [_dataArray addObject:model.xqGongXiao];
+             [_dataArray addObject:model.xqZhuZhi];
+             [_dataArray addObject:model.xqChengFen];
+             [_dataArray addObject:model.xqJinJi];
+             [_dataArray addObject:model.xqDuXing];
+             [_dataArray addObject:model.xqKangLiPu];
+             [_dataArray addObject:model.xqYongFa];
+             [_dataArray addObject:model.xqPeiWuXiaoYong];
+             //            [_dataArray addObject:model.xqxianDaiYaoLi];
+             NSString*vip=[NSUSE_DEFO objectForKey:@"vip"];
+             if ([vip intValue]>=3) {
+                 [_dataArray addObject:model.xqxianDaiYaoLi];
+             }else{
+                 [_dataArray addObject:@"此权限仅对VIP3开放"];
+             }
+             self.title=model.xqYaoName;
+             
+             [LCProgressHUD hide];
+             [_tableView reloadData];
+         }else{
+             [LCProgressHUD showMessage:[dic objectForKey:@"msg"]];
+         }
+     } error:^(NSError *error) {
+         
+     }];
     return headView;
 }
 

@@ -63,7 +63,7 @@
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",page]] forKey:@"pageIndex"];
-    [dic setObject:@"1" forKey:@"type"];
+    [dic setObject:@"2" forKey:@"type"];
     [dic setObject:@"10" forKey:@"pageSize"];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",nameStr]] forKey:@"name"];
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -85,10 +85,11 @@
 #pragma mark --4加载所有病种分类
 +(void)jiaZaiBingZhongClasssuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     
-    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/list",SERVICE];
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/disease/category/queryCategorys",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-    
-    [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:@"" forKey:@"parentId"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"4加载所有病种分类%@",str);
@@ -129,10 +130,12 @@
     
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/prescription/queryByCategoryId",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",bzid]] forKey:@"categoryId"];
     [dic setObject:@"" forKey:@"pageSize"];
     [dic setObject:@"" forKey:@"pageIndex"];
+     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -840,7 +843,7 @@
     
     NSString * token =[NSUSE_DEFO objectForKey:@"token"];
     if (token==nil) {
-        [LCProgressHUD showMessage:@"33请登录"];
+//        [LCProgressHUD showMessage:@"33请登录"];
         return;
     }
     [dic setObject:token forKey:@"phone"];
@@ -1077,11 +1080,12 @@
     }];
 }
 #pragma mark--42.加载首页轮播图
-+(void)shouYiFirstLunBosuccess:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
++(void)shouYiFirstLunBoisIPad:(NSString*)Yn   success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
     NSString * urlStr =[NSString stringWithFormat:@"%@/api/changeimg/list",SERVICE];
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
-    
-    [manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    [dic setObject:Yn forKey:@"is_ipad"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"42.加载首页轮播图%@",str);
@@ -1101,6 +1105,11 @@
     AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
     NSMutableDictionary * dic =[NSMutableDictionary new];
     [dic setObject:name forKey:@"name"];
+    
+    NSString * token =[NSUSE_DEFO objectForKey:@"token"];
+     [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",token]] forKey:@"phone"];
+    
+    
     
     [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
@@ -1272,6 +1281,27 @@
     }];
 
 }
-
+#pragma mark --51轮播图跳转
++(void)lunBoTuTiaoZhuanID:(NSString*)idd success:(SuccessBlock)aSuccess error:(ErrorBlock)aError{
+  
+    NSString * urlStr =[NSString stringWithFormat:@"%@/api/changeimg/view",SERVICE];
+    AFHTTPRequestOperationManager * manager =[AFHTTPRequestOperationManager manager];
+    NSMutableDictionary * dic =[NSMutableDictionary new];
+    
+    [dic setObject:[ToolClass isString:[NSString stringWithFormat:@"%@",idd]] forKey:@"id"];
+    [manager POST:urlStr parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"50.加载会员信息并跳转三辩会诊页面%@",str);
+        
+        aSuccess(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"50.加载会员信息并跳转三辩会诊页面%@",error);
+        [LCProgressHUD showMessage:@"50.网络超时"];
+        aError(error);
+        
+    }];
+    
+}
 
 @end

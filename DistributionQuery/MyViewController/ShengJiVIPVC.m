@@ -29,10 +29,14 @@
 @property(nonatomic,assign)float priceNum;
 @property(nonatomic,copy)NSString * miaoShu;
 @property(nonatomic,assign)NSInteger seletetag;
+@property(nonatomic,strong)UIButton * lastBtn;
 @end
 
 @implementation ShengJiVIPVC
-
+-(void)viewWillAppear:(BOOL)animated
+{
+   _tableView.tableHeaderView= [self CreatTableViewHead];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -395,6 +399,7 @@
         
         UIButton * btn =[UIButton buttonWithType:UIButtonTypeCustom];
         btn.sd_cornerRadius=@(10);
+    
         //        btn.backgroundColor=[UIColor redColor];
         btn.layer.borderWidth=.5;
         btn.layer.borderColor=MAIN_COLOR.CGColor;
@@ -406,6 +411,16 @@
         .topSpaceToView(namelabel2,20)
         .widthIs(ScreenWidth-180)
         .heightIs(75);
+        
+        if ([ToolClass isiPad]) {
+            btn.sd_layout
+            .centerXEqualToView(view3)
+            .topSpaceToView(namelabel2,20)
+            .widthIs((ScreenWidth-180)*75/ScreenWidth)
+            .heightIs(75);
+        }
+        
+        
         
         //钱袋
         UIImageView * MleftImage =[UIImageView new];
@@ -452,8 +467,15 @@
         btn.sd_cornerRadius=@(10);
         //        btn.backgroundColor=[UIColor redColor];
         btn.layer.borderWidth=.5;
-        btn.layer.borderColor=MAIN_COLOR.CGColor;
+        if (i==0) {
+            btn.layer.borderColor=MAIN_COLOR.CGColor;//MAIN_COLOR.CGColor;
+            _lastBtn=btn;
+        }else{
+             btn.layer.borderColor=BG_COLOR.CGColor;
+        }
+       //MAIN_COLOR.CGColor;
         btn.tag=i;
+       
         [btn addTarget:self action:@selector(btnClink:) forControlEvents:UIControlEventTouchUpInside];
         [view3 sd_addSubviews:@[btn]];
         btn.sd_layout
@@ -502,11 +524,14 @@
 }
 #pragma mark --2个按钮点击
 -(void)btnClink:(UIButton*)btn{
+    _lastBtn.layer.borderColor=BG_COLOR.CGColor;
+    btn.layer.borderColor=MAIN_COLOR.CGColor;
+    _lastBtn=btn;
     if (btn.tag==1) {
         //点击的V3
         UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"温馨提示" message:@"升级V3请进行人工联系" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action =[UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [ToolClass tellPhone:@"4000311123"];
+            [ToolClass tellPhone:@"4000311039"];
             
             
             
