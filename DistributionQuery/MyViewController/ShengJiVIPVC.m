@@ -155,7 +155,22 @@
                 vipImage.image=[UIImage imageNamed:@"sj_v2"];
             }else if ([dengJi isEqualToString:@"3"]){
                 vipImage.image=[UIImage imageNamed:@"sj_v3"];
+            }else{
+                NSString * string =[NSString stringWithFormat:@"您当前的等级是VIP%@,此等级是不对外开放的！此界面是升级来用，您不需要升级等级",dengJi];
+                UIAlertController * actionview=[UIAlertController alertControllerWithTitle:@"温馨提示" message:string preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction * action =[UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                [actionview addAction:action];
+                [self presentViewController:actionview animated:YES completion:nil];
+                
+                
             }
+            
+            
+            
+            
+            
         }
     } error:^(NSError *error) {
         

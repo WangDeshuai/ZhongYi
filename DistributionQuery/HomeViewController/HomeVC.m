@@ -364,7 +364,23 @@
 #pragma mark --6个按钮btn点击状态
 -(void)btnImageClink:(UIButton*)btn{
 
-    
+    [Engine1 chaXunVipShengJiLoginPhonesuccess:^(NSDictionary *dic) {
+        NSString * code =[NSString stringWithFormat:@"%@",[dic objectForKey:@"code"]];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary * dataDic =[dic objectForKey:@"data"];
+            NSString * dengJi =[NSString stringWithFormat:@"%@",[dataDic objectForKey:@"level"]];
+            int dengJI =[dengJi intValue]-1;
+            dengJi=[NSString stringWithFormat:@"%d",dengJI];
+            NSString * str =[NSUSE_DEFO objectForKey:@"vip"];
+            if ([dengJi isEqualToString:str]) {
+            }else{
+                [NSUSE_DEFO setObject:dengJi forKey:@"vip"];
+                [NSUSE_DEFO synchronize];
+            }
+        }
+    } error:^(NSError *error) {
+        
+    }];
    
     
     if (btn.tag==0) {
@@ -430,7 +446,7 @@
                 vc.tagg=1;
                 vc.hidesBottomBarWhenPushed=YES;
                 [self.navigationController pushViewController:vc animated:YES];
-                
+                //18031107573
             }else{
                 NSString * content =[NSString stringWithFormat:@"此权限仅对VIP3以上开放\n您当前是VIP%@",vip];
                 TanKuangView * view =[[TanKuangView alloc]initWithTitle:@"温馨提示" contentName:content achiveBtn:@"确定"];
